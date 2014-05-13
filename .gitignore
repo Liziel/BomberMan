@@ -1,10 +1,10 @@
+!.gitignore
+
 #ignore all
 *
 
 #unginore folder
 !*/
-!assets/
-!shaders/
 
 #unignore compile
 !*.cpp
@@ -25,6 +25,3 @@
 
 #unignore auteur
 !auteur
-
-#unignore itself
-!.gitignore
