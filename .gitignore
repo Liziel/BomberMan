@@ -1,21 +1,28 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+#ignore all
+*
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+#unginore folder
+!*/
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+#unignore compile
+!*.cpp
+!*.cc
+!*.c
+!*.hpp
+!*.hh
+!*.h
+!Makefile
 
-# Executables
-*.exe
-*.out
-*.app
+#unignore gdl_libs
+!libfbxsdk.a
+!libfbxsdk.so
+!libgdl_gl.a
+!libGLEW.a
+!libSDL2.a
+!libSDL2main.a
+
+#unignore auteur
+!auteur
+
+#unignore itself
+!.gitignore
