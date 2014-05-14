@@ -19,6 +19,6 @@ typedef struct s_3d{float x,y,z;} t3d;
 class Component{
 public:
   class Definition{};
-
 };
+
 #endif
