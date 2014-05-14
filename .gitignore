@@ -1,7 +1,7 @@
 !.gitignore
 
 #ignore all
-
+*
 
 #unginore folder
 !*/
@@ -16,6 +16,8 @@
 !Makefile
 
 #unignore gdl_libs
+!*.a
+!*.so
 !libfbxsdk.a
 !libfbxsdk.so
 !libgdl_gl.a
