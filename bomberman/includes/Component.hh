@@ -1,24 +1,29 @@
 #ifndef __COMPONENT_H__
 # define __COMPONENT_H__
 
-/* Interface Component:
- * 2 sided utility:
- *  -> Game
- *   - Receive Event
- *   - Access to EventDispatcher
- *  -> Graphic
- *   - am i visible?
- *   - renvoie la Nested Definition
- *     : 2d/3d
- *     : Reference (string)
- *     : Position and Size (t3d);
- */
+# include <iostream>
+# include <string>
 
-typedef struct s_3d{float x,y,z;} t3d; 
+# include "EventDispatcher.hh"
 
-class Component{
+typedef struct s_3d{float x,y,z;} t3d;
+
+class IComponent{
 public:
-  class Definition{};
+  struct Definition{//may struct be better?
+    enum	type{ TWO_DIM, THREE_DIM }	type;
+    std::string*				reference;
+    t3d						position;
+    t3d						size;
+  };
+
+public:
+  void		setEventDispatcher(EventDispatcher*) = 0;
+  void		dispatchEvent(const EventDispatcher::Event) = 0;
+
+public:
+  bool		isVisible() = 0;
+  const Definition&	getDefinitions(void) const = 0;
 };
 
 #endif

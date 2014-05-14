@@ -18,9 +18,25 @@ public:
       bool	operator!=(const Game& rhs) { return (itt != rhs.itt); }
 
     public:
-      void DispatchEvent(EventDispatcher::)
+      void DispatchEvent(const EventDispatcher::Event event)
       { (*itt)->dispatchEvent(Event); };
     };
+
+    class Graphic{
+    private:
+      std::list< Component* >::iterator	itt;
+    public:
+      Game&	operator++() { ++itt; return (*this); }
+      Game&	operator++(int) {++itt; return (*this); }
+      bool	operator==(const Game& rhs) { return (itt == rhs.itt); }
+      bool	operator!=(const Game& rhs) { return (itt != rhs.itt); }
+
+    public:
+      bool	isVisible(void) { return ((*itt)->isVisible()); }
+      const IComponent::Definition&	getDefinitions(void)
+      { return ((*itt)->getDifinitions); }
+    };
+
   };
 
   /* Component List */
@@ -30,8 +46,12 @@ public:
   DataPool::iterator::Game		GameBegin();
   DataPool::iterator::Game		GameEnd();
 
+public:
   DataPool::iterator::Graphic		GraphicBegin();
   DataPool::iterator::Graphic		GraphicEnd();
+
+public:
+  Component
 };
 
 #endif
