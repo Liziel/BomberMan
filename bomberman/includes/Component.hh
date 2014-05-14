@@ -1,6 +1,9 @@
 #ifndef __COMPONENT_H__
 # define __COMPONENT_H__
 
+#include <iostream>
+#include <string>
+
 /* Interface Component:
  * 2 sided utility:
  *  -> Game
@@ -30,10 +33,10 @@ public:
   class Definition{
 
   public:
-    Dimension::Type	GetType();
-    t3d			GetReference();
-    t3d			GetPosition();
-    t3d			GetSize();
+    Dimension::Type	GetType() const;
+    t3d			GetReference(const std::string &) const;
+    t3d			GetPosition(t3d) const;
+    t3d			GetSize() const;
   };
 
 };
