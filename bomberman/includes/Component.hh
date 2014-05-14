@@ -16,9 +16,26 @@
 
 typedef struct s_3d{float x,y,z;} t3d; 
 
+namespace Dimension
+{
+enum	Type
+  {
+    TWO_DIM = 0,
+    THREE_DIM
+  };
+}
+
 class Component{
 public:
-  class Definition{};
+  class Definition{
+
+  public:
+    Dimension::Type	GetType();
+    t3d			GetReference();
+    t3d			GetPosition();
+    t3d			GetSize();
+  };
 
 };
+
 #endif
