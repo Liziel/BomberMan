@@ -13,7 +13,7 @@ SRC	= $(MAIN)
 
 FLAGS	= -W -Wall $(INC)				\
 	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
-	-lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lpthread
+	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
 CFLAGS		+= $(FLAGS)
 LDFLAGS		+= $(FLAGS)
 
