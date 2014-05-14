@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+//#include "EventDispatcher.hh"
 
 /* Interface Component:
  * 2 sided utility:
@@ -15,6 +16,7 @@
  *     : 2d/3d
  *     : Reference (string)
  *     : Position and Size (t3d);
+ # Done
  */
 
 typedef struct s_3d{float x,y,z;} t3d; 
@@ -29,14 +31,19 @@ enum	Type
 }
 
 class Component{
-public:
-  class Definition{
+private:
+    EventDispatcher	*Dispatcher;
 
+public:
+  void			receiveEvent(EventDispatcher::Event);
+  bool			amIVisible();
+  
+  class Definition{
   public:
-    Dimension::Type	GetType() const;
-    t3d			GetReference(const std::string &) const;
-    t3d			GetPosition(t3d) const;
-    t3d			GetSize() const;
+    Dimension::Type	getType() const;
+    t3d			getReference(const std::string &) const;
+    t3d			getPosition(t3d) const;
+    t3d			getSize() const;
   };
 
 };
