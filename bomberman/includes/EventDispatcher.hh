@@ -5,9 +5,8 @@
 #include <list>
 #include <functional>
 
-#include "EventType.hh"
-
-typedef std::function<void(Component&, EventDispatcher::Event&)> EventCallback;
+/* pre declaration of component (just in case) */
+class Component;
 
 namespace Event{
   /* #### Event Type ##### */
@@ -33,7 +32,6 @@ namespace Event{
 
   /* ###### CallBack ######## */
   unsigned int CallbackIdGenerator(void);
-  template<class T = Component, class U = void(T::*)(Event::Event&)>
   class Callback{
   public:
     typedef unsigned int Id;
@@ -46,14 +44,15 @@ namespace Event{
 
     /* Component */
   private:
-    T&		_object;
-    std::function< void(T&, Event::Event&) > _callback;
+    Component&		_object;
+    std::function< void(Component&, Event::Event&) > _callback;
   public:
     void	operator()(Event::Event&);
 
     /* Ctor */
   public:
-    Event::Callback(T object, U callback,
+    template <class U = void(Component::*)(Event::Event&)>
+    Event::Callback(Component& object, U callback,
 		    Event::Callback::Id genId = CallbackIdGenerator());
   };
 
