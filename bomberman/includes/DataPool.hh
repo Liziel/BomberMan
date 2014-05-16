@@ -18,8 +18,7 @@ public:
       bool	operator!=(const Game& rhs) { return (itt != rhs.itt); }
 
     public:
-      void DispatchEvent(const EventDispatcher::Event event)
-      { (*itt)->dispatchEvent(Event); };
+      void refresh(void) { (*itt)->refresh(); };
     };
 
     class Graphic{
@@ -32,9 +31,7 @@ public:
       bool	operator!=(const Game& rhs) { return (itt != rhs.itt); }
 
     public:
-      bool	isVisible(void) { return ((*itt)->isVisible()); }
-      const IComponent::Definition&	getDefinitions(void)
-      { return ((*itt)->getDifinitions); }
+      const getDefinitions() { (*itt)->draw() }
     };
 
   };
@@ -42,6 +39,7 @@ public:
   /* Component List */
 private:
   std::list< Component* >	ComponentList;
+
 public:
   DataPool::iterator::Game		GameBegin();
   DataPool::iterator::Game		GameEnd();
