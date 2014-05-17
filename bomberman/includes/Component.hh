@@ -6,24 +6,20 @@
 
 # include "EventDispatcher.hh"
 
-typedef struct s_3d{float x,y,z;} t3d;
+class Component{
+private:
+  Component();
 
-class IComponent{
-public:
-  struct Definition{//may struct be better?
-    enum	type{ TWO_DIM, THREE_DIM }	type;
-    std::string*				reference;
-    t3d						position;
-    t3d						size;
-  };
+protected:
+  GraphicEngine&	_GrEngine;
+  EventDispatcher&	_Dispatch;
 
 public:
-  void		setEventDispatcher(EventDispatcher*) = 0;
-  void		dispatchEvent(const EventDispatcher::Event) = 0;
+  Component(GraphicEngine& GrEngine, EventDispatcher& Dispatch)
+    : _GrEngine(GrEngine), _Dispatch(Dispatch) {}
 
-public:
-  bool		isVisible() = 0;
-  const Definition&	getDefinitions(void) const = 0;
+  virtual void refresh(void) = 0;
+  virtual void draw(void) = 0;
 };
 
 #endif
