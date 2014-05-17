@@ -9,17 +9,27 @@
 class Component{
 private:
   Component();
+  ~Component();
 
 protected:
   GraphicEngine&	_GrEngine;
-  EventDispatcher&	_Dispatch;
+private:
+  EventDispatcher*		_Dispatch;
+  std::vector< std::pair< Event::Info::Type, Callback* > > _CallbackArray;
 
 public:
   Component(GraphicEngine& GrEngine, EventDispatcher& Dispatch)
     : _GrEngine(GrEngine), _Dispatch(Dispatch) {}
 
-  virtual void refresh(void) = 0;
-  virtual void draw(void) = 0;
+public:
+  void	addCallback(Event::Info::Type, Event::Callback*,
+		    Event::Info::Priority);
+  void	unsetCallback(Event::Callback*);
+  void	unsetCallback(Event::Callback*);
+
+public:
+  void	enable(void);
+  void	disable(void);
 };
 
 #endif

@@ -1,21 +1,21 @@
-#include "EventDispatcher.hh"
+#include "Event.hh"
 
 namespace Event{
   /* Callback */
-  template< class U = void(Component::*)(Event::Event&)>
+  template< class U >
   Callback::Callback(Component& object, U callback,
 		     Event::Callback::Id genId)
     : _id(genId), _object(object), _callback(callback) {}
   
-  void	Callback::operator()(Event::Event& event) {
+  void	Callback::operator()(Event::Data& event) {
     _callback(_object, event);
   }
 
-  void	Callback::operator==(Event::Callback::Id oth) {
-    return (chs == _id);
+  bool	Callback::operator==(Event::Callback::Id oth) const {
+    return (oth == _id);
   }
 
-  Event::Callback::Id	getId(void) {
+  Event::Callback::Id	Callback::getId(void) const {
     return (_id);
   }
 
@@ -32,7 +32,7 @@ namespace Event{
     : _r(r) {}
 
   bool CallbackRemover::operator()(Callback* oth) {
-    bool is = (oth == _r);
+    bool is = ((*oth) == _r);
     if (is) delete oth;
     return (is);
   }
@@ -42,33 +42,32 @@ namespace Event{
   Dispatcher::Dispatcher() {}
 
   Event::Callback::Id
-    Dispatcher::addCallbackOnEvent(Event::Type type,
+    Dispatcher::addCallbackOnEvent(Event::Info::Type type,
 				   Event::Callback* callback,
-				   Event::Priority prio){
-    if (prio == HIGH){
+				   Event::Info::Priority prio){
+    if (prio == Event::Info::high){
       if (_high.find(type) == _high.end())
 	_high.
-	  insert(std::pair< Event::Type, std::list<Event::Callback> >
+	  insert(std::pair< Event::Info::Type, std::list<Event::Callback*> >
 		 (type, std::list<Event::Callback*>()));
       _high[type].push_front(callback);
-    } else if (prio == MEDIUM) {
+    } else if (prio == Event::Info::medium) {
       if (_med.find(type) == _med.end())
 	_med.
-	  insert(std::pair< Event::Type, std::list<Event::Callback> >
+	  insert(std::pair< Event::Info::Type, std::list<Event::Callback*> >
 		 (type, std::list<Event::Callback*>()));
       _med[type].push_front(callback);
-    } else if (prio == LOW) {
+    } else if (prio == Event::Info::low) {
       if (_low.find(type) == _low.end())
 	_low.
-	  insert(std::pair< Event::Type, std::list<Event::Callback> >
+	  insert(std::pair< Event::Info::Type, std::list<Event::Callback*> >
 		 (type, std::list<Event::Callback*>()));
       _low[type].push_front(callback);
     }
       return (callback->getId());
-
   }
 
-  void	Dispatcher::unsetCallbackForId(Event::Type type,
+  void	Dispatcher::unsetCallbackForId(Event::Info::Type type,
 				       Event::Callback::Id id){
     Event::CallbackRemover remove(id);
 
@@ -80,16 +79,22 @@ namespace Event{
       _low[type].remove_if(remove);
   }
 
-  void	Dispatcher::dispatchEvent(Event::Event& event) {
-    if (_high.find(event.type) != _high.end())
-      for (auto callback : _high[event.type])
-	callback(event);
-    if (_med.find(event.type) != _med.end())
-      for (auto callback : _med[event.type])
-	callback(event);
-    if (_low.find(event.type) != _low.end())
-      for (auto callback : _low[event.type])
-	callback(event);
+  void	Dispatcher::dispatchEvent(Event::Data& event) {
+    std::list< Event::Callback* >* CallbackArray;
+    if (_high.find(event.type) != _high.end()){
+      CallbackArray = &(_high[event.type]);
+      for (auto callback : *CallbackArray)
+	(*callback)(event);
+    }
+    if (_med.find(event.type) != _med.end()){
+      CallbackArray = &(_med[event.type]);
+      for (auto callback : *CallbackArray)
+	(*callback)(event);
+    }
+    if (_low.find(event.type) != _low.end()){
+      CallbackArray = &(_low[event.type]);
+      for (auto callback : *CallbackArray)
+	(*callback)(event);
+    }
   }
-  
 };

@@ -8,10 +8,12 @@ INC	= -I ./includes
 ########################
 #### MAIN
 MAIN	= src/Main/main.cpp
+#### EVENT
+EVENT	= src/Event/Event.cpp
 ########################
-SRC	= $(MAIN)
+SRC	= $(EVENT) $(MAIN)
 
-FLAGS	= -W -Wall $(INC)				\
+FLAGS	= -W -Wall -std=c++11 $(INC)				\
 	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
 	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
 CFLAGS		+= $(FLAGS)

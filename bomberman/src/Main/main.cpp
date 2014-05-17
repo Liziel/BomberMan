@@ -1,4 +1,4 @@
-#include "EventDispatcher.hh"
+#include "Event.hh"
+
 int main()
-{
-}
+{}

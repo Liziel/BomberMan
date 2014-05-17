@@ -2,54 +2,24 @@
 # define __DATAPOOL_H__
 
 # include <list>
+# include <unordered_map>
 
 # include "Component.hh"
 
 class DataPool{
-public:
-  namespace iterator{
-    class Game{
-    private:
-      std::list< Component* >::iterator	itt;
-    public:
-      Game&	operator++() { ++itt; return (*this); }
-      Game&	operator++(int) {++itt; return (*this); }
-      bool	operator==(const Game& rhs) { return (itt == rhs.itt); }
-      bool	operator!=(const Game& rhs) { return (itt != rhs.itt); }
-
-    public:
-      void refresh(void) { (*itt)->refresh(); };
-    };
-
-    class Graphic{
-    private:
-      std::list< Component* >::iterator	itt;
-    public:
-      Game&	operator++() { ++itt; return (*this); }
-      Game&	operator++(int) {++itt; return (*this); }
-      bool	operator==(const Game& rhs) { return (itt == rhs.itt); }
-      bool	operator!=(const Game& rhs) { return (itt != rhs.itt); }
-
-    public:
-      const getDefinitions() { (*itt)->draw() }
-    };
-
-  };
-
   /* Component List */
 private:
-  std::list< Component* >	ComponentList;
+  std::unordered_map< std::string, std::list< Component* > > ComponentMap;
 
+  /* Add Component */
 public:
-  DataPool::iterator::Game		GameBegin();
-  DataPool::iterator::Game		GameEnd();
+  void	addComponent(Component*, std::string type = "default");
+  void	disableType(std::string type = "default");
+  void	enableType(std::string type = "default");
 
+  /* Ctor */
 public:
-  DataPool::iterator::Graphic		GraphicBegin();
-  DataPool::iterator::Graphic		GraphicEnd();
-
-public:
-  Component
+  Component();
 };
 
 #endif
