@@ -8,31 +8,33 @@
 
 class GraphicEngine;
 
-class Component{
-private:
-  Component();
-  ~Component();
-
-protected:
-  GraphicEngine*	_GrEngine;
-private:
-  Event::Dispatcher*		_Dispatch;
-  std::list< std::pair< Event::Info::Type,
-			Event::Callback* > > _CallbackArray;
-
-public:
-  Component(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch);
-
-public:
-  Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,
+namespace Component{
+  class GameObject{
+  private:
+    GameObject();
+    ~GameObject();
+    
+  protected:
+    GraphicEngine*	_GrEngine;
+  private:
+    Event::Dispatcher*		_Dispatch;
+    std::list< std::pair< Event::Info::Type,
+			  Event::Callback* > > _CallbackArray;
+    
+  public:
+    GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch);
+    
+  public:
+    Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,
 				    Event::Info::Priority
 				    = Event::Info::medium);
-  void	unsetCallback(Event::Callback*);
-  void	unsetCallback(Event::Callback::Id);
-
-public:
-  void	enable(void);
-  void	disable(void);
+    void	unsetCallback(Event::Callback*);
+    void	unsetCallback(Event::Callback::Id);
+    
+  public:
+    void	enable(void);
+    void	disable(void);
+  };
 };
 
 #endif

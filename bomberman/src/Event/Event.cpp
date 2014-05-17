@@ -3,7 +3,7 @@
 namespace Event{
   /* Callback */
   template< class U >
-  Callback::Callback(Component& object, U callback,
+  Callback::Callback(Component::GameObject& object, U callback,
 		     Event::Callback::Id genId)
     : _id(genId), _object(object), _callback(callback), _enabled(true) {}
   

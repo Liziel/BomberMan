@@ -8,7 +8,7 @@
 #include "EventType.hh"
 
 /* pre declaration of component (just in case) */
-class Component;
+namespace Component{ class GameObject; };
 
 namespace Event{
 
@@ -31,10 +31,10 @@ namespace Event{
     bool	operator==(Event::Callback::Id) const;
     Event::Callback::Id	getId(void) const;
 
-    /* Component */
+    /* Component::GameObject */
   private:
-    Component&		_object;
-    std::function< void(Component&, Event::Data&) > _callback;
+    Component::GameObject&		_object;
+    std::function< void(Component::GameObject&, Event::Data&) > _callback;
   public:
     void	operator()(Event::Data&);
 
@@ -47,8 +47,8 @@ namespace Event{
 
     /* Ctor */
   public:
-    template <class U = void(Component::*)(Event::Data&)>
-    Callback(Component& object, U callback,
+    template <class U = void(Component::GameObject::*)(Event::Data&)>
+    Callback(Component::GameObject& object, U callback,
 	     Event::Callback::Id genId = Event::CallbackIdGenerator());
   };
 

@@ -8,13 +8,14 @@
 # include "Component.hh"
 
 class DataPool{
-  /* Component List */
+  /* Component::GameObject List */
 private:
-  std::unordered_map< std::string, std::list< Component* > > ComponentMap;
+  std::unordered_map
+  < std::string, std::list< Component::GameObject* > > ComponentMap;
 
   /* Add Component */
 public:
-  void	addComponent(Component*, std::string type = "default");
+  void	addComponent(Component::GameObject*, std::string type = "default");
   void	disableType(std::string type = "default");
   void	enableType(std::string type = "default");
 
