@@ -1,5 +1,7 @@
 #include "DataPool.hh"
 
+DataPool::DataPool() {}
+
 void	DataPool::addComponent(Component* _c, std::string type) {
   if (ComponentMap.find(type) == ComponentMap.end())
     ComponentMap.insert(std::pair< std::string, std::list< Component* > >
@@ -12,16 +14,16 @@ void	DataPool::disableType(std::string type) {
   std::list< Component* > *_c;
   if (ComponentMap.find(type) != ComponentMap.end())
     return ;
-  _c = ComponentMap[type];
+  _c = &ComponentMap[type];
   for (auto _cs : (*_c))
     _cs->disable();
 }
 
-void	DataPool::disableType(std::string type) {
+void	DataPool::enableType(std::string type) {
   std::list< Component* > *_c;
   if (ComponentMap.find(type) != ComponentMap.end())
     return ;
-  _c = ComponentMap[type];
+  _c = &ComponentMap[type];
   for (auto _cs : (*_c))
     _cs->enable();
 }

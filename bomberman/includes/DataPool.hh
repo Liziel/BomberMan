@@ -2,6 +2,7 @@
 # define __DATAPOOL_H__
 
 # include <list>
+# include <string>
 # include <unordered_map>
 
 # include "Component.hh"
@@ -19,7 +20,7 @@ public:
 
   /* Ctor */
 public:
-  Component();
+  DataPool();
 };
 
 #endif

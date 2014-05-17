@@ -1,10 +1,12 @@
 #ifndef __COMPONENT_H__
 # define __COMPONENT_H__
 
-# include <iostream>
-# include <string>
+# include <list>
+# include <utility>
 
-# include "EventDispatcher.hh"
+# include "Event.hh"
+
+class GraphicEngine;
 
 class Component{
 private:
@@ -14,11 +16,12 @@ private:
 protected:
   GraphicEngine*	_GrEngine;
 private:
-  EventDispatcher*		_Dispatch;
-  std::vector< std::pair< Event::Info::Type, Callback* > > _CallbackArray;
+  Event::Dispatcher*		_Dispatch;
+  std::list< std::pair< Event::Info::Type,
+			Event::Callback* > > _CallbackArray;
 
 public:
-  Component(GraphicEngine* GrEngine, EventDispatcher* Dispatch);
+  Component(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch);
 
 public:
   Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,

@@ -10,10 +10,12 @@ INC	= -I ./includes
 MAIN	= src/Main/main.cpp
 #### EVENT
 EVENT	= src/Event/Event.cpp
+#### DATAPOOL & COMPONENT
+COMPO	= src/DataPool/component.cpp src/DataPool/datapool.cpp
 ########################
-SRC	= $(EVENT) $(MAIN)
+SRC	= $(COMPO) $(EVENT) $(MAIN)
 
-FLAGS	= -W -Wall -std=c++11 $(INC)				\
+FLAGS	= -W -Wall -std=c++11 $(INC)			\
 	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
 	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
 CFLAGS		+= $(FLAGS)

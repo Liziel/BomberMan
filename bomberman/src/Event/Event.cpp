@@ -5,10 +5,11 @@ namespace Event{
   template< class U >
   Callback::Callback(Component& object, U callback,
 		     Event::Callback::Id genId)
-    : _id(genId), _object(object), _callback(callback) {}
+    : _id(genId), _object(object), _callback(callback), _enabled(true) {}
   
   void	Callback::operator()(Event::Data& event) {
-    _callback(_object, event);
+    if (_enabled)
+      _callback(_object, event);
   }
 
   bool	Callback::operator==(Event::Callback::Id oth) const {
@@ -17,6 +18,14 @@ namespace Event{
 
   Event::Callback::Id	Callback::getId(void) const {
     return (_id);
+  }
+
+  void	Callback::enable(void){
+    _enabled = true;
+  }
+
+  void	Callback::disable(void){
+    _enabled = false;
   }
 
   /* Gen Id */
