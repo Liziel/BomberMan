@@ -14,14 +14,16 @@ class GameEngine{
   /* Game Part access */
 private:
   Component::Pool*		_datapool;
-  Event::Dispatcher*
+  Event::Dispatcher*		_dispatcher;
+  GraphicEngine*		_grEngine;
+
   /* Ctor && Dtor */
 public:
   GameEngine(DataPool* data);
   ~GameEngine();
 
 public:
-  Component::GameObject*	allocate(/**/);
+  Component::GameObject*	allocate(/* by type and enum specifier*/);
 };
 
 #endif
