@@ -15,9 +15,9 @@ COMPO	= src/DataPool/component.cpp src/DataPool/datapool.cpp
 ########################
 SRC	= $(COMPO) $(EVENT) $(MAIN)
 
-FLAGS	= -W -Wall -std=c++11 $(INC)			\
-	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
-	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
+FLAGS	= -W -Wall -std=c++11 $(INC) -g3			
+#	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
+#	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
 CFLAGS		+= $(FLAGS)
 LDFLAGS		+= $(FLAGS)
 

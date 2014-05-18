@@ -1,15 +1,12 @@
-#include "Event.hh"
+#include "Event.hpp"
+#include "Component.hh"
 
 namespace Event{
   /* Callback */
-  template< class U >
-  Callback::Callback(Component::GameObject& object, U callback,
-		     Event::Callback::Id genId)
-    : _id(genId), _object(object), _callback(callback), _enabled(true) {}
-  
   void	Callback::operator()(Event::Data& event) {
     if (_enabled)
-      _callback(_object, event);
+      (_lambdaCallback) ? (_lambdaCallback(event))
+	: (_callback(_object, event));
   }
 
   bool	Callback::operator==(Event::Callback::Id oth) const {
@@ -48,7 +45,7 @@ namespace Event{
 
 
   /* Dispatcher */
-  Dispatcher::Dispatcher() {}
+  Dispatcher::Dispatcher() :_isdispatching(false) {}
 
   Event::Callback::Id
     Dispatcher::addCallbackOnEvent(Event::Info::Type type,
@@ -90,6 +87,13 @@ namespace Event{
 
   void	Dispatcher::dispatchEvent(Event::Data& event) {
     std::list< Event::Callback* >* CallbackArray;
+
+    if (_isdispatching){
+      _eventQueue.push(event);
+      return ;
+    }
+
+    _isdispatching = true;
     if (_high.find(event.type) != _high.end()){
       CallbackArray = &(_high[event.type]);
       for (auto callback : *CallbackArray)
@@ -105,5 +109,16 @@ namespace Event{
       for (auto callback : *CallbackArray)
 	(*callback)(event);
     }
+
+    _isdispatching = false;
+    if (!_eventQueue.empty()) {
+      dispatchEvent(_eventQueue.front());
+      _eventQueue.pop();
+    }
+  }
+
+  void	Dispatcher::dispatchEvent(Event::Data* event) {
+    dispatchEvent(*event);
+    delete event;
   }
 };

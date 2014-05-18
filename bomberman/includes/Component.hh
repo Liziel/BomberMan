@@ -4,7 +4,7 @@
 # include <list>
 # include <utility>
 
-# include "Event.hh"
+# include "Event.hpp"
 
 class GraphicEngine;
 
@@ -12,7 +12,6 @@ namespace Component{
   class GameObject{
   private:
     GameObject();
-    ~GameObject();
     
   protected:
     GraphicEngine*	_GrEngine;
@@ -25,6 +24,7 @@ namespace Component{
     GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch);
     
   public:
+    ~GameObject();
     Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,
 				    Event::Info::Priority
 				    = Event::Info::medium);
