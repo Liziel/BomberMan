@@ -3,27 +3,43 @@
 
 # include "DataPool.hh"
 
-/* Component and Event query are so powerfull....
- so what the goal about having a game Engine????? (maybe a dictionnarie about compo...?)*/
-/*
- *So it will:
- * switching beetwen each mode (by enabling/disabling)
- * storing Component::*::Allocator
- */
-class GameEngine{
-  /* Game Part access */
-private:
-  Component::Pool*		_datapool;
-  Event::Dispatcher*		_dispatcher;
-  GraphicEngine*		_grEngine;
+namespace Engine{
+  class Game{
+    /* Delay Interface & Online Delay */
+  public:
 
-  /* Ctor && Dtor */
-public:
-  GameEngine(DataPool* data);
-  ~GameEngine();
+    class Delay{
+    public:
+      virtual void	operator()(unsigned int delay) = 0;
+    };
 
-public:
-  Component::GameObject*	allocate(/* by type and enum specifier*/);
+  private:
+
+    class OnlineDelay : public Engine::Game::Delay{
+    private:
+      const Socket::Select&	select;
+    public:
+      OnlineDelay(const Socket&);
+      void	operator()(unsigned int delay);
+    };
+
+    /* Game Part access */
+  private:
+    Component::Pool*		_datapool;
+    Event::Dispatcher*		_dispatcher;
+    Engine::Graphic*		_grEngine;
+    
+    /* Ctor && Dtor */
+  public:
+    GameEngine(Event::Dispatcher*, Engine::Graphic*, Component::Pool*);
+    ~GameEngine();
+    
+  public:
+    Engine::Game::Delay*	delayAllocator();
+    bool			refresh();
+  public:
+    Component::GameObject*	allocate(/* by type and enum specifier*/);
+  };
 };
 
 #endif
