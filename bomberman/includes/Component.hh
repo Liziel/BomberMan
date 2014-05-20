@@ -22,14 +22,14 @@ namespace Component{
     };
 
   private:
-    Event::Dispatcher*	_dispatcher;
-    Object::Id		_idGen;
+    Event::Dispatcher*_dispatcher;
+    Object::Id	_idGen;
 
   public:
     Collider(Event::Dispatcher*);
 
   private:
-    std::list< Object* >	collideList;
+    std::list< Object* >collideList;
   public:
     Object::Id	addColliderObject(int x, int y);
     void	moveColliderObject(Object::Id, int x, int y);
@@ -51,6 +51,10 @@ namespace Component{
       int	positionX;
       int	positionY;
       Phisix	*myPhisix;
+      Event::Dispatcher	*DispatchCopy;
+      Collider		*ColliderCopy;
+      double		globalFriction;
+      
 
     public:
       enum Direction{ Up, Down, Left, Right };
@@ -68,7 +72,9 @@ namespace Component{
     Phisix(Event::Dispatcher*, const Collider&);
 
   public:
-    void	modifyFisix(/* ??? */);
+    void	setGlobalFriction(double) const;
+    double	getGlobalFriction(void) const;
+    Collider	*getCollider(void);
   };
 };
 
