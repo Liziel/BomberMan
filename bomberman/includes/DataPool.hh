@@ -5,19 +5,19 @@
 # include <string>
 # include <unordered_map>
 
-# include "Component.hh"
+# include "Entity.hh"
 
-namespace Component{
+namespace Entity{
   class Pool{
-    /* Component::GameObject List */
+    /* Entity::GameObject List */
   private:
     std::unordered_map
-    < std::string, std::list< Component::GameObject* > > ComponentMap;
+    < std::string, std::list< Entity::GameObject* > > EntityMap;
     
-    /* Add Component */
+    /* Add Entity */
   public:
-    void	addComponent(Component::GameObject*,
-			     std::string type = "default");
+    void	addEntity(Entity::GameObject*,
+			  std::string type = "default");
     void	disableType(std::string type = "default");
     void	enableType(std::string type = "default");
     

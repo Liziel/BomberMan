@@ -1,30 +1,30 @@
 #include "DataPool.hh"
 
-Component::Pool::Pool() {}
+Entity::Pool::Pool() {}
 
-void	Component::Pool::addComponent(Component::GameObject* _c, std::string type) {
-  if (ComponentMap.find(type) == ComponentMap.end())
-    ComponentMap.insert(std::pair< std::string,
-			std::list< Component::GameObject* > >
-			(type, std::list< Component::GameObject* >(1, _c)));
+void	Entity::Pool::addEntity(Entity::GameObject* _c, std::string type) {
+  if (EntityMap.find(type) == EntityMap.end())
+    EntityMap.insert(std::pair< std::string,
+			std::list< Entity::GameObject* > >
+			(type, std::list< Entity::GameObject* >(1, _c)));
   else
-    ComponentMap[type].push_back(_c);
+    EntityMap[type].push_back(_c);
 }
 
-void	Component::Pool::disableType(std::string type) {
-  std::list< Component::GameObject* > *_c;
-  if (ComponentMap.find(type) != ComponentMap.end())
+void	Entity::Pool::disableType(std::string type) {
+  std::list< Entity::GameObject* > *_c;
+  if (EntityMap.find(type) != EntityMap.end())
     return ;
-  _c = &ComponentMap[type];
+  _c = &EntityMap[type];
   for (auto _cs : (*_c))
     _cs->disable();
 }
 
-void	Component::Pool::enableType(std::string type) {
-  std::list< Component::GameObject* > *_c;
-  if (ComponentMap.find(type) != ComponentMap.end())
+void	Entity::Pool::enableType(std::string type) {
+  std::list< Entity::GameObject* > *_c;
+  if (EntityMap.find(type) != EntityMap.end())
     return ;
-  _c = &ComponentMap[type];
+  _c = &EntityMap[type];
   for (auto _cs : (*_c))
     _cs->enable();
 }

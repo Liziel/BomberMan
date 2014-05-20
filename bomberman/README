@@ -1,4 +1,4 @@
 todo:
-	-> Select Class
+	-> Select() Class (optionnel)
 	-> Components
 	-> Réflexion sur cas spéciaux

@@ -1,5 +1,5 @@
 #include "Event.hpp"
-#include "Component.hh"
+#include "Entity.hh"
 
 namespace Event{
   /*	Data	*/
@@ -7,8 +7,7 @@ namespace Event{
   /* Callback */
   void	Callback::operator()(Event::Data& event) {
     if (_enabled)
-      (_lambdaCallback) ? (_lambdaCallback(event))
-	: (_callback(_object, event));
+      _lambdaCallback(event);
   }
 
   bool	Callback::operator==(Event::Callback::Id oth) const {

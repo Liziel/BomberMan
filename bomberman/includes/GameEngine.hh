@@ -25,20 +25,20 @@ namespace Engine{
 
     /* Game Part access */
   private:
-    Component::Pool*		_datapool;
+    Entity::Pool*		_datapool;
     Event::Dispatcher*		_dispatcher;
     Engine::Graphic*		_grEngine;
     
     /* Ctor && Dtor */
   public:
-    GameEngine(Event::Dispatcher*, Engine::Graphic*, Component::Pool*);
+    GameEngine(Event::Dispatcher*, Engine::Graphic*, Entity::Pool*);
     ~GameEngine();
     
   public:
     Engine::Game::Delay*	delayAllocator();
     bool			refresh();
   public:
-    Component::GameObject*	allocate(/* by type and enum specifier*/);
+    Entity::GameObject*	allocate(/* by type and enum specifier*/);
   };
 };
 

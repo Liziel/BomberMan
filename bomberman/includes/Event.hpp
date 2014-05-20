@@ -8,9 +8,6 @@
 
 # include "EventType.hh"
 
-/* pre declaration of component (just in case) */
-namespace Component{ class GameObject; };
-
 namespace Event{
   /* ###### Event Data ####### */
   namespace Info{ enum Type; };
@@ -36,8 +33,7 @@ namespace Event{
 
     /* Component::GameObject */
   private:
-    Component::GameObject*		_object;
-    std::function< void(Component::GameObject*, Event::Data&) > _callback;
+
     std::function< void(Event::Data&) > _lambdaCallback;
   public:
     void	operator()(Event::Data&);
@@ -56,15 +52,6 @@ namespace Event{
     Callback(std::function < void(Event::Data&) > callback,
 	     Event::Callback::Id genId = CallbackIdGenerator())
       : _id(genId), _lambdaCallback(callback),
-	_enabled(true) {}
-
-    template< class U >
-    Callback(Component::GameObject* object,
-	     void (U::*callback)(Event::Data&),
-	     Event::Callback::Id genId = CallbackIdGenerator())
-      : _id(genId), _object(object),
-	_callback(reinterpret_cast
-		  <void(Component::GameObject::*)(Event::Data&)>(callback)),
 	_enabled(true) {}
   };
 

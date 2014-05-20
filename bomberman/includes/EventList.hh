@@ -3,8 +3,10 @@
 
 # include "EventType.hh"
 # include "Event.hpp"
-# include "GameComponent.hh"
+# include "GameEntity.hh"
+
 namespace Event{
+
   namespace Type{
     /* Event Example */
     struct Keyboard : Event::Data{
@@ -34,11 +36,11 @@ namespace Event{
     };
 
     struct PlayerMove : Event::Data{
-      PlayerMove(Component::Player::Id _p, double x, double y,
+      PlayerMove(Entity::Player::Id _p, double x, double y,
 		 double axeX, double axeY)
 	: Event::Data(Event::Info::PlayerMove, sizeof(struct PlayerMove), true),
 	  player(_p), xLocation(x), yLocation(y), xAxis(axeX), yAxis(axeY) {} 
-      Component::Player::Id player;
+      Entity::Player::Id player;
       double	xLocation;
       double	yLocation;
       double	xAxis;
@@ -46,10 +48,10 @@ namespace Event{
     };
 
     struct DeniedMove : Event::Data{
-      DeniedMove(Component::Player::Id _p, double x, double y)
+      DeniedMove(Entity::Player::Id _p, double x, double y)
 	: Event::Data(Event::Info::DeniedMove, sizeof(struct DeniedMove), false),
 	  player(_p), xLocation(x), yLocation(y) {}
-      Component::Player::Id player;
+      Entity::Player::Id player;
       double	xLocation;
       double	yLocation;
     };

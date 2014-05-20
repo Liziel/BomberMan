@@ -1,10 +1,10 @@
-#include "GameComponent.hh"
+#include "GameEntity.hh"
 #include "EventList.hh"
 
-namespace Component{
+namespace Entity{
   Player::Player(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch,
-		 Component::Player::Id id, double x, double y)
-    : Component::GameObject(GrEngine, Dispatch),
+		 Entity::Player::Id id, double x, double y)
+    : Entity::GameObject(GrEngine, Dispatch),
       _id(id), xAxis(0.f), yAxis(0.f), xP(x), yP(y) {
 
     this
@@ -27,7 +27,7 @@ namespace Component{
       ->addCallback(Event::Info::DeniedMove,
 		    new Event::Callback([this](Event::Data& e) {
 			Event::Type::DeniedMove *event
-			  = (Event::Type::DeniedMove*)(&e);
+			  = reinterpret_cast<Event::Type::DeniedMove*>(&e);
 			if (event->player != this->_id)
 			  return ;
 			this->xP = event->xLocation;
@@ -72,7 +72,7 @@ namespace Component{
 	  _Dispatch
 	    ->dispatchEvent(new Event::Type
 			    ::PlantBomb((int)xP, (int)yP));
-	  cooldown = Component::GameUtils::getBombCooldown();
+	  cooldown = Entity::GameUtils::getBombCooldown();
 	  only = false;
 	} else if (cooldown != 0) {
 	  cooldown -= 1;

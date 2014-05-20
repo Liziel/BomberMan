@@ -10,10 +10,8 @@ INC	= -I ./includes
 MAIN	= src/Main/main.cpp
 #### EVENT
 EVENT	= src/Event/Event.cpp
-#### DATAPOOL & COMPONENT
-COMPO	= src/DataPool/component.cpp src/DataPool/datapool.cpp \
-	src/GameComponent/GameUtils.cpp\
-	src/GameComponent/Player.cpp
+#### DATAPOOL & ENTITY
+COMPO	= src/DataPool/entity.cpp src/DataPool/datapool.cpp
 ########################
 SRC	= $(COMPO) $(EVENT) $(MAIN)
 

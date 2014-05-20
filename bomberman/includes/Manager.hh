@@ -8,7 +8,7 @@
 namespace Engine{
   class Manager{
   private:
-    Component::Pool*	data;
+    Entity::Pool*	data;
     Event::Dispatcher*	dispatcher;
     Engine::Graphic*	graphic;
     Engine::Game*	game;

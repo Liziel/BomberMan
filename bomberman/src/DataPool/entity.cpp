@@ -1,16 +1,16 @@
-#include "Component.hh"
+#include "Entity.hh"
 
-Component::GameObject::GameObject() {}
-Component::GameObject::GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch)
+Entity::GameObject::GameObject() {}
+Entity::GameObject::GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch)
   : _GrEngine(GrEngine), _Dispatch(Dispatch) {}
-Component::GameObject::~GameObject() {
+Entity::GameObject::~GameObject() {
   for (auto _cb : _CallbackArray) {
     _Dispatch->unsetCallbackForId(_cb.first, _cb.second->getId());
     delete _cb.second;
   }
 }
 
-Event::Callback::Id	Component::GameObject::addCallback(Event::Info::Type type,
+Event::Callback::Id	Entity::GameObject::addCallback(Event::Info::Type type,
 					       Event::Callback* callback,
 					       Event::Info::Priority _p) {
   _CallbackArray.push_back(std::pair< Event::Info::Type, Event::Callback* >
@@ -19,7 +19,7 @@ Event::Callback::Id	Component::GameObject::addCallback(Event::Info::Type type,
   return (callback->getId());
 }
 
-void	Component::GameObject::unsetCallback(Event::Callback* callback) {
+void	Entity::GameObject::unsetCallback(Event::Callback* callback) {
   class unsetCallback{
   private:
     Event::Callback* prim;
@@ -37,7 +37,7 @@ void	Component::GameObject::unsetCallback(Event::Callback* callback) {
   _CallbackArray.remove_if(remove);
 }
 
-void	Component::GameObject::unsetCallback(Event::Callback::Id callback) {
+void	Entity::GameObject::unsetCallback(Event::Callback::Id callback) {
   class unsetCallback{
   private:
     Event::Callback::Id prim;
@@ -55,12 +55,12 @@ void	Component::GameObject::unsetCallback(Event::Callback::Id callback) {
   _CallbackArray.remove_if(remove);
 }
 
-void	Component::GameObject::enable(void) {
+void	Entity::GameObject::enable(void) {
   for (auto callback : _CallbackArray)
     callback.second->enable();
 }
 
-void	Component::GameObject::disable(void) {
+void	Entity::GameObject::disable(void) {
   for (auto callback : _CallbackArray)
     callback.second->disable();
 }
