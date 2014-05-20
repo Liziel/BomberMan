@@ -8,6 +8,9 @@ namespace Component{
     public:
       typedef unsigned int Id;
     };
+  private:
+    Event::Dispatcher*	_dispatcher;
+
   public:
     Collider(Event::Dispatcher*);
 
