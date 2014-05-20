@@ -2,8 +2,10 @@
 
 namespace Event{
   /* Callback */
-  Callback::Callback(T object, U callback, Event::Callback::Id genId)
-    : _id(genId), _object(object), _callback(callback) {}    
+  template< class U = void(Component::*)(Event::Event&)>
+  Callback::Callback(Component& object, U callback,
+		     Event::Callback::Id genId)
+    : _id(genId), _object(object), _callback(callback) {}
   
   void	Callback::operator()(Event::Event& event) {
     _callback(_object, event);
