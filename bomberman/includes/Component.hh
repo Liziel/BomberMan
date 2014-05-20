@@ -8,6 +8,7 @@ namespace Component{
     public:
       typedef unsigned int Id;
     };
+
   public:
     Collider(Event::Dispatcher*);
 
@@ -27,8 +28,16 @@ namespace Component{
     public:
       Vector(Phisix*);
 
+    private:
+      double	speed;
+      bool	movementDirection[4];
+      bool	authorization;
+      int	positionX;
+      int	positionY;
+      Phisix	*myPhisix;
+
     public:
-      enum Direction{ Up, Down, Left, Right};
+      enum Direction{ Up, Down, Left, Right };
       void	modifyMovement(enum Direction, bool mask);
       void	modifySpeed(double speed);
       void	setSpeed(double speed);
