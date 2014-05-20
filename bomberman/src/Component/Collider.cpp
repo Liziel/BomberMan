@@ -6,7 +6,7 @@ namespace Component{
   Collider::Object::Object(Collider::Object::Id _id, int _x, int _y)
     : id(_id), x(_x), y(_y) {}
 
-  Collider::Object::Id Collider::Object::getId(void) {
+  Collider::Object::Id Collider::Object::getId(void) const {
     return (id);
   }
 
@@ -15,7 +15,7 @@ namespace Component{
     y = _y;
   }
 
-  bool	Collider::Object::doCollide(int _x, int _y) {
+  bool	Collider::Object::doCollide(int _x, int _y) const {
     return (_x == x && _y == y);
   }
 
@@ -44,7 +44,7 @@ namespace Component{
 	obj->setPosition(x, y);
   }
 
-  bool		Collider::operator()(int x, int y, Collider::Object::Id ignore) {
+  bool		Collider::operator()(int x, int y, Collider::Object::Id ignore) const {
     for (auto obj : collideList)
       if ((ignore == -1 || obj->getId() != ignore) && obj->doCollide(x, y))
 	return (false);

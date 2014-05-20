@@ -2,7 +2,9 @@
 # define __COMPONENT_H__
 
 namespace Component{
+
   class Collider{
+
   public:
     class Object{
     private:
@@ -14,11 +16,11 @@ namespace Component{
       Object(Id, int x, int y);
 
     public:
-      Id	getId(void);
+      Id	getId(void) const;
       void	setPosition(int x, int y);
 
     public:
-      bool	doCollide(int x, int y);
+      bool	doCollide(int x, int y) const;
     };
 
   private:
@@ -35,7 +37,7 @@ namespace Component{
     void	moveColliderObject(Object::Id, int x, int y);
 
   public:
-    bool	operator()(int x, int y, Object::Id ignore = -1);
+    bool	operator()(int x, int y, Object::Id ignore = -1) const;
   };
 
   class Phisix{
