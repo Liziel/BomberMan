@@ -1,19 +1,24 @@
 #ifndef __COMPONENT_H__
 # define __COMPONENT_H__
 
+# include <list>
+
+# include "Event.hpp"
+# include "EventList.hh"
 namespace Component{
 
+  /* ############### COLLIDER ####################### */
   class Collider{
-
   public:
     class Object{
-    private:
-      Id	id;
-      int	x;
-      int	y;
     public:
       typedef int Id;
-      Object(Id, int x, int y);
+    private:
+      Object::Id	id;
+      int		x;
+      int		y;
+    public:
+      Object(Object::Id, int x, int y);
 
     public:
       Id	getId(void) const;
@@ -40,23 +45,24 @@ namespace Component{
     bool	operator()(int x, int y, Object::Id ignore = -1) const;
   };
 
+  /* ###################### PHISIX ############################# */
   class Phisix{
   public:
     class Vector{
     public:
-      Vector(Phisix*);
+      Vector(Phisix*, int, int, double);
 
     private:
       double	speed;
       bool	movementDirection[4];
+
+    private:
       bool	authorization;
       int	positionX;
       int	positionY;
-      Phisix	*myPhisix;
-      Event::Dispatcher	*DispatchCopy;
-      Collider		*ColliderCopy;
-      double		globalFriction;
-      
+
+    private:
+      Phisix	*myPhisix;      
 
     public:
       enum Direction{ Up, Down, Left, Right };
@@ -67,16 +73,20 @@ namespace Component{
 
     public:
       void	move(void);
-      void	getPosition(int& x, int& y);
-    };
+      void	getPosition(int& x, int& y) const;
+    }; /*  -- vector end --  */
 
+  private:
+    Event::Dispatcher*	DispatchCopy;
+    const Collider&	ColliderCopy;
+    double		globalFriction;
   public:
     Phisix(Event::Dispatcher*, const Collider&);
 
   public:
-    void	setGlobalFriction(double) const;
-    double	getGlobalFriction(void) const;
-    Collider	*getCollider(void);
+    void		setGlobalFriction(double);
+    double		getGlobalFriction(void) const;
+    const Collider&	getCollider(void) const;
   };
 };
 

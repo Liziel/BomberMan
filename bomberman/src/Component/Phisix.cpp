@@ -7,10 +7,10 @@ namespace Component
   /*  Vector  */
 
   Phisix::Vector::Vector(Phisix *Phisik, int x, int y, double _speed = 1)
-    : speed(_speed), myPhisix(Phisik), movementDirection({false, false, false, false}),
-      authorization(true), positionX(x), positionY(y) {}
+    : speed(_speed), authorization(true), positionX(x), positionY(y), myPhisix(Phisik)
+  {  movementDirection[0] = false; movementDirection[1] = false; movementDirection[2] = false; movementDirection[3] = false; }
   
-  void		Phisix::Vector::modifyMovement(enum Direction, bool mask)
+  void		Phisix::Vector::modifyMovement(enum Direction Direction, bool mask)
   {
     movementDirection[Direction] = mask;
   }
@@ -27,7 +27,7 @@ namespace Component
 
   void	    Phisix::Vector::authorizeMovement(bool orderToMove)
   {
-    this->autorization = orderToMove;
+    this->authorization = orderToMove;
   }
 
   void	    Phisix::Vector::move()
@@ -35,7 +35,7 @@ namespace Component
     double	x = 0;
     double	y = 0;
 
-    if (!autorization)
+    if (!authorization)
       return ;
     if (movementDirection[Up])
       y -= this->speed * this->myPhisix->getGlobalFriction();
@@ -45,31 +45,30 @@ namespace Component
       x += this->speed * this->myPhisix->getGlobalFriction();
     if (movementDirection[Left])
       x -= this->speed * this->myPhisix->getGlobalFriction();
-    if (!this->phisix->getCollider()(this->positionX + x, this->positionY + y)){
-      if (x != 0 && this->phisix->getCollider()(this->positionX + x, this->positionY)) {
+    if (!this->myPhisix->getCollider()(this->positionX + x, this->positionY + y)){
+      if (x != 0 && this->myPhisix->getCollider()(this->positionX + x, this->positionY)) {
 	this->positionX += x;
-      } else if (y != 0 && !this->phisix->getCollider()(this->positionX, this->positionY + y)){
-	this->postionY += y;
+      } else if (y != 0 && !this->myPhisix->getCollider()(this->positionX, this->positionY + y)){
+	this->positionY += y;
       } else { return ; }
     }
     this->positionX += x;
     this->positionY += y;
   }
 
-  void	    Phisix::Vector::getPosition(int& x, int& y)
+  void	    Phisix::Vector::getPosition(int& x, int& y) const
   {
-    this->positionX = x;
-    this->positionY = y;
+    x = this->positionX;
+    y = this->positionY;
   }
   
   /* Phisix */
-
   Phisix::Phisix(Event::Dispatcher *Dispatch, const Collider &Collide)
-    :DispatchCopy(Dispatch), ColliderCopy(Collide){}
+    :DispatchCopy(Dispatch), ColliderCopy(Collide) {}
   
 
 
-  void	   Phisix::setGlobalFriction(double friction) const
+  void	   Phisix::setGlobalFriction(double friction)
   {
     this->globalFriction = friction;
   }
@@ -79,7 +78,7 @@ namespace Component
     return (globalFriction);
   }
 
-  Collider *Phisix::getCollider() const
+  const Collider &Phisix::getCollider() const
   {
     return (ColliderCopy);
   }

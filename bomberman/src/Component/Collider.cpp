@@ -21,11 +21,11 @@ namespace Component{
 
   /* Collider */
   Collider::Collider(Event::Dispatcher* dispatcher)
-    : _dispatcher(dispatcher), _idGen(0), ignore(-1) {
+    : _dispatcher(dispatcher), _idGen(0) {
     _dispatcher
       ->addCallbackOnEvent(Event::Info::CollidableObjectMovement,
 			   new Event::Callback([this](Event::Data& e) {
-			       Event::Type::CollidableObjectMovement event =
+			       Event::Type::CollidableObjectMovement* event =
 				 reinterpret_cast<Event::Type::CollidableObjectMovement*>(&e);
 			       moveColliderObject(event->objectId, event->x, event->y);
 			     })
