@@ -5,12 +5,24 @@ namespace Component{
   class Collider{
   public:
     class Object{
+    private:
+      Id	id;
+      int	x;
+      int	y;
     public:
-      typedef unsigned int Id;
+      typedef int Id;
+      Object(Id, int x, int y);
+
+    public:
+      Id	getId(void);
+      void	setPosition(int x, int y);
+
+    public:
+      bool	doCollide(int x, int y);
     };
   private:
     Event::Dispatcher*	_dispatcher;
-
+    Object::Id		_idGen;
   public:
     Collider(Event::Dispatcher*);
 
@@ -21,7 +33,7 @@ namespace Component{
     void	moveColliderObject(Object::Id, int x, int y);
 
   public:
-    bool	operator()(int x, int y);
+    bool	operator()(int x, int y, Object::Id ignore = -1);
   };
 
   class Phisix{
