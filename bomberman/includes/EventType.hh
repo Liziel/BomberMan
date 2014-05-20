@@ -12,6 +12,7 @@ namespace Event{
       MouseButton,
       PlayerMove, DeniedMove,
       DamageFixed, PlantBomb,
+      CollidableObjectMovement,
       Clock, Refresh,
     };
   };

@@ -73,6 +73,16 @@ namespace Event{
       int y;
     };
 
+    /* objectId == Component::Collider::Object::Id*/
+    struct CollidableObjectMovement : Event::Data {
+      CollidableObjectMovement(unsigned int ObjectId, int _x, int _y)
+	: Event::Data(Event::Info::CollidableObjectMovement, sizeof(struct CollidableObjectMovement), true),
+	  objectId(ObjectId), x(_x), y(_y) {}
+      unsigned int objectId;
+      int	x;
+      int	y;
+    }
+
     struct Clock : Event::Data{
       Clock() : Event::Data(Event::Info::Clock, sizeof(struct Clock), true) {}
     };
