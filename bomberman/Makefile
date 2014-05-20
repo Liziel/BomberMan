@@ -11,7 +11,9 @@ MAIN	= src/Main/main.cpp
 #### EVENT
 EVENT	= src/Event/Event.cpp
 #### DATAPOOL & COMPONENT
-COMPO	= src/DataPool/component.cpp src/DataPool/datapool.cpp
+COMPO	= src/DataPool/component.cpp src/DataPool/datapool.cpp \
+	src/GameComponent/GameUtils.cpp\
+	src/GameComponent/Player.cpp
 ########################
 SRC	= $(COMPO) $(EVENT) $(MAIN)
 

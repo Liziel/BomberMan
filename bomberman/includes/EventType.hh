@@ -6,10 +6,13 @@ namespace Event{
   namespace Info{
     /* #### Event Type ##### */
     enum Type{
+      Network = -1,
       Keyboard,
       MouseMove,
       MouseButton,
-      Clock
+      PlayerMove, DeniedMove,
+      DamageFixed, PlantBomb,
+      Clock, Refresh,
     };
   };
 

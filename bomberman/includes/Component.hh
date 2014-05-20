@@ -14,9 +14,9 @@ namespace Component{
     GameObject();
     
   protected:
-    GraphicEngine*	_GrEngine;
-  private:
+    GraphicEngine*		_GrEngine;
     Event::Dispatcher*		_Dispatch;
+  private:
     std::list< std::pair< Event::Info::Type,
 			  Event::Callback* > > _CallbackArray;
     
@@ -35,6 +35,7 @@ namespace Component{
     void	enable(void);
     void	disable(void);
   };
+
 };
 
 #endif

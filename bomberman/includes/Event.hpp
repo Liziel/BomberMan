@@ -12,14 +12,15 @@
 namespace Component{ class GameObject; };
 
 namespace Event{
-
   /* ###### Event Data ####### */
   namespace Info{ enum Type; };
   struct Data{
-    Data(Event::Info::Type _type) : type(_type) {}
+    Data(Event::Info::Type _type, size_t DataSize, bool _network)
+      : type(_type), size(DataSize), network(_network) {}
     Event::Info::Type	type;
+    size_t		size;
+    bool		network;
   };
-
 
   /* ###### CallBack ######## */
   unsigned int CallbackIdGenerator(void);
@@ -84,7 +85,7 @@ namespace Event{
     std::unordered_map< Event::Info::Type, std::list< Event::Callback* >, std::hash<int> > _low;
   private:
     bool			_isdispatching;
-    std::queue<Event::Data>	_eventQueue;
+    std::queue<Event::Data*>	_eventQueue;
 
   public:
     Event::Callback::Id addCallbackOnEvent(Event::Info::Type,
@@ -94,7 +95,6 @@ namespace Event{
     void		unsetCallbackForId(Event::Info::Type,
 					   Event::Callback::Id);
 
-    void		dispatchEvent(Event::Data&);
     void		dispatchEvent(Event::Data*);
 
     /* Ctor */

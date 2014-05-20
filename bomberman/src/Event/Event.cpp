@@ -2,6 +2,8 @@
 #include "Component.hh"
 
 namespace Event{
+  /*	Data	*/
+
   /* Callback */
   void	Callback::operator()(Event::Data& event) {
     if (_enabled)
@@ -85,8 +87,11 @@ namespace Event{
       _low[type].remove_if(remove);
   }
 
-  void	Dispatcher::dispatchEvent(Event::Data& event) {
+  void	Dispatcher::dispatchEvent(Event::Data* event) {
     std::list< Event::Callback* >* CallbackArray;
+    std::unordered_map
+      < Event::Info::Type , std::list< Event::Callback* >, std::hash<int> >
+      ::iterator itt;
 
     if (_isdispatching){
       _eventQueue.push(event);
@@ -94,20 +99,38 @@ namespace Event{
     }
 
     _isdispatching = true;
-    if (_high.find(event.type) != _high.end()){
-      CallbackArray = &(_high[event.type]);
+    if ((itt = _high.find(event->type)) != _high.end()){
+      CallbackArray = &(itt->second);
       for (auto callback : *CallbackArray)
-	(*callback)(event);
+	(*callback)(*event);
     }
-    if (_med.find(event.type) != _med.end()){
-      CallbackArray = &(_med[event.type]);
+    if ((itt = _med.find(event->type)) != _med.end()){
+      CallbackArray = &(itt->second);
       for (auto callback : *CallbackArray)
-	(*callback)(event);
+	(*callback)(*event);
     }
-    if (_low.find(event.type) != _low.end()){
-      CallbackArray = &(_low[event.type]);
+    if ((itt = _low.find(event->type)) != _low.end()){
+      CallbackArray = &(itt->second);
       for (auto callback : *CallbackArray)
-	(*callback)(event);
+	(*callback)(*event);
+    }
+
+    if (event->network){
+      if ((itt = _high.find(Event::Info::Network)) != _high.end()){
+	CallbackArray = &(itt->second);
+	for (auto callback : *CallbackArray)
+	  (*callback)(*event);
+      }
+      if ((itt = _med.find(Event::Info::Network)) != _med.end()){
+	CallbackArray = &(itt->second);
+	for (auto callback : *CallbackArray)
+	  (*callback)(*event);
+      }
+      if ((itt = _low.find(Event::Info::Network)) != _low.end()){
+	CallbackArray = &(itt->second);
+	for (auto callback : *CallbackArray)
+	  (*callback)(*event);
+      }
     }
 
     _isdispatching = false;
@@ -115,10 +138,6 @@ namespace Event{
       dispatchEvent(_eventQueue.front());
       _eventQueue.pop();
     }
-  }
-
-  void	Dispatcher::dispatchEvent(Event::Data* event) {
-    dispatchEvent(*event);
     delete event;
   }
 };
