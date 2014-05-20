@@ -4,14 +4,6 @@
 namespace Component
 {
 
-  /* Phisix */
-
-  Phisix::Phisix(Event::Dispatcher *, const Collider&)
-  {
-    
-  }
-  
-
   /*  Vector  */
 
   Phisix::Vector::Vector(Phisix *Phisik, int x, int y, double _speed = 1)
@@ -27,10 +19,12 @@ namespace Component
   {
     this->speed = this->speed * speed;
   }
+
   void	    Phisix::Vector::setSpeed(double speed)
   {
     this->speed = speed;
   }
+
   void	    Phisix::Vector::authorizeMovement(bool orderToMove)
   {
     this->autorization = orderToMove;
@@ -67,6 +61,27 @@ namespace Component
     this->positionX = x;
     this->positionY = y;
   }
+  
+  /* Phisix */
 
+  Phisix::Phisix(Event::Dispatcher *Dispatch, const Collider &Collide)
+    :DispatchCopy(Dispatch), ColliderCopy(Collide){}
+  
+
+
+  void	   Phisix::setGlobalFriction(double friction) const
+  {
+    this->globalFriction = friction;
+  }
+
+  double   Phisix::getGlobalFriction() const
+  {
+    return (globalFriction);
+  }
+
+  Collider *Phisix::getCollider() const
+  {
+    return (ColliderCopy);
+  }
 
 };
