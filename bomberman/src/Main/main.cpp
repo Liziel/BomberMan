@@ -1,6 +1,11 @@
 
 #include	<cstdlib>
 #include	"GameEngine.hpp"
+#include <OpenGL.hh>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <SdlContext.hh>
+#include <unistd.h>
 
 int main()  /* Main de test */
 {

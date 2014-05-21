@@ -27,3 +27,7 @@
 
 #unignore auteur
 !auteur
+
+#unignore readme (just in case)
+!readme*
+!README*
