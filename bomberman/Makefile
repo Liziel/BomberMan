@@ -5,14 +5,13 @@ RM	= rm -f
 
 SRC	=
 INC	= -I ./includes
-########################
-#### MAIN
-MAIN	= src/Main/main.cpp
-########################
+
+MAIN	= 	src/Main/main.cpp
+
 SRC	= $(MAIN)
 
-FLAGS	= -W -Wall $(INC)				\
-	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
+FLAGS	= -W -Wall -Wextra $(INC)				\
+	-I lib/Gdl_lib/includes -L./lib/GDL/libs/ 	\
 	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
 CFLAGS		+= $(FLAGS)
 LDFLAGS		+= $(FLAGS)
@@ -25,7 +24,7 @@ $(NAME): $(OBJ)
 	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) src/Main/*.o
 
 fclean: clean
 	$(RM) $(NAME)
