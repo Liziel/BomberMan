@@ -1,13 +1,18 @@
 #include "Component.hh"
+#include "EventList.hh"
 
 namespace Component{
 
   /* Collider::Object */
-  Collider::Object::Object(Collider::Object::Id _id, int _x, int _y)
-    : id(_id), x(_x), y(_y) {}
+  Collider::Object::Object(Collider::Object::Id _id, int _x, int _y, Collider::Object::type _t)
+    : id(_id), t(_t), x(_x), y(_y) {}
 
   Collider::Object::Id Collider::Object::getId(void) const {
     return (id);
+  }
+
+  Collider::Object::type Collider::Object::getType(void) const {
+    return (t);
   }
 
   void	Collider::Object::setPosition(int _x, int _y) {
@@ -32,8 +37,8 @@ namespace Component{
 			   );
   }
 
-  Collider::Object::Id	Collider::addColliderObject(int x, int y) {
-    collideList.push_back(new Object(_idGen, x, y));
+  Collider::Object::Id	Collider::addColliderObject(int x, int y, Collider::Object::type _c) {
+    collideList.push_back(new Object(_idGen, x, y, _c));
     _idGen += 1;
     return (_idGen - 1);
   }
@@ -44,9 +49,9 @@ namespace Component{
 	obj->setPosition(x, y);
   }
 
-  bool		Collider::operator()(int x, int y, Collider::Object::Id ignore) const {
+  bool		Collider::operator()(int x, int y, Collider::Object::type _c, Collider::Object::Id ignore) const {
     for (auto obj : collideList)
-      if ((ignore == -1 || obj->getId() != ignore) && obj->doCollide(x, y))
+      if ((ignore == -1 || obj->getId() != ignore || obj->getType() != _c) && obj->doCollide(x, y))
 	return (false);
     return (true);
   }

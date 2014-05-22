@@ -35,6 +35,7 @@ namespace Event{
       bool	keyState;
     };
 
+    /* player events */
     struct PlayerMove : Event::Data{
       PlayerMove(unsigned int _p, double x, double y,
 		 double axeX, double axeY)
@@ -45,23 +46,6 @@ namespace Event{
       double	yLocation;
       double	xAxis;
       double	yAxis;     
-    };
-
-    struct DamageFixed : Event::Data{
-      DamageFixed(int _x, int _y, int _amount)
-	: Event::Data(Event::Info::DamageFixed, sizeof(struct DamageFixed), false),
-	  x(_x), y(_y), amount(_amount) {}
-      int x;
-      int y;
-      int amount;
-    };
-    
-    struct PlantBomb : Event::Data{
-      PlantBomb(int _x, int _y)
-	: Event::Data(Event::Info::PlantBomb, sizeof(struct PlantBomb), true),
-	  x(_x), y(_y) {}
-      int x;
-      int y;
     };
 
     /* objectId == Component::Collider::Object::Id*/

@@ -13,6 +13,7 @@ namespace Event{
       PlayerMove, DeniedMove,
       DamageFixed, PlantBomb,
       CollidableObjectMovement,
+      FireExplosion, ElectricityExplosion, IceExplosion, LifeExplosion,
       Clock, Refresh,
     };
   };
