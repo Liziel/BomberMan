@@ -17,9 +17,9 @@ namespace Component{
 					  if (event->level == high) { this->interpretDamage(fireHigh); }
 					}), Event::Info::low);
 
-      const Effects::damage electricityLow  = {0, -1, 10, 2, 1.2, 2, true, 2};
-      const Effects::damage electricityMed  = {0, -1, 10, 1, 1.4, 5, true, 5};
-      const Effects::damage electricityHigh = {0, -1, 10, 0, 1.6, 10, true, 10};
+      const Effects::damage electricityLow  = {0, -1, 10, 2, 1.1, 2, true, 2};
+      const Effects::damage electricityMed  = {0, -1, 10, 1, 1.2, 5, true, 5};
+      const Effects::damage electricityHigh = {0, -1, 10, 0, 1.5, 10, true, 10};
       _dispatcher->addCallbackOnEvent(Event::Info::ElectricityExplosion,
 				      new Event::Callback([this, electricityLow, electricityMed, electricityHigh] (Event::Data& e) {
 					  Event::Type::ElectricityExplosion *event = reinterpret_cast<Event::Type::ElectricityExplosion*>(&e);
