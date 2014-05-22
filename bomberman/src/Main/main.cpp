@@ -1,1 +1,5 @@
-int main() {}
+#include <iostream>
+#include "Component.hh"
+int main() {
+  
+}

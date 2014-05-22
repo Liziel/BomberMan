@@ -10,7 +10,7 @@ class GraphicEngine;
 
 namespace Entity{
   class GameObject{
-  private:
+  public:
     GameObject();
     
   protected:
