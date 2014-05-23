@@ -8,6 +8,11 @@
 
 class GraphicEngine;
 
+namespace Component{
+  class abstract;
+  class Factory;
+};
+
 namespace Entity{
   class GameObject{
   public:
@@ -16,13 +21,20 @@ namespace Entity{
   private:
     GraphicEngine*		_GrEngine;
     Event::Dispatcher*		_Dispatch;
+    Component::Factory*		_factory;
   private:
     std::list< std::pair< Event::Info::Type,
 			  Event::Callback* > > _CallbackArray;
     
   public:
-    GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch);
+    GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch, Component::Factory*);
     
+  private:
+    std::vector<Component::abstract*>	abstractList;
+  public:
+    void	attachComponent(Component::abstract*);
+    std::string	serialization();
+
   public:
     ~GameObject();
     Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,

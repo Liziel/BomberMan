@@ -1,52 +1,43 @@
-#include "Component.hh"
-#include "EventList.hh"
+#include "collider.hh"
 
 namespace Component{
 
-  /* Collider::Object */
-  Collider::Object::Object(Collider::Object::Id _id, int _x, int _y, Collider::Object::type _t)
-    : id(_id), t(_t), x(_x), y(_y) {}
+  /* Collider::Movable */
+  Collider::Movable::Movable(Entity::GameObject* _p, Component::Collider* _c)
+    : Component::abstract(_p), collider(_c), id(_c->addSelf(this)), x(-1), y(-1) {
+    attachCallback(Event::Info::RequireMovement,
+		   new Event::Callback([this](Event::Data& e) {
+		       Event::Type::RequireMovement *event = reinterpret_cast<Event::Type::RequireMovement*> (&e);
+		       if ((*collider)(event->x + event->vectorX, event->y + event->vectorY, Component::Collider::noType, id))
+			 dispatchSelf(new Event::Type::Colliding(event->x + event->vectorX, event->y + event->vectorY));
+		       else
+			 dispatchSelf(new Event::Type::Colliding(event->x, event->y));
+		     }));
+    attachCallback(Event::Info::Colliding,
+		   new Event::Callback([this] (Event::Data&e) {
+		       Event::Type::Colliding *event = reinterpret_cast<Event::Type::RequireMovement*> (&e);
+		       x = (event->endX); 
+		       y = (event->endY);
+		     }));
+  }
 
-  Collider::Object::Id Collider::Object::getId(void) const {
+  Collider::Id	Collider::Movable::getId(void) {
     return (id);
   }
 
-  Collider::Object::type Collider::Object::getType(void) const {
-    return (t);
+  bool		doCollide(int _x, int _y) {
+    return (x == _x && y == _y);
   }
 
-  void	Collider::Object::setPosition(int _x, int _y) {
-    x = _x;
-    y = _y;
+  std::string	serialization() {
+    return ();
   }
-
-  bool	Collider::Object::doCollide(int _x, int _y) const {
-    return (_x == x && _y == y);
-  }
+  /* Collider::Static */
+  
 
   /* Collider */
-  Collider::Collider(Event::Dispatcher* dispatcher)
-    : _dispatcher(dispatcher), _idGen(0) {
-    _dispatcher
-      ->addCallbackOnEvent(Event::Info::CollidableObjectMovement,
-			   new Event::Callback([this](Event::Data& e) {
-			       Event::Type::CollidableObjectMovement* event =
-				 reinterpret_cast<Event::Type::CollidableObjectMovement*>(&e);
-			       moveColliderObject(event->objectId, event->x, event->y);
-			     })
-			   );
-  }
-
-  Collider::Object::Id	Collider::addColliderObject(int x, int y, Collider::Object::type _c) {
-    collideList.push_back(new Object(_idGen, x, y, _c));
-    _idGen += 1;
-    return (_idGen - 1);
-  }
-
-  void		Collider::moveColliderObject(Collider::Object::Id objRef, int x, int y) {
-    for (auto obj : collideList)
-      if (obj->getId() == objRef)
-	obj->setPosition(x, y);
+  Collider::Collider()
+    : , _idGen(0) {);
   }
 
   bool		Collider::operator()(int x, int y, Collider::Object::type _c, Collider::Object::Id ignore) const {

@@ -12,6 +12,7 @@ namespace Event{
       MouseButton,
       PlayerMove, DeniedMove,
       DamageFixed, PlantBomb,
+      RequireMovement, Colliding,
       CollidableObjectMovement,
       FireExplosion, ElectricityExplosion, IceExplosion, LifeExplosion,
       Clock, Refresh,
