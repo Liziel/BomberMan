@@ -13,7 +13,7 @@ namespace Entity{
   public:
     GameObject();
     
-  protected:
+  private:
     GraphicEngine*		_GrEngine;
     Event::Dispatcher*		_Dispatch;
   private:
@@ -28,6 +28,9 @@ namespace Entity{
     Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,
 				    Event::Info::Priority
 				    = Event::Info::medium);
+    void	dispatchSelf(Event::Data&);
+    void	dispatchAll(Event::Data&);
+
     void	unsetCallback(Event::Callback*);
     void	unsetCallback(Event::Callback::Id);
     

@@ -4,7 +4,7 @@ CC	= g++
 RM	= rm -f
 
 SRC	=
-INC	= -I ./includes
+INC	= -I ./includes -I ./includes/Component/
 ########################
 #### MAIN
 MAIN	= src/Main/main.cpp
