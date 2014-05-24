@@ -35,29 +35,6 @@ namespace Event{
       bool	keyState;
     };
 
-    /* player events */
-    struct PlayerMove : Event::Data{
-      PlayerMove(unsigned int _p, double x, double y,
-		 double axeX, double axeY)
-	: Event::Data(Event::Info::PlayerMove, sizeof(struct PlayerMove), true),
-	  idPlayer(_p), xLocation(x), yLocation(y), xAxis(axeX), yAxis(axeY) {} 
-      unsigned int idPlayer;
-      double	xLocation;
-      double	yLocation;
-      double	xAxis;
-      double	yAxis;     
-    };
-
-    /* objectId == Component::Collider::Object::Id*/
-    struct CollidableObjectMovement : Event::Data {
-      CollidableObjectMovement(unsigned int ObjectId, int _x, int _y)
-	: Event::Data(Event::Info::CollidableObjectMovement, sizeof(struct CollidableObjectMovement), true),
-	  objectId(ObjectId), x(_x), y(_y) {}
-      unsigned int objectId;
-      int	x;
-      int	y;
-    };
-
     struct Clock : Event::Data{
       Clock() : Event::Data(Event::Info::Clock, sizeof(struct Clock), true) {}
     };

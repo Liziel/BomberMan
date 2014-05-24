@@ -23,6 +23,10 @@ namespace utilsTokenizer{
 
 class Tokenizer{
 public:
+  struct outOfRange : std::exception{
+    const char* what() const noexcept { return ("tokenizer: getin' out of range..."); }
+  };
+public:
   template<typename... U>
   static std::string	serialize(const std::string& type, U... argues) {
     return (std::string(type) + utilsTokenizer::gen(argues... ));
@@ -41,11 +45,11 @@ public:
   }
 
   template<class U>
-  U	get(int n);
+  U	get(int n) const;
 };
 
 template<class U>
-U	Tokenizer::get(int n) {
+U	Tokenizer::get(int n) const {
   int t = 0;
   
   for (auto string : _c){
@@ -57,10 +61,12 @@ U	Tokenizer::get(int n) {
     }else
       ++t;
   }
+  throw Tokenizer::outOfRange();
+  return (U());
 }
 
 template<>
-const char*	Tokenizer::get<const char*>(int n) {
+const char*	Tokenizer::get<const char*>(int n) const{
   int t = 0;
 
   for (auto string : _c){
@@ -69,6 +75,8 @@ const char*	Tokenizer::get<const char*>(int n) {
     }else
       ++t;
   }
+  throw Tokenizer::outOfRange();
+  return (NULL);
 }
 
 #endif

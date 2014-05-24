@@ -49,6 +49,10 @@ namespace Entity{
   public:
     void	enable(void);
     void	disable(void);
+
+  public:
+    void	getPosition(double& x, double& y) const;
+    void	setPosition(double x, double y);
   };
 
 };

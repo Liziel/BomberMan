@@ -8,9 +8,8 @@ namespace Component {
   class Collider{
 
   public:
-    enum Type{noType, Movable, Static};
+    enum Type{_noType, _Movable, _Static};
     typedef int	Id;
-
 
 
   public:
@@ -26,14 +25,15 @@ namespace Component {
       Collider::Id		getId();
 
     private:
-      int	x;
-      int	y;
+      double	x;
+      double	y;
     public:
       bool doCollide(int x, int y);
 
     public:
-      std::string	serialization();
-      void		setBySerial(const std::string&);
+      std::string		serialization();
+      void			setBySerial(const Tokenizer&);
+      static std::string	getName(void) { return ("ColliderMovable"); }
     };/* movable */
 
 
@@ -50,29 +50,41 @@ namespace Component {
     public:
       Collider::Id		getId();
 
+    private:
+      double	x;
+      double	y;
     public:
-      std::string	serialization();
-      void		setBySerial();
+      bool doCollide(int x, int y);
+
+    public:
+      std::string		serialization();
+      void			setBySerial(const Tokenizer&);
+      static std::string	getName(void) { return ("ColliderStatic"); }
     };/* static */
 
-
+  public:
+    Collider();
 
   private:
-    std::list<Collider::Static*>	listStatic;
-    std::list<Collider::Movable*>	listMovable;
+    std::vector<Collider::Static*>	listStatic;
+    std::vector<Collider::Movable*>	listMovable;
 
+  private:
+    int			_idGen;
   public:
     Collider::Id	addSelf(Component::Collider::Static*);
     Collider::Id	addSelf(Component::Collider::Movable*);
 
     bool	operator()(int x, int y,
-			   Collider::Type ignoreType = noType,
-			   Component::Collider::Id = -1);
+			   Collider::Type ignoreType = _noType,
+			   Component::Collider::Id = -1) const;
   };
 };
 
 namespace Event{
   namespace Type{
+
+# ifndef __PHISIX_H__
     struct RequireMovement :  Event::Data{
       RequireMovement(int _x, int _y, int vx, int vy)
 	: Event::Data(Event::Info::RequireMovement, sizeof(struct RequireMovement), false),
@@ -82,13 +94,17 @@ namespace Event{
       double vectorX;
       double vectorY;
     };
+
     struct Colliding : Event::Data{
       Colliding(int _x, int _y)
 	: Event::Data(Event::Info::Colliding, sizeof(struct Colliding), false),
 	  endX(_x), endY(_y) {}
       int endX;
       int endY;
+      double collide;
     }; 
+# endif
+
   };
 };
 

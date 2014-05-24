@@ -7,14 +7,11 @@ namespace Event{
     /* #### Event Type ##### */
     enum Type{
       Network = -1,
-      Keyboard,
-      MouseMove,
-      MouseButton,
-      PlayerMove, DeniedMove,
-      DamageFixed, PlantBomb,
-      RequireMovement, Colliding,
-      CollidableObjectMovement,
-      FireExplosion, ElectricityExplosion, IceExplosion, LifeExplosion,
+      selfMovement, speedModifier, freezeMovement, /*phisix::vector*/
+      setFriction,/* phisix */
+      PlaceDot, Immunity, lifeLoss, lifeGain, revive, /* Health */
+      RequireMovement, Colliding,/* collider::movable */
+      FireExplosion, ElectricityExplosion, IceExplosion, LifeExplosion, /* status*/
       Clock, Refresh,
     };
   };

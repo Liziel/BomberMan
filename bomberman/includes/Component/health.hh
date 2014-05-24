@@ -55,4 +55,43 @@ namespace Component{
 
 };
 
+namespace  Event{
+  namespace Type{
+    struct PlaceDot : Event::Data{
+      PlaceDot(int _d, unsigned int _dd)
+	: Event::Data(Event::Info::PlaceDot, sizeof(struct PlaceDot), false),
+	  damage(_d), duration(_dd) {}
+      int	damage;
+      int	duration;
+    };
+
+    struct Immunity : Event::Data{
+      Imunity(int _t)
+	: Event::Data(Event::Info::Immunity, sizeof(struct Immunity), false),
+	  time(_t) {}
+      int time;
+    };
+
+    struct lifeLoss : Event::Data{
+      lifeLoss(int _a)
+	: Event::Data(Event::Info::lifeLoss, sizeof(struct lifeLoss), false),
+	  amount(_a) {}
+      int amount;
+    };
+
+    struct LifeGain : Event::Data{
+      lifeLoss(int _a)
+	: Event::Data(Event::Info::lifeLoss, sizeof(struct lifeLoss), false),
+	  amount(_a) {}
+      int amount;
+    };
+
+    struct revive : Event::Data{
+      revive()
+	: Event::Data(Event::Info::revive, sizeof(struct revive), false) {}
+    };
+
+  };
+};
+
 #endif

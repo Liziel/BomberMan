@@ -1,86 +1,52 @@
-#include "Component.hh"
-
+#include "phisix.hh"
 
 namespace Component
 {
-
   /*  Vector  */
+  Phisix::Vector::Vector(Entity::GameObject* _p, Component::Phisix* _c)
+    : Component::abstract(_p), phisix(_c), speed(1.f) {
+    direction = {false, false, false, false};
+    _p->getPosition(x, y);
 
-  Phisix::Vector::Vector(Phisix *Phisik, int x, int y, double _speed = 1)
-    : speed(_speed), authorization(true), positionX(x), positionY(y), myPhisix(Phisik)
-  {  movementDirection[0] = false; movementDirection[1] = false; movementDirection[2] = false; movementDirection[3] = false; }
-  
-  void		Phisix::Vector::modifyMovement(enum Direction Direction, bool mask)
-  {
-    movementDirection[Direction] = mask;
-  }
+    attachCallback(Event::Info::Clock,
+		   new Event::Callback([this](Event::Data&) {
+		       double _speed = speed * phisix->getFriction();
+		       dispatchSelf(new Event::Type::RequireMovement(x, y, (direction[Right] * _speed - direction[Left] * _speed),
+								     (direction[Down] * _speed - direction[Up] * _speed)));
+		     }));
 
-  void      Phisix::Vector::modifySpeed(double speed)
-  {
-    this->speed = this->speed * speed;
-  }
+    attachCallback(Event::Info::Colliding,
+		   new Event::Callback([this, _p](Event::Data& e) {
+		       Event::Type::Colliding *event = reinterpret_cast<Event::Type::Colliding*>(&e);
+		       x = event->endX;
+		       y = event->endY;
+		       _p->setPosition(x, y);
+		     }));
 
-  void	    Phisix::Vector::setSpeed(double speed)
-  {
-    this->speed = speed;
-  }
+    attachCallback(Event::Info::selfMovement,
+		   new Event::Callback([this](Event::Data& e){
+		       Event::Type::selfMovement *event = reinterpret_cast<Event::Type::selfMovement*>(&e);
+		       direction[event->direction] = event->state;
+		     }));
 
-  void	    Phisix::Vector::authorizeMovement(bool orderToMove)
-  {
-    this->authorization = orderToMove;
-  }
-
-  void	    Phisix::Vector::move()
-  {
-    double	x = 0;
-    double	y = 0;
-
-    if (!authorization)
-      return ;
-    if (movementDirection[Up])
-      y -= this->speed * this->myPhisix->getGlobalFriction();
-    if (movementDirection[Down])
-      y += this->speed * this->myPhisix->getGlobalFriction();
-    if (movementDirection[Right])
-      x += this->speed * this->myPhisix->getGlobalFriction();
-    if (movementDirection[Left])
-      x -= this->speed * this->myPhisix->getGlobalFriction();
-    if (!this->myPhisix->getCollider()(this->positionX + x, this->positionY + y)){
-      if (x != 0 && this->myPhisix->getCollider()(this->positionX + x, this->positionY)) {
-	this->positionX += x;
-      } else if (y != 0 && !this->myPhisix->getCollider()(this->positionX, this->positionY + y)){
-	this->positionY += y;
-      } else { return ; }
-    }
-    this->positionX += x;
-    this->positionY += y;
-  }
-
-  void	    Phisix::Vector::getPosition(int& x, int& y) const
-  {
-    x = this->positionX;
-    y = this->positionY;
+    attachCallback(Event::Info::speedModifier,
+		   new Event::Callback([this](Event::Data& e){
+		       Event::Type::speedModifier *event = reinterpret_cast<Event::Type::speedModifier*>(&e);
+		       speed *= event->speed;
+		     }));
   }
   
   /* Phisix */
-  Phisix::Phisix(Event::Dispatcher *Dispatch, const Collider &Collide)
-    :DispatchCopy(Dispatch), ColliderCopy(Collide) {}
-  
-
-
-  void	   Phisix::setGlobalFriction(double friction)
-  {
-    this->globalFriction = friction;
+  Phisix::Phisix(Event::Dispatcher *_d)
+    : Component::Superior(_d) {
+    dispatcher->addCallbackOnEvent(Event::Info::setFriction,
+				   new Event::Callback([this](Event::Data& e){
+				       Event::Type::setFriction *event = reinterpret_cast< Event::Type::setFriction* >(&e);
+				       friction = event->friction;
+				     }));
   }
 
-  double   Phisix::getGlobalFriction() const
-  {
-    return (globalFriction);
+  double	Phisix::getFriction(void) {
+    return (friction);
   }
-
-  const Collider &Phisix::getCollider() const
-  {
-    return (ColliderCopy);
-  }
-
 };
