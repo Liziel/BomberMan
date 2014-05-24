@@ -30,7 +30,7 @@ namespace Component{
     /* serialization */
   public:
     virtual std::string serialization() = 0;
-    virtual void setBySerial(const Tokenizer&) = 0;
+    virtual void	setBySerial(const Tokenizer&) = 0;
   };
 
   class Superior{
@@ -63,7 +63,7 @@ namespace Component{
 
   public:
     Component::abstract* allocateComponentByType(const std::string&, Entity::GameObject*);
-    Component::abstract* allocateComponentBySerial(const std::string&, Entity::GameObject);
+    Component::abstract* allocateComponentBySerial(const std::string&, Entity::GameObject*);
   };
 };
 

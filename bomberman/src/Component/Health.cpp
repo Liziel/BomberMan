@@ -7,7 +7,6 @@ namespace Component {
 
   int	Health::Dot::getDamage(void) {
     if (!clockLife) {
-      
       return (0);
     }
     if (aTime) {
@@ -17,29 +16,65 @@ namespace Component {
     clockLife--;
     return (damage);
   };
+
   bool	Health::Dot::isOver(void) {
     return (!clockLife);
   }
 
   /* ##### Health ##### */
-  Health::Health(Event::Dispatcher* _d, int life)
-    : dispatcher(_d), maxLife(life), life(life), _invincible(false) {
-    dispatcher->addCallbackOnEvent(Event::Info::Clock,
-				   _callback = new Event::Callback([this] (Event::Data&){
-				       this->actualize();
-				     }));
-  }
-
-  Health::~Health() {
-    dispatcher->unsetCallbackForId(Event::Info::Clock, _callback->getId());
+  Health::Health(Entity::GameObject* _p)
+    : Component::abstract(_p), maxLife(_p->getLifeAmount()), life(_p->getLifeAmount()), immunityTime(0) {
+    attachCallback(Event::Info::Clock,
+		   new Event::Callback([this] (Event::Data&){
+		       if (isDead())
+			 return ;
+		       if (!this->actualize())
+			 dispatchSelf(new Event::Type::dead());
+		     }));
+    attachCallback(Event::Info::revive,
+		   new Event::Callback([this] (Event::Data&){
+		       revive(maxLife);
+		     }));
+    attachCallback(Event::Info::lifeGain,
+		   new Event::Callback([this] (Event::Data& e){
+		       Event::Type::lifeGain* event = reinterpret_cast<Event::Type::lifeGain*>(&e);
+		       if (isDead())
+			 return ;
+		       if (*this + event->amount)
+			 dispatchSelf(new Event::Type::dead());
+		     }));
+    attachCallback(Event::Info::lifeLoss,
+		   new Event::Callback([this] (Event::Data& e){
+		       Event::Type::lifeGain* event = reinterpret_cast<Event::Type::lifeGain*>(&e);
+		       if (isDead())
+			 return ;
+		       if (*this - event->amount)
+			 dispatchSelf(new Event::Type::dead());
+		     }));
+    attachCallback(Event::Info::Immunity,
+		   new Event::Callback([this] (Event::Data& e) {
+		       Event::Type::Immunity* event = reinterpret_cast<Event::Type::Immunity*>(&e);
+		       invincible(event->time);
+		     }));
+    attachCallback(Event::Info::PlaceDot,
+		   new Event::Callback([this] (Event::Data& e) {
+		       Event::Type::PlaceDot* event = reinterpret_cast<Event::Type::PlaceDot*>(&e);
+		       addDot(new Health::Dot(event->damage, event->duration, event->warmUp))
+			 }));
   }
 
   static bool	unsetDot(Health::Dot* dot) {
-    return (dot->isOver());
+    if (dot->isOver()){
+      delete dot;
+      return (true);
+    }
+    return (false); 
   }
-  void	Health::actualize() {
+
+  int	Health::actualize() {
+    immunityTime -= 1;
     if (isInvicible())
-      return ;
+      return (life);
     dotList.remove_if(unsetDot);
     if (life)
       for (auto dot : dotList)
@@ -47,11 +82,12 @@ namespace Component {
     else
       for (auto dot : dotList)
 	dot->getDamage();
+    return (life);
   }
 
   int	Health::operator+(int n) {
     if (isDead() || (isInvicible() && n < 0))
-      return (0);
+      return (life);
     life += n;
     if (life < 0)
       life = 0;
@@ -79,11 +115,11 @@ namespace Component {
     dotList.push_back(dot);
   }
 
-  void	Health::invincible(bool inv) {
-    _invincible = inv;
+  void	Health::invincible(int _t) {
+    immunityTime = _t;
   }
 
   bool	Health::isInvicible() {
-    return (_invincible);
+    return (immunityTime);
   }
 };
