@@ -4,16 +4,18 @@
 # include <list>
 # include <fstream>
 # include <exception>
+# include <map>
 
 # include "Tokenizer.hpp"
 # include "Entity.hh"
 # include "Event.hpp"
+# include "EventList.hh"
 
 namespace Component{
 
   /*  ############# abstract ################  */
   class abstract{
-  private:
+  protected:
     Entity::GameObject*		parent;
   protected:
     abstract(Entity::GameObject* _p) : parent(_p) {}

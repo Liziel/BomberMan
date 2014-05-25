@@ -1,35 +1,48 @@
-#ifndef __PHISIX_H__
-# define __PHISIX_H__
+#ifndef __EFFECTS_H__
+# define __EFFECTS_H__
 
 # include "Component.hh"
 
 namespace Component{
-    namespace Effects{ /* Glyph, Fire, Ice, Electricity, Life,  */
-    typedef enum etype {Glyph, Fire, Ice, Electricity, Life} type;
-    typedef enum elevel {low, med, high} level;
-
-    struct damage{
-      int damage;
-      int dotDamage;
-      int dotDuration;
-      int dotTimed;
-      double speedModifier;
-      int speedModifierDuration;
-      bool mute;
-      int muteDuration;
-    };
+  namespace Effects{ /* Glyph, Fire, Ice, Electricity, Life,  */
+# ifndef __PLANTBOMB_H__
+      typedef enum etype {Glyph, Fire, Ice, Electricity, Life} type;
+      typedef enum elevel {low, med, high} level;
+# endif
+      struct damage{
+	int damage;
+	int dotDamage;
+	int dotDuration;
+	int dotTimed;
+	double speedModifier;
+	int speedModifierDuration;
+	bool mute;
+	int muteDuration;
+      };
 
     class Status : public Component::abstract{
-    private:
-      Event::Dispatcher*	_dispatcher;
-
-    private:
-      Component::Health*	_health;
-      Component::Phisix*	_phisix;
-
     public:
-      Status(Event::Dispatcher*, Component::Health*, Component::Phisix*);
+      class SpeedModifier{
+      private:
+	double	speedModifier;
+	int	clock;
+	Status* status;
+      public:
+	SpeedModifier(double, int, Status*);
 
+      public:
+        bool	isOver(double&);
+      };
+    private:
+      std::list<SpeedModifier*> speedVect; 
+    public:
+      Status(Entity::GameObject*);
+
+    private:
+      Event::Time	isOnFire;
+      Event::Time	isOnIce;
+      Event::Time	isOnElectricity;
+      Event::Time	isOnLife;
     public:
       void	interpretDamage(const Effects::damage&);
 
@@ -38,23 +51,54 @@ namespace Component{
 
     public:
       void	applyMute(int duration);
-      bool	isMute(void);
     };
   };
 };
 
 namespace Event{
   namespace Type{
-    struct PlantBomb : Event::Data{
-      PlantBomb(int _x, int _y, Component::Effects::type _a, Component::Effects::type _b, Component::Effects::type _c)
-	: Event::Data(Event::Info::PlantBomb, sizeof(struct PlantBomb), true),
-	  x(_x), y(_y), prim(_a), second(_b), ter(_c) {}
-      int x;
-      int y;
-      Component::Effects::type	prim;
-      Component::Effects::type	second;
-      Component::Effects::type	ter;
+
+# ifndef __PHISIX_H__
+    struct speedModifier : Event::Data{
+      speedModifier(double _s)
+	: Event::Data(Event::Info::speedModifier, sizeof(struct speedModifier), false), speed(_s) {}
+      double speed;
     };
+# endif
+
+# ifndef __PLANTBOMB_H__
+    struct isMute : Event::Data{
+      isMute(Event::Time _t)
+	: Event::Data(Event::Info::isMute, sizeof(struct isMute), true),
+	  time(_t) {}
+      Event::Time	time;
+    };
+# endif
+
+# ifndef __HEALTH_H__
+    struct PlaceDot : Event::Data{
+    PlaceDot(int _d, unsigned int _dd, unsigned _w)
+	: Event::Data(Event::Info::PlaceDot, sizeof(struct PlaceDot), false),
+	  damage(_d), duration(_dd), warmUp(_w) {}
+      int	damage;
+      int	duration;
+      int	warmUp;
+    };
+
+    struct lifeLoss : Event::Data{
+      lifeLoss(int _a)
+	: Event::Data(Event::Info::lifeLoss, sizeof(struct lifeLoss), false),
+	  amount(_a) {}
+      int amount;
+    };
+
+    struct lifeGain : Event::Data{
+      lifeGain(int _a)
+	: Event::Data(Event::Info::lifeLoss, sizeof(struct lifeLoss), false),
+	  amount(_a) {}
+      int amount;
+    };
+# endif
 
     struct FireExplosion : Event::Data{
       FireExplosion(int _x, int _y, Component::Effects::level _l)
@@ -91,6 +135,36 @@ namespace Event{
       int y;
       Component::Effects::level level;
     };
+
+# ifndef __SORCERER_DISPLAY_H__
+    struct isOnFire : Event::Data{
+      isOnFire(bool _s)
+	: Event::Data(Event::Info::isOnFire, sizeof(struct isOnFire), true),
+	  state(_s) {}
+      bool state;
+    };
+
+    struct isOnElectricity : Event::Data{
+      isOnElectricity(bool _s)
+	: Event::Data(Event::Info::isOnElectricity, sizeof(struct isOnElectricity), true),
+	  state(_s) {}
+      bool state;
+    };
+
+    struct isOnIce : Event::Data{
+      isOnIce(bool _s)
+	: Event::Data(Event::Info::isOnIce, sizeof(struct isOnIce), true),
+	  state(_s) {}
+      bool state;
+    };
+
+    struct isOnLife : Event::Data{
+      isOnLife(bool _s)
+	: Event::Data(Event::Info::isOnLife, sizeof(struct isOnLife), true),
+	  state(_s) {}
+      bool state;
+    };
+# endif
   };
 };
 

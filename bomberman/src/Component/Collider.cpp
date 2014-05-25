@@ -6,11 +6,11 @@ namespace Component{
   Collider::Movable::Movable(Entity::GameObject* _p, Component::Collider* _c)
     : Component::abstract(_p), collider(_c), id(_c->addSelf(this)), x(-1), y(-1) {
     attachCallback(Event::Info::Clock,
-		   new Event::Callback([this, _p](Event::Data&) {
+		   new Event::FixedCallback([this, _p](Event::Data&) {
 		       _p->getPosition(x, y);
 		     }));
     attachCallback(Event::Info::RequireMovement,
-		   new Event::Callback([this](Event::Data& e) {
+		   new Event::FixedCallback([this](Event::Data& e) {
 		       Event::Type::RequireMovement *event = reinterpret_cast<Event::Type::RequireMovement*> (&e);
 		       if ((*collider)(event->x + event->vectorX, event->y + event->vectorY, Component::Collider::_noType, id))
 			 dispatchSelf(new Event::Type::Colliding(event->x + event->vectorX, event->y + event->vectorY));

@@ -25,18 +25,18 @@ namespace Component {
   Health::Health(Entity::GameObject* _p)
     : Component::abstract(_p), maxLife(_p->getLifeAmount()), life(_p->getLifeAmount()), immunityTime(0) {
     attachCallback(Event::Info::Clock,
-		   new Event::Callback([this] (Event::Data&){
+		   new Event::FixedCallback([this] (Event::Data&){
 		       if (isDead())
 			 return ;
 		       if (!this->actualize())
 			 dispatchSelf(new Event::Type::dead());
 		     }));
     attachCallback(Event::Info::revive,
-		   new Event::Callback([this] (Event::Data&){
+		   new Event::FixedCallback([this] (Event::Data&){
 		       revive(maxLife);
 		     }));
     attachCallback(Event::Info::lifeGain,
-		   new Event::Callback([this] (Event::Data& e){
+		   new Event::FixedCallback([this] (Event::Data& e){
 		       Event::Type::lifeGain* event = reinterpret_cast<Event::Type::lifeGain*>(&e);
 		       if (isDead())
 			 return ;
@@ -44,7 +44,7 @@ namespace Component {
 			 dispatchSelf(new Event::Type::dead());
 		     }));
     attachCallback(Event::Info::lifeLoss,
-		   new Event::Callback([this] (Event::Data& e){
+		   new Event::FixedCallback([this] (Event::Data& e){
 		       Event::Type::lifeGain* event = reinterpret_cast<Event::Type::lifeGain*>(&e);
 		       if (isDead())
 			 return ;
@@ -52,14 +52,14 @@ namespace Component {
 			 dispatchSelf(new Event::Type::dead());
 		     }));
     attachCallback(Event::Info::Immunity,
-		   new Event::Callback([this] (Event::Data& e) {
+		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Immunity* event = reinterpret_cast<Event::Type::Immunity*>(&e);
 		       invincible(event->time);
 		     }));
     attachCallback(Event::Info::PlaceDot,
-		   new Event::Callback([this] (Event::Data& e) {
+		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::PlaceDot* event = reinterpret_cast<Event::Type::PlaceDot*>(&e);
-		       addDot(new Health::Dot(event->damage, event->duration, event->warmUp))
+		       addDot(new Health::Dot(event->damage, event->duration, event->warmUp));
 			 }));
   }
 

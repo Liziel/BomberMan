@@ -53,11 +53,13 @@ namespace Event{
       bool					state;
     };
 
+# ifndef __EFFECTS_H__
     struct speedModifier : Event::Data{
       speedModifier(double _s)
 	: Event::Data(Event::Info::speedModifier, sizeof(struct speedModifier), false), speed(_s) {}
       double speed;
     };
+# endif
 
     struct freezeMovement : Event::Data{
       freezeMovement(bool _s)

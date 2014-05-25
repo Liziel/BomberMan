@@ -5,11 +5,6 @@ namespace Event{
   /*	Data	*/
 
   /* Callback */
-  void	Callback::operator()(Event::Data& event) {
-    if (_enabled)
-      _lambdaCallback(event);
-  }
-
   bool	Callback::operator==(Event::Callback::Id oth) const {
     return (oth == _id);
   }
@@ -18,12 +13,35 @@ namespace Event{
     return (_id);
   }
 
-  void	Callback::enable(void){
-    _enabled = true;
+  /* FixedCallback */
+  bool	FixedCallback::operator()(Event::Data& event) {
+    if (_enable)
+      _lambdaCallback(event);
+    return (true);
   }
 
-  void	Callback::disable(void){
-    _enabled = false;
+  void	FixedCallback::enable(void){
+    _enable = true;
+  }
+
+  void	FixedCallback::disable(void){
+    _enable = false;
+  }
+
+  /* TimedCallback */
+  bool	TimedCallback::operator()(Event::Data& event) {
+    _time -= 1;
+    if (_enable)
+      _lambdaCallback(event, _time);
+    return (_time);
+  }
+
+  void	TimedCallback::enable(void){
+    _enable = true;
+  }
+
+  void	TimedCallback::disable(void){
+    _enable = false;
   }
 
   /* Gen Id */
@@ -100,35 +118,41 @@ namespace Event{
     _isdispatching = true;
     if ((itt = _high.find(event->type)) != _high.end()){
       CallbackArray = &(itt->second);
-      for (auto callback : *CallbackArray)
-	(*callback)(*event);
+      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+        if (!(*(*itt))(*event))
+	  itt = CallbackArray->erase(itt);
     }
     if ((itt = _med.find(event->type)) != _med.end()){
       CallbackArray = &(itt->second);
-      for (auto callback : *CallbackArray)
-	(*callback)(*event);
+      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+        if (!(*(*itt))(*event))
+	  itt = CallbackArray->erase(itt);
     }
     if ((itt = _low.find(event->type)) != _low.end()){
       CallbackArray = &(itt->second);
-      for (auto callback : *CallbackArray)
-	(*callback)(*event);
+      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+        if (!(*(*itt))(*event))
+	  itt = CallbackArray->erase(itt);
     }
 
     if (event->network){
       if ((itt = _high.find(Event::Info::Network)) != _high.end()){
 	CallbackArray = &(itt->second);
-	for (auto callback : *CallbackArray)
-	  (*callback)(*event);
+	for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+	  if (!(*(*itt))(*event))
+	    itt = CallbackArray->erase(itt);
       }
       if ((itt = _med.find(Event::Info::Network)) != _med.end()){
 	CallbackArray = &(itt->second);
-	for (auto callback : *CallbackArray)
-	  (*callback)(*event);
+	for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+	  if (!(*(*itt))(*event))
+	    itt = CallbackArray->erase(itt);
       }
       if ((itt = _low.find(Event::Info::Network)) != _low.end()){
 	CallbackArray = &(itt->second);
-	for (auto callback : *CallbackArray)
-	  (*callback)(*event);
+	for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+	  if (!(*(*itt))(*event))
+	    itt = CallbackArray->erase(itt);
       }
     }
 
