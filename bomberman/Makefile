@@ -13,7 +13,7 @@ EVENT	= src/Event/Event.cpp
 #### DATAPOOL & ENTITY
 ENTITY	= src/DataPool/entity.cpp src/DataPool/datapool.cpp
 #### COMPONENT
-COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp
+COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp src/Component/Factory.cpp
 ########################
 SRC	= $(COMPO) $(EVENT) $(MAIN)
 
