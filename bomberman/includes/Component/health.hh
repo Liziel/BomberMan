@@ -28,14 +28,14 @@ namespace Component{
     int			maxLife;
     int			life;
     std::list<Dot*>	dotList;
-    bool		_invincible;
+    bool		immunityTime;
 
   public:
-    Health(Event::Dispatcher*, int life = 1);
+    Health(Entity::GameObject*);
     ~Health();
 
   private:
-    void	actualize();
+    int		actualize();
 
   public:
     int		operator+(int n);
@@ -50,7 +50,7 @@ namespace Component{
 
   public:
     bool	isInvicible(void);
-    void	invincible(bool);
+    void	invincible(int time);
   };
 
 };
@@ -63,10 +63,11 @@ namespace  Event{
 	  damage(_d), duration(_dd) {}
       int	damage;
       int	duration;
+      int	warmUp;
     };
 
     struct Immunity : Event::Data{
-      Imunity(int _t)
+      Immunity(int _t)
 	: Event::Data(Event::Info::Immunity, sizeof(struct Immunity), false),
 	  time(_t) {}
       int time;
@@ -79,8 +80,8 @@ namespace  Event{
       int amount;
     };
 
-    struct LifeGain : Event::Data{
-      lifeLoss(int _a)
+    struct lifeGain : Event::Data{
+      lifeGain(int _a)
 	: Event::Data(Event::Info::lifeLoss, sizeof(struct lifeLoss), false),
 	  amount(_a) {}
       int amount;
@@ -89,6 +90,11 @@ namespace  Event{
     struct revive : Event::Data{
       revive()
 	: Event::Data(Event::Info::revive, sizeof(struct revive), false) {}
+    };
+
+    struct dead : Event::Data{
+      dead()
+	: Event::Data(Event::Info::dead, sizeof(struct dead), true) {}
     };
 
   };

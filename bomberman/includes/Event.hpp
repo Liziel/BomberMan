@@ -32,27 +32,56 @@ namespace Event{
     Event::Callback::Id	getId(void) const;
 
     /* Component::GameObject */
-  private:
-
-    std::function< void(Event::Data&) > _lambdaCallback;
   public:
-    void	operator()(Event::Data&);
+    virtual bool	operator()(Event::Data&) = 0;
 
     /* enable/disable */
+  public:
+    virtual void	enable() = 0;
+    virtual void	disable() = 0;
+
+    /* Ctor */
+  public:
+    virtual ~Callback();
+    Callback(Event::Callback::Id genId = CallbackIdGenerator())
+      : _id(genId) {}
+  };
+
+  class FixedCallback : public Event::Callback {
   private:
-    bool	_enabled;
+    std::function< void(Event::Data&) > _lambdaCallback;
+  public:
+    bool operator()(Event::Data&);
+
+  private:
+    bool	_enable;
   public:
     void	enable();
     void	disable();
 
-    /* Ctor */
-  private:
-    Callback();
   public:
-    Callback(std::function < void(Event::Data&) > callback,
-	     Event::Callback::Id genId = CallbackIdGenerator())
-      : _id(genId), _lambdaCallback(callback),
-	_enabled(true) {}
+    FixedCallback(std::function < void(Event::Data&) > _c)
+      : Callback(), _lambdaCallback(_c) {}
+  };
+
+  typedef int	Time;
+  class TimedCallback : public Event::Callback {
+  private:
+    std::function< void(Event::Data&, Event::Time) > _lambdaCallback;
+  public:
+    bool operator()(Event::Data&);
+
+  private:
+    bool	_enable;
+  public:
+    void	enable();
+    void	disable();
+
+  private:
+    Event::Time		_time;
+  public:
+    TimedCallback(Event::Time time, std::function < void(Event::Data&, Event::Time)> _c)
+      : Callback(), _lambdaCallback(_c), _time(time) {}
   };
 
   /* ####### Callback Remover ####### */

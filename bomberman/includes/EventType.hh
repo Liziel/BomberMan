@@ -9,9 +9,11 @@ namespace Event{
       Network = -1,
       selfMovement, speedModifier, freezeMovement, /*phisix::vector*/
       setFriction,/* phisix */
-      PlaceDot, Immunity, lifeLoss, lifeGain, revive, /* Health */
+      PlaceDot, Immunity, lifeLoss, lifeGain, revive, dead, /* Health */
       RequireMovement, Colliding,/* collider::movable */
       FireExplosion, ElectricityExplosion, IceExplosion, LifeExplosion, /* status*/
+      isMute, /* quite a lot */
+      isOnFire, isOnLife, isOnIce, isOnElectricity, /* display */ 
       Clock, Refresh,
     };
   };

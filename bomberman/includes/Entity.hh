@@ -53,6 +53,9 @@ namespace Entity{
   public:
     void	getPosition(double& x, double& y) const;
     void	setPosition(double x, double y);
+
+  public:
+    virtual int	getLifeAmount(void) = 0;
   };
 
 };
