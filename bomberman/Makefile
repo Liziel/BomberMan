@@ -11,11 +11,11 @@ MAIN	= src/Main/main.cpp
 #### EVENT
 EVENT	= src/Event/Event.cpp
 #### DATAPOOL & ENTITY
-ENTITY	= src/DataPool/entity.cpp src/DataPool/datapool.cpp
+ENTITY	= src/Entity/entity.cpp src/Entity/datapool.cpp
 #### COMPONENT
-COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp src/Component/Factory.cpp
+COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp src/Component/Factory.cpp src/Component/abstract.cpp
 ########################
-SRC	= $(COMPO) $(EVENT) $(MAIN)
+SRC	= $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
 
 FLAGS	= -W -Wall  -std=c++11 $(INC) -g3
 #	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\

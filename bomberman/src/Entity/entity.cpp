@@ -1,8 +1,10 @@
 #include "Entity.hh"
+#include "Component.hh"
 
 Entity::GameObject::GameObject() {}
-Entity::GameObject::GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch)
-  : _GrEngine(GrEngine), _Dispatch(Dispatch) {}
+Entity::GameObject::GameObject(Event::Dispatcher* Dispatch)
+  : _Dispatch(Dispatch), x(0), y(0) {}
+
 Entity::GameObject::~GameObject() {
   for (auto _cb : _CallbackArray) {
     _Dispatch->unsetCallbackForId(_cb.first, _cb.second->getId());
@@ -11,13 +13,55 @@ Entity::GameObject::~GameObject() {
 }
 
 Event::Callback::Id	Entity::GameObject::addCallback(Event::Info::Type type,
-					       Event::Callback* callback,
-					       Event::Info::Priority _p) {
+							Event::Callback* callback,
+							Event::Info::Priority _p){
   _CallbackArray.push_back(std::pair< Event::Info::Type, Event::Callback* >
 			   (type, callback));
   _Dispatch->addCallbackOnEvent(type, callback, _p);
   return (callback->getId());
 }
+
+void	Entity::GameObject::attachComponent(Component::abstract* _c) {
+  ComponentList.push_back(_c);
+}
+
+std::string Entity::GameObject::serialization() {
+  std::string serial;
+  serial = Tokenizer::serialize(getName(), x, y) + "\n";
+  for (auto component : ComponentList)
+    serial += component->serialization() + "\n";
+  return (serial);
+}
+
+void	Entity::GameObject::setBySerial(const Tokenizer& t){
+  x = t.get<int>(1);
+  y = t.get<int>(2);
+}
+
+void	Entity::GameObject::getPosition(double& _x, double& _y) const {
+  _x = x;
+  _y = y;
+}
+
+void	Entity::GameObject::setPosition(double _x, double _y) {
+  x = _x;
+  y = _y;
+}
+
+void	Entity::GameObject::dispatchSelf(Event::Data* e) {
+  for (auto pair : _CallbackArray) {
+    if (pair.first == e->type)
+      (*(pair.second))(*e);
+    if (pair.first == Event::Info::Network && e->network == true)
+      (*(pair.second))(*e);
+  }
+  delete e;
+}
+
+void	Entity::GameObject::dispatchAll(Event::Data* e) {
+  _Dispatch->dispatchEvent(e);
+}
+
 
 void	Entity::GameObject::unsetCallback(Event::Callback* callback) {
   class unsetCallback{

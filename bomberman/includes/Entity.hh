@@ -3,10 +3,11 @@
 
 # include <list>
 # include <utility>
+# include <string>
+# include <iostream>
 
 # include "Event.hpp"
-
-class GraphicEngine;
+# include "Tokenizer.hpp"
 
 namespace Component{
   class abstract;
@@ -15,33 +16,35 @@ namespace Component{
 
 namespace Entity{
   class GameObject{
-  public:
+  private:
     GameObject();
     
   private:
-    GraphicEngine*		_GrEngine;
     Event::Dispatcher*		_Dispatch;
-    Component::Factory*		_factory;
   private:
     std::list< std::pair< Event::Info::Type,
 			  Event::Callback* > > _CallbackArray;
     
   public:
-    GameObject(GraphicEngine* GrEngine, Event::Dispatcher* Dispatch, Component::Factory*);
-    
+    GameObject(Event::Dispatcher* Dispatch);
+
   private:
-    std::vector<Component::abstract*>	abstractList;
+    std::vector<Component::abstract*>	ComponentList;
   public:
     void	attachComponent(Component::abstract*);
-    std::string	serialization();
+
+  public:
+    virtual void	setBySerial(const Tokenizer&);
+    virtual std::string	serialization();
+    virtual std::string getName() { return ("entity"); }
 
   public:
     ~GameObject();
     Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,
 				    Event::Info::Priority
 				    = Event::Info::medium);
-    void	dispatchSelf(Event::Data&);
-    void	dispatchAll(Event::Data&);
+    void	dispatchSelf(Event::Data*);
+    void	dispatchAll(Event::Data*);
 
     void	unsetCallback(Event::Callback*);
     void	unsetCallback(Event::Callback::Id);
@@ -50,12 +53,15 @@ namespace Entity{
     void	enable(void);
     void	disable(void);
 
+  protected:
+    int x;
+    int y;
   public:
     void	getPosition(double& x, double& y) const;
     void	setPosition(double x, double y);
 
   public:
-    virtual int	getLifeAmount(void) = 0;
+    virtual int	getLifeAmount(void) { return (-1); }
   };
 
 };

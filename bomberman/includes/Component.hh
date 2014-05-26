@@ -18,7 +18,7 @@ namespace Component{
   protected:
     Entity::GameObject*		parent;
   protected:
-    abstract(Entity::GameObject* _p) : parent(_p) {}
+    abstract(Entity::GameObject* _p);
     virtual ~abstract();
 
 

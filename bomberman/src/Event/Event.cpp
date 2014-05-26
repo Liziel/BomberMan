@@ -5,6 +5,8 @@ namespace Event{
   /*	Data	*/
 
   /* Callback */
+  Callback::~Callback() {}
+
   bool	Callback::operator==(Event::Callback::Id oth) const {
     return (oth == _id);
   }

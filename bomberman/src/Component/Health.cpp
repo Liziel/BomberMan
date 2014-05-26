@@ -29,6 +29,7 @@ namespace Component {
   }
 
   /* ##### Health ##### */
+  Health::~Health() {}
   Health::Health(Entity::GameObject* _p)
     : Component::abstract(_p), maxLife(_p->getLifeAmount()), life(_p->getLifeAmount()), immunityTime(0) {
     attachCallback(Event::Info::Clock,
@@ -153,4 +154,6 @@ namespace Component {
     for (; n < t.getSize(); n += 4)
       addDot(new Dot(t.get<double>(n), t.get<int>(n + 1), t.get<unsigned int>(n + 2), t.get<unsigned int>(n + 3)));
   }
+
+  
 };
