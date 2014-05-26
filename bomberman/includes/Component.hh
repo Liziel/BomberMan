@@ -60,11 +60,13 @@ namespace Component{
 
   /* ########## Factory ########## */
   class Factory{
+  private:
+    std::map<std::string, std::function< Component::abstract *(Entity::GameObject *)> >	_ComponentAllocator;
   public:
     Factory();
 
   public:
-    std::map<std::string, std::function< Component::abstract *(Entity::GameObject *)> >	_ComponentAllocator;
+    void		storeComponentAllocator(std::string, std::function<Component::abstract*(Entity::GameObject*)>);
     Component::abstract* allocateComponentByType(const std::string&, Entity::GameObject*);
     Component::abstract* allocateComponentBySerial(const std::string&, Entity::GameObject*);
   };

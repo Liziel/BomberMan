@@ -21,7 +21,7 @@ namespace Component{
     }
 
     std::string	Status::SpeedModifier::serialization() {
-      return (Tokenizer::serialize("speedModifier", speedModifier, clock));
+      return (Tokenizer::subserialize(speedModifier, clock));
     }
 
     /* #### Status #### */
@@ -174,10 +174,19 @@ namespace Component{
     }
 
     std::string	Status::serialization() {
-	  return (Tokenizer::serialize("Status", speedSerialization(speedVect.begin())));
+      return (Tokenizer::serialize("Status",
+				   isOnFire, isOnElectricity, isOnLife, isOnIce,
+				   speedSerialization(speedVect.begin())));
     }
 
     void		Status::setBySerial(const Tokenizer& t) {
+      int	n = 5;
+      isOnFire		= t.get<Event::Time>(1);
+      isOnElectricity	= t.get<Event::Time>(2);
+      isOnLife		= t.get<Event::Time>(3);
+      isOnIce		= t.get<Event::Time>(4);
+      for (; n < t.getSize(); n += 2)
+	applySlow(t.get<double>(n), t.get<int>(n + 1));
     }
 
   };

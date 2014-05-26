@@ -17,11 +17,11 @@ COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health
 ########################
 SRC	= $(COMPO) $(EVENT) $(MAIN)
 
-FLAGS	= -W -Wall  -std=c++11 $(INC) -g3			
+FLAGS	= -W -Wall  -std=c++11 $(INC) -g3
 #	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
 #	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
-CFLAGS		+= $(FLAGS)
-LDFLAGS		+= $(FLAGS)
+CFLAGS		= $(FLAGS)
+LDFLAGS		=
 
 OBJ		= $(SRC:.cpp=.o)
 

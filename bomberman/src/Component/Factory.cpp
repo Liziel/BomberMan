@@ -6,22 +6,23 @@ namespace Component{
 
   Factory::Factory()
   {}
+  void		Factory::storeComponentAllocator(std::string name, std::function<Component::abstract*(Entity::GameObject*)> _f) {
+    _ComponentAllocator.insert(std::pair<std::string, std::function< Component::abstract*(Entity::GameObject *) > >(name, _f));
+  }
 
-  /* AllocateComponentByType is as its says to allocate a new component and save several states and types */
-  Component::Abstract*	Factory::allocateComponentByType(const std::string& key, Entity::GameObject *game)
+  Component::abstract*	Factory::allocateComponentByType(const std::string& key, Entity::GameObject *game)
   {
     auto it = _ComponentAllocator.find(key);
-    if (it != map.end())
+    if (it != _ComponentAllocator.end())
       return (NULL);
     else
       return (it->second(game));
   }
 
-  /* AllocateComponentBySerial is as its says to allocate a new component by it serialization it also allocateByType just after */
-  Component::Abstract*	Factory::allocateComponentBySerial(const std::string& key, Entity::GameObject *game)
+  Component::abstract*	Factory::allocateComponentBySerial(const std::string& key, Entity::GameObject *game)
   {
     Tokenizer t(key);
-    Component::Abstract* a = allocateComponentByType(std::string(t.get<const char*>(0)), game);
+    Component::abstract* a = allocateComponentByType(std::string(t.get<const char*>(0)), game);
     a->setBySerial(t);
     return (a);
   }

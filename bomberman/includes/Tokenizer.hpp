@@ -1,5 +1,5 @@
-#ifndef __TOKENIZER_H__
-# define __TOKENIZER_H__
+#ifndef __TOKENIZE_H__
+# define __TOKENIZE_H__
 
 # include <tuple>
 # include <string>
@@ -7,16 +7,16 @@
 # include <vector>
 
 namespace utilsTokenizer{
-  std::string	gen() { return (""); }
+  inline std::string	gen() { return (""); }
 
   template<class U>
   std::string conv(U t){ return (std::to_string(t)); }
 
   template<>
-  std::string conv<const char*>(const char* t){ return (std::string(t)); }
+  inline std::string conv<const char*>(const char* t){ return (std::string(t)); }
 
   template<>
-  std::string conv<std::basic_string<char>>(std::basic_string<char> t){ return (t); }
+  inline std::string conv<std::basic_string<char>>(std::basic_string<char> t){ return (t); }
 
   template<typename T, typename... U>
   std::string	gen(T first, U... argues) {
@@ -36,14 +36,17 @@ public:
   static std::string	serialize(const std::string& type, U... argues) {
     return (std::string(type) + utilsTokenizer::gen(argues...));
   }
-
+  template<typename... U>
+  static std::string	subserialize(U... argues) {
+    return (utilsTokenizer::gen(argues...));
+  }
 
 private:
   std::vector<std::string>	_c;
   int				size;
 
 public:
-  int		getSize() { return (size); }
+  int		getSize() const { return (size); }
   Tokenizer(const std::string& serial) {
     std::istringstream f(serial);
     std::string s;
@@ -56,6 +59,20 @@ public:
   template<class U>
   U	get(int n) const;
 };
+
+template<>
+inline const char*	Tokenizer::get<const char*>(int n) const{
+  int t = 0;
+
+  for (auto string : _c){
+    if (t == n){
+      return (string.c_str());
+    }else
+      ++t;
+  }
+  throw Tokenizer::outOfRange();
+  return (NULL);
+}
 
 template<class U>
 U	Tokenizer::get(int n) const {
@@ -74,18 +91,5 @@ U	Tokenizer::get(int n) const {
   return (U());
 }
 
-template<>
-const char*	Tokenizer::get<const char*>(int n) const{
-  int t = 0;
-
-  for (auto string : _c){
-    if (t == n){
-      return (string.c_str());
-    }else
-      ++t;
-  }
-  throw Tokenizer::outOfRange();
-  return (NULL);
-}
 
 #endif

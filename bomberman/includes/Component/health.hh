@@ -17,8 +17,10 @@ namespace Component{
 
     public:
       Dot(int damage, int clockLife, unsigned int timeBeetween = 0);
-
+      Dot(int damage, int clockLife, unsigned int timeBeetween, unsigned int current);
+      
     public:
+      std::string	serialize();
       int	getDamage(void);
       bool	isOver(void);
     };
@@ -51,6 +53,11 @@ namespace Component{
   public:
     bool	isInvicible(void);
     void	invincible(int time);
+
+  public:
+    std::string dotSerialisation(std::list<Dot*>::iterator);
+    std::string serialization();
+    void	setBySerial(const Tokenizer&);
   };
 
 };

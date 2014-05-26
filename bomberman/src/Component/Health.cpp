@@ -5,6 +5,9 @@ namespace Component {
   Health::Dot::Dot(int _v, int _cl, unsigned int _t)
     : damage(_v), clockLife(_cl), rTime(_t), aTime(_t) {}
 
+  Health::Dot::Dot(int _v, int _cl, unsigned int _t, unsigned int _tt)
+    : damage(_v), clockLife(_cl), rTime(_t), aTime(_tt) {}
+
   int	Health::Dot::getDamage(void) {
     if (!clockLife) {
       return (0);
@@ -19,6 +22,10 @@ namespace Component {
 
   bool	Health::Dot::isOver(void) {
     return (!clockLife);
+  }
+
+  std::string	Health::Dot::serialize() {
+    return (Tokenizer::subserialize(damage, clockLife, rTime, aTime));
   }
 
   /* ##### Health ##### */
@@ -123,5 +130,27 @@ namespace Component {
     return (immunityTime);
   }
 
+  std::string Health::dotSerialisation(std::list<Dot*>::iterator itt) {
+    auto nextIt = ++itt;
+    --itt;
+    if (nextIt == dotList.end()) {
+      return ((*itt)->serialize());
+    } else {
+      return (Tokenizer::subserialize((*itt)->serialize(), dotSerialisation(nextIt)));
+    }
+  }
 
+  std::string Health::serialization() {
+    return (Tokenizer::serialize("Health", maxLife, life, immunityTime,
+				 dotSerialisation(dotList.begin())));
+  }
+
+  void	Health::setBySerial(const Tokenizer& t) {
+    int	n = 4;
+    life		= t.get<int>(1);
+    maxLife		= t.get<int>(2);
+    immunityTime	= t.get<int>(3);
+    for (; n < t.getSize(); n += 4)
+      addDot(new Dot(t.get<double>(n), t.get<int>(n + 1), t.get<unsigned int>(n + 2), t.get<unsigned int>(n + 3)));
+  }
 };
