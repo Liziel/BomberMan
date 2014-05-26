@@ -7,7 +7,7 @@ namespace Component{
   Factory::Factory()
   {}
 
-  Component::Abstract*	Factory::allocateComponentByType(const std::string& key, Entity::GameObject *game)
+  Component::abstract*	Factory::allocateComponentByType(const std::string& key, Entity::GameObject *game)
   {
     auto it = _ComponentAllocator.find(key);
     if (it != map.end())
@@ -16,7 +16,7 @@ namespace Component{
       return (it->second(game));
   }
 
-  Component::Abstract*	Factory::allocateComponentBySerial()
+  Component::abstract*	Factory::allocateComponentBySerial()
   {
     Tokenizer t(key);
     Component::abstract* a = allocateComponentByType(std::string(t.get<const char*>(0)), game);
