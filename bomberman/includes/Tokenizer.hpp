@@ -15,6 +15,9 @@ namespace utilsTokenizer{
   template<>
   std::string conv<const char*>(const char* t){ return (std::string(t)); }
 
+  template<>
+  std::string conv<std::basic_string<char>>(std::basic_string<char> t){ return (t); }
+
   template<typename T, typename... U>
   std::string	gen(T first, U... argues) {
     return (":" + conv<T>(first) + gen(argues... ));
@@ -37,12 +40,16 @@ public:
 
 private:
   std::vector<std::string>	_c;
+  int				size;
+
 public:
+  int		getSize() { return (size); }
   Tokenizer(const std::string& serial) {
     std::istringstream f(serial);
     std::string s;
     while (std::getline(f, s, ':')) {
       _c.push_back(s);
+      size += 1;
     }
   }
 

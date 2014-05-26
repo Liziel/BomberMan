@@ -1,6 +1,7 @@
 #ifndef __EFFECTS_H__
 # define __EFFECTS_H__
 
+# include <list>
 # include "Component.hh"
 
 namespace Component{
@@ -28,6 +29,7 @@ namespace Component{
 	int	clock;
 	Status* status;
       public:
+	std::string serialization();
 	SpeedModifier(double, int, Status*);
 
       public:
@@ -51,6 +53,11 @@ namespace Component{
 
     public:
       void	applyMute(int duration);
+
+    public:
+      std::string speedSerialization(std::list<SpeedModifier*>::iterator);
+      std::string serialization();
+      void	setBySerial(const Tokenizer&);
     };
   };
 };

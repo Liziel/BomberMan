@@ -20,6 +20,10 @@ namespace Component{
       return (false);
     }
 
+    std::string	Status::SpeedModifier::serialization() {
+      return (Tokenizer::serialize("speedModifier", speedModifier, clock));
+    }
+
     /* #### Status #### */
     Status::Status(Entity::GameObject* _p)
       : Component::abstract(_p),
@@ -158,6 +162,22 @@ namespace Component{
 
     void	Status::applyMute(int duration) {
       dispatchSelf(new Event::Type::isMute(duration));
+    }
+
+    std::string Status::speedSerialization(std::list<SpeedModifier*>::iterator itt) {
+      auto nextItt = ++itt;
+      --itt;
+      if (nextItt == speedVect.end())
+	return (Tokenizer::serialize((*itt)->serialization(), speedSerialization(nextItt)));
+      else
+	return ((*itt)->serialization());
+    }
+
+    std::string	Status::serialization() {
+	  return (Tokenizer::serialize("Status", speedSerialization(speedVect.begin())));
+    }
+
+    void		Status::setBySerial(const Tokenizer& t) {
     }
 
   };
