@@ -12,6 +12,8 @@ namespace Event{
       PlaceDot, Immunity, lifeLoss, lifeGain, revive, dead, /* Health */
       RequireMovement, Colliding,/* collider::movable */
       FireExplosion, ElectricityExplosion, IceExplosion, LifeExplosion, /* status*/
+      plantBomb, selfPlantBomb, addElement, /* plant Bomb */
+      Keyboard, ChangeKeyConfig, /* keyBoard */
       isMute, /* quite a lot */
       isOnFire, isOnLife, isOnIce, isOnElectricity, /* display */ 
       Clock, Refresh,

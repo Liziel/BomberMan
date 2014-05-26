@@ -34,11 +34,11 @@ public:
 public:
   template<typename... U>
   static std::string	serialize(const std::string& type, U... argues) {
-    return (std::string(type) + utilsTokenizer::gen(argues...));
+    return (type + utilsTokenizer::gen(argues...));
   }
-  template<typename... U>
-  static std::string	subserialize(U... argues) {
-    return (utilsTokenizer::gen(argues...));
+  template<typename T, typename... U>
+  static std::string	subserialize(T _f, U... argues) {
+    return (utilsTokenizer::conv<T>(_f) + utilsTokenizer::gen(argues...));
   }
 
 private:

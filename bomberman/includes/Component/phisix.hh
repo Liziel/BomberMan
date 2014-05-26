@@ -28,8 +28,8 @@ namespace Component{
       Vector(Entity::GameObject*, Component::Phisix*);
       
     public:
-      virtual std::string serialization() = 0;
-      virtual void setBySerial(const Tokenizer&) = 0;
+      std::string serialization();
+      void setBySerial(const Tokenizer&);
       static std::string	getName(void) { return ("PhisixVector"); }
     }; /*  -- vector end --  */
 

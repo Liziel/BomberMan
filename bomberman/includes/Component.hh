@@ -45,7 +45,6 @@ namespace Component{
       void	callSerial(std::fstream&);
       /* superior added at construct or with setter? */
     };
-    /* serialization */
 
   protected:
     Event::Dispatcher*	dispatcher;

@@ -1,13 +1,7 @@
 #ifndef __PLANTBOMB_H__
 # define __PLANTBOMB_H__
 
-namespace Component{
-  class BombCast : public Component::abstract{
-  public:
-    BombCast();
-
-  };
-};
+#include "Component.hh"
 
 # ifndef __EFFECTS_H__
 namespace Component{
@@ -18,24 +12,44 @@ namespace Component{
 };
 # endif
 
+namespace Component{
+  class BombCast : public Component::abstract{
+  private:
+    Event::Time					isMuted;
+    unsigned int				stackedSpells;
+    std::array<Component::Effects::type, 3>	spellArray;
+
+  public:
+    BombCast(Entity::GameObject* _p);
+
+    std::string serialization();
+    void	setBySerial(const Tokenizer&);
+  };
+};
+
 namespace Event{
   namespace Type{
-    struct selfPlantBomb : Event::Data{
-      selfPlantBomb()
-	: Event::Data(Event::Info::selfPlantBomb, sizeof(struct plantBomb), false)
-      {}
-    };
-
     struct PlantBomb : Event::Data{
-      plantBomb(Component::Effects::type _p,
+      PlantBomb(Component::Effects::type _p,
 		Component::Effects::type _s,
 		Component::Effects::type _t)
-	: Event::Data(Event::Info::plantBomb, sizeof(struct plantBomb), true),
+	: Event::Data(Event::Info::plantBomb, sizeof(struct PlantBomb), true),
 	  prim(_p), second(_s), ter(_t) {}
       Component::Effects::type prim;
       Component::Effects::type second;
       Component::Effects::type ter;
     };
+
+# ifndef __EFFECTS_H__
+    struct isMute : Event::Data{
+      isMute(Event::Time _t)
+	: Event::Data(Event::Info::isMute, sizeof(struct isMute), true),
+	  time(_t) {}
+      Event::Time	time;
+    };
+# endif
+
+# ifndef __PLAYER_UI_H__
 
     struct addElement : Event::Data{
       addElement(Component::Effects::type _e)
@@ -43,6 +57,14 @@ namespace Event{
 	  element(_e) {}
       Component::Effects::type element;
     };
+
+    struct selfPlantBomb : Event::Data{
+      selfPlantBomb()
+	: Event::Data(Event::Info::selfPlantBomb, sizeof(struct selfPlantBomb), false)
+      {}
+    };
+
+# endif
   };
 };
 

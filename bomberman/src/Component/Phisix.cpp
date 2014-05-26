@@ -36,6 +36,22 @@ namespace Component
 		     }));
   }
   
+  std::string Phisix::Vector::serialization() {
+    return (Tokenizer::serialize(getName(),
+				 direction[Up], direction[Down],
+				 direction[Left], direction[Right],
+				 x,y,speed));
+  }
+  void Phisix::Vector::setBySerial(const Tokenizer& t) {
+    direction[Up]	= t.get<bool>(1);
+    direction[Down]	= t.get<bool>(2);
+    direction[Left]	= t.get<bool>(3);
+    direction[Right]	= t.get<bool>(4);
+    x			= t.get<double>(5);
+    y			= t.get<double>(6);
+    speed		= t.get<double>(7);
+  }
+
   /* Phisix */
   Phisix::Phisix(Event::Dispatcher *_d)
     : Component::Superior(_d) {
