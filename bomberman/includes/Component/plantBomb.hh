@@ -49,7 +49,12 @@ namespace Event{
     };
 # endif
 
-# ifndef __PLAYER_UI_H__
+# ifndef __ARENA_H__
+    struct selfPlantBomb : Event::Data{
+      selfPlantBomb()
+	: Event::Data(Event::Info::selfPlantBomb, sizeof(struct selfPlantBomb), false)
+      {}
+    };
 
     struct addElement : Event::Data{
       addElement(Component::Effects::type _e)
@@ -58,13 +63,11 @@ namespace Event{
       Component::Effects::type element;
     };
 
-    struct selfPlantBomb : Event::Data{
-      selfPlantBomb()
-	: Event::Data(Event::Info::selfPlantBomb, sizeof(struct selfPlantBomb), false)
-      {}
-    };
-
 # endif
+
+# ifndef __PLAYER_UI_H__
+# endif
+
   };
 };
 

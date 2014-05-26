@@ -4,21 +4,34 @@
 #include "Component.hh"
 
 namespace Component{
+  template<int N>
   class Keyboard : public Component::abstract{
   private:
-    std::array<char, 10>	configuration;
+    std::array<char, N>		configuration;
     void			getKeyInTab();
 
   public:
-    Keyboard(Entity::GameObject*, std::array<char, 10>);
+    Keyboard(Entity::GameObject* _p, std::array<char, N> _a)
+      : Component::abstract(_p),
+	configuration(_a) {
+      attachCallback(Event::Info::Clock,
+		     new Event::FixedCallback([this](Event::Data&) {
+			 getKeyInTab();
+		       }));
+    }
     
-  private:
-    template<int U>
-    std::string	subSerial();
+    inline std::string	subSerial(int n) {
+      return (Tokenizer::subserialize<int, std::string>(configuration[N - n], subSerial(n - 1)));
+    }
 
-  public:
-    std::string serialization();
-    void	setBySerial(const Tokenizer&);    
+    std::string	serialization() {
+      return (Tokenizer::serialize("Keyboard", N, subSerial(N)));
+    }
+
+    void		setBySerial(const Tokenizer& t) {
+      for (int n = 2; n < N; n++)
+	configuration[n - 1] = t.get<int>(n);
+    }
   };
 };
 
@@ -36,10 +49,11 @@ namespace Event{
 
 # ifndef __ARENA_H__
     struct Keyboard : Event::Data{
-      Keyboard(int k)
+      Keyboard(int k, bool s)
 	: Event::Data(Event::Info::Keyboard, sizeof(struct Keyboard), false),
-	  key(k) {}
+	  key(k), state(s) {}
       int key;
+      bool state;
     };
 # endif
 

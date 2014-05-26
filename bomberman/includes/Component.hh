@@ -51,10 +51,6 @@ namespace Component{
   public:
     Superior(Event::Dispatcher* _d)
       : dispatcher(_d) {}
-
-  public:
-    virtual std::string serialization() = 0;
-    virtual void	setBySerial(const Tokenizer&) = 0;
   };
 
   /* ########## Factory ########## */

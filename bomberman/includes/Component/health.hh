@@ -64,6 +64,14 @@ namespace Component{
 
 namespace  Event{
   namespace Type{
+    struct Immunity : Event::Data{
+      Immunity(int _t)
+	: Event::Data(Event::Info::Immunity, sizeof(struct Immunity), false),
+	  time(_t) {}
+      int time;
+    };
+
+# ifndef __EFFECTS_H__
     struct PlaceDot : Event::Data{
       PlaceDot(int _d, unsigned int _dd)
 	: Event::Data(Event::Info::PlaceDot, sizeof(struct PlaceDot), false),
@@ -71,13 +79,6 @@ namespace  Event{
       int	damage;
       int	duration;
       int	warmUp;
-    };
-
-    struct Immunity : Event::Data{
-      Immunity(int _t)
-	: Event::Data(Event::Info::Immunity, sizeof(struct Immunity), false),
-	  time(_t) {}
-      int time;
     };
 
     struct lifeLoss : Event::Data{
@@ -93,16 +94,19 @@ namespace  Event{
 	  amount(_a) {}
       int amount;
     };
+# endif
 
     struct revive : Event::Data{
       revive()
 	: Event::Data(Event::Info::revive, sizeof(struct revive), false) {}
     };
 
+# ifndef __ARENA_H__
     struct dead : Event::Data{
       dead()
 	: Event::Data(Event::Info::dead, sizeof(struct dead), true) {}
     };
+# endif
 
   };
 };

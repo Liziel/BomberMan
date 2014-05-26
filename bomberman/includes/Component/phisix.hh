@@ -46,12 +46,14 @@ namespace Component{
 namespace Event{
   namespace Type{
 
+# ifndef __ARENA_H__
     struct selfMovement : Event::Data{
       selfMovement(Component::Phisix::Vector::Direction _d, bool _b)
 	: Event::Data(Event::Info::selfMovement, sizeof(struct selfMovement), false), direction(_d), state(_b) {}
       Component::Phisix::Vector::Direction	direction;
       bool					state;
     };
+# endif
 
 # ifndef __EFFECTS_H__
     struct speedModifier : Event::Data{
