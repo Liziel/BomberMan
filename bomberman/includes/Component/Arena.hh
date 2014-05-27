@@ -56,16 +56,10 @@ namespace Component{
   };
 };
 
-# ifndef __DATAPOOL_H__
-namespace Entity{
-  enum Type {_default, game, gameOption};
-};
-# endif
-
 namespace  Event{
   namespace Type{
 
-# ifndef __DATAPOOL_H__
+# ifndef __ENTITY_H__
     struct EntityEnable : Event::Data{
       EntityEnable(Entity::Type _n)
 	: Event::Data(Event::Info::EntityEnable, sizeof(EntityEnable), false),

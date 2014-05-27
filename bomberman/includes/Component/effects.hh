@@ -107,6 +107,7 @@ namespace Event{
     };
 # endif
 
+# ifndef __EXPLODE_H__
     struct FireExplosion : Event::Data{
       FireExplosion(int _x, int _y, Component::Effects::level _l)
 	: Event::Data(Event::Info::FireExplosion, sizeof(struct FireExplosion), false),
@@ -142,6 +143,7 @@ namespace Event{
       int y;
       Component::Effects::level level;
     };
+# endif
 
 # ifndef __SORCERER_DISPLAY_H__
     struct isOnFire : Event::Data{

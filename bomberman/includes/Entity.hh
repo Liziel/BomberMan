@@ -15,6 +15,7 @@ namespace Component{
 };
 
 namespace Entity{
+  enum Type {_default, game, gameOption};
   class GameObject{
   private:
     GameObject();
@@ -24,9 +25,10 @@ namespace Entity{
   private:
     std::list< std::pair< Event::Info::Type,
 			  Event::Callback* > > _CallbackArray;
-    
+  private:
+    Entity::Type	selfType;
   public:
-    GameObject(Event::Dispatcher* Dispatch);
+    GameObject(Event::Dispatcher* Dispatch, Entity::Type);
 
   private:
     std::vector<Component::abstract*>	ComponentList;
@@ -64,6 +66,28 @@ namespace Entity{
     virtual int	getLifeAmount(void) { return (-1); }
   };
 
+};
+
+namespace Event{
+  namespace Type{
+
+#ifndef __ARENA_H__
+    struct EntityEnable : Event::Data{
+      EntityEnable(Entity::Type _n)
+	: Event::Data(Event::Info::EntityEnable, sizeof(EntityEnable), false),
+	  type(_n) {}
+      Entity::Type	type;
+    };
+
+    struct EntityDisable : Event::Data{
+      EntityDisable(Entity::Type _n)
+	: Event::Data(Event::Info::EntityDisable, sizeof(EntityDisable), false),
+	  type(_n) {}
+      Entity::Type	type;
+    };
+#endif
+
+  };
 };
 
 #endif

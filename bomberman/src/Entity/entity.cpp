@@ -2,8 +2,23 @@
 #include "Component.hh"
 
 Entity::GameObject::GameObject() {}
-Entity::GameObject::GameObject(Event::Dispatcher* Dispatch)
-  : _Dispatch(Dispatch), x(0), y(0) {}
+Entity::GameObject::GameObject(Event::Dispatcher* Dispatch, Entity::Type _t)
+  : _Dispatch(Dispatch), selfType(_t), x(0), y(0) {
+  _Dispatch->addCallbackOnEvent(Event::Info::EntityDisable,
+				new Event::FixedCallback([this] (Event::Data& e) {
+				    Event::Type::EntityDisable* event = 
+				      reinterpret_cast<Event::Type::EntityDisable*>(&e);
+				    if (event->type == selfType)
+				      disable();
+				  }));
+  _Dispatch->addCallbackOnEvent(Event::Info::EntityEnable,
+				new Event::FixedCallback([this] (Event::Data& e) {
+				    Event::Type::EntityEnable* event = 
+				      reinterpret_cast<Event::Type::EntityEnable*>(&e);
+				    if (event->type == selfType)
+				      enable();
+				  })); 
+}
 
 Entity::GameObject::~GameObject() {
   for (auto _cb : _CallbackArray) {

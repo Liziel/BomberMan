@@ -4,12 +4,14 @@
 #include "Component.hh"
 
 # ifndef __EFFECTS_H__
+# ifndef __EXPLODE_H__
 namespace Component{
   namespace Effects{
       typedef enum etype {Glyph, Fire, Ice, Electricity, Life} type;
       typedef enum elevel {low, med, high} level;
   };
 };
+# endif
 # endif
 
 namespace Component{
@@ -29,6 +31,7 @@ namespace Component{
 
 namespace Event{
   namespace Type{
+# ifndef __EXPLODE_H__
     struct PlantBomb : Event::Data{
       PlantBomb(Component::Effects::type _p,
 		Component::Effects::type _s,
@@ -39,6 +42,7 @@ namespace Event{
       Component::Effects::type second;
       Component::Effects::type ter;
     };
+# endif
 
 # ifndef __EFFECTS_H__
     struct isMute : Event::Data{
