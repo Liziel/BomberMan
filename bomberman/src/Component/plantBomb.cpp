@@ -34,11 +34,15 @@ namespace Component{
 		     }));
 
     attachCallback(Event::Info::selfPlantBomb,
-		   new Event::FixedCallback([this] (Event::Data&) {
+		   new Event::FixedCallback([this, _p] (Event::Data&) {
 		       if (stackedSpells != 3 || isMuted)
 			 return ;
+		       double x;
+		       double y;
+		       _p->getPosition(x, y);
 		       dispatchAll(new Event::Type::PlantBomb
-				   (spellArray[0],
+				   (static_cast<int>(x), static_cast<int>(y),
+				    spellArray[0],
 				    spellArray[1],
 				    spellArray[2]));
 		       stackedSpells = 0;

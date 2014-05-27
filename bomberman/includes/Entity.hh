@@ -19,7 +19,7 @@ namespace Entity{
   class GameObject{
   private:
     GameObject();
-    
+
   private:
     Event::Dispatcher*		_Dispatch;
   private:
@@ -41,7 +41,7 @@ namespace Entity{
     virtual std::string getName() { return ("entity"); }
 
   public:
-    ~GameObject();
+    virtual ~GameObject();
     Event::Callback::Id	addCallback(Event::Info::Type, Event::Callback*,
 				    Event::Info::Priority
 				    = Event::Info::medium);
@@ -71,7 +71,6 @@ namespace Entity{
 namespace Event{
   namespace Type{
 
-#ifndef __ARENA_H__
     struct EntityEnable : Event::Data{
       EntityEnable(Entity::Type _n)
 	: Event::Data(Event::Info::EntityEnable, sizeof(EntityEnable), false),
@@ -85,7 +84,21 @@ namespace Event{
 	  type(_n) {}
       Entity::Type	type;
     };
-#endif
+
+    struct EntityFlush : Event::Data{
+      EntityFlush(Entity::Type _n)
+	: Event::Data(Event::Info::EntityFlush, sizeof(EntityFlush), false),
+	  type(_n) {}
+      Entity::Type	type;
+    };
+
+    struct EntitySerialize : Event::Data{
+      EntitySerialize(Entity::Type _n)
+	: Event::Data(Event::Info::EntitySerialize, sizeof(EntitySerialize), false),
+	  type(_n) {}
+      Entity::Type	type;
+      std::fstream*	localSave;
+    };
 
   };
 };

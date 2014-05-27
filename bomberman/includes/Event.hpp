@@ -64,6 +64,21 @@ namespace Event{
       : Callback(), _lambdaCallback(_c) {}
   };
 
+  class StaticCallback : public Event::Callback {
+  private:
+    std::function< void(Event::Data&) > _lambdaCallback;
+  public:
+    bool operator()(Event::Data&);
+
+  public:
+    void	enable();
+    void	disable();
+
+  public:
+    StaticCallback(std::function < void(Event::Data&) > _c)
+      : Callback(), _lambdaCallback(_c) {}
+  };
+
   typedef int	Time;
   class TimedCallback : public Event::Callback {
   private:
@@ -100,6 +115,7 @@ namespace Event{
     std::unordered_map< Event::Info::Type, std::list< Event::Callback* >, std::hash<int> > _med;
     std::unordered_map< Event::Info::Type, std::list< Event::Callback* >, std::hash<int> > _low;
   private:
+    std::list< Event::Callback* >::iterator	currentCallback;	
     bool			_isdispatching;
     std::queue<Event::Data*>	_eventQueue;
 

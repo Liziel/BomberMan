@@ -33,11 +33,14 @@ namespace Event{
   namespace Type{
 # ifndef __EXPLODE_H__
     struct PlantBomb : Event::Data{
-      PlantBomb(Component::Effects::type _p,
+      PlantBomb(int _x, int _y,
+		Component::Effects::type _p,
 		Component::Effects::type _s,
 		Component::Effects::type _t)
 	: Event::Data(Event::Info::plantBomb, sizeof(struct PlantBomb), true),
-	  prim(_p), second(_s), ter(_t) {}
+	  x(_x), y(_y), prim(_p), second(_s), ter(_t) {}
+      int x;
+      int y;
       Component::Effects::type prim;
       Component::Effects::type second;
       Component::Effects::type ter;

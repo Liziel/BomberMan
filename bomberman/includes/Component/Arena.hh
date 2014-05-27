@@ -59,22 +59,6 @@ namespace Component{
 namespace  Event{
   namespace Type{
 
-# ifndef __ENTITY_H__
-    struct EntityEnable : Event::Data{
-      EntityEnable(Entity::Type _n)
-	: Event::Data(Event::Info::EntityEnable, sizeof(EntityEnable), false),
-	  type(_n) {}
-      Entity::Type	type;
-    };
-
-    struct EntityDisable : Event::Data{
-      EntityDisable(Entity::Type _n)
-	: Event::Data(Event::Info::EntityDisable, sizeof(EntityDisable), false),
-	  type(_n) {}
-      Entity::Type	type;
-    };
-# endif
-
 # ifndef __KEYBOARD_H__
     struct Keyboard : Event::Data{
       Keyboard(int k, bool s)

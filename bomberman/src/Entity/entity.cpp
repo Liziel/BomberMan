@@ -5,19 +5,27 @@ Entity::GameObject::GameObject() {}
 Entity::GameObject::GameObject(Event::Dispatcher* Dispatch, Entity::Type _t)
   : _Dispatch(Dispatch), selfType(_t), x(0), y(0) {
   _Dispatch->addCallbackOnEvent(Event::Info::EntityDisable,
-				new Event::FixedCallback([this] (Event::Data& e) {
+				new Event::StaticCallback([this] (Event::Data& e) {
 				    Event::Type::EntityDisable* event = 
 				      reinterpret_cast<Event::Type::EntityDisable*>(&e);
 				    if (event->type == selfType)
 				      disable();
 				  }));
   _Dispatch->addCallbackOnEvent(Event::Info::EntityEnable,
-				new Event::FixedCallback([this] (Event::Data& e) {
+				new Event::StaticCallback([this] (Event::Data& e) {
 				    Event::Type::EntityEnable* event = 
 				      reinterpret_cast<Event::Type::EntityEnable*>(&e);
 				    if (event->type == selfType)
 				      enable();
-				  })); 
+				  }));
+
+  _Dispatch->addCallbackOnEvent(Event::Info::EntitySerialize,
+				new Event::StaticCallback([this] (Event::Data& e) {
+				    Event::Type::EntitySerialize* event = 
+				      reinterpret_cast<Event::Type::EntitySerialize*>(&e);
+				    if (event->type == selfType)
+				      *(event->localSave) << serialization();
+				  }));
 }
 
 Entity::GameObject::~GameObject() {

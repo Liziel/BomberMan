@@ -1,7 +1,7 @@
 #ifndef __EXPLODE_H__
 # define __EXPLODE_H__
 
-# include "Component.h"
+# include "Component.hh"
 
 # ifndef __EFFECTS_H__
 # ifndef __PLANTBOMB_H__
@@ -16,30 +16,25 @@ namespace Component{
 
 
 namespace  Component{
+  namespace Explosion{
+    
+  };
   class Explode : public Component::abstract{
   private:
     std::array<Component::Effects::type, 3>	elements;
-
+    Event::Time					untilBOOM;
   public:
     Explode(Entity::GameObject*);
-  };
+    void	EXPLODE		(void);
+
+  public:
+    std::string serialization();
+    void	setBySerial(const Tokenizer&);
+   };
 };
 
 namespace Event{
   namespace Type{
-
-# ifndef __PLANTBOMB_H__
-    struct PlantBomb : Event::Data{
-      PlantBomb(Component::Effects::type _p,
-		Component::Effects::type _s,
-		Component::Effects::type _t)
-	: Event::Data(Event::Info::plantBomb, sizeof(struct PlantBomb), true),
-	  prim(_p), second(_s), ter(_t) {}
-      Component::Effects::type prim;
-      Component::Effects::type second;
-      Component::Effects::type ter;
-    };
-# endif
 
 # ifndef __EFFECTS_H__
     struct FireExplosion : Event::Data{

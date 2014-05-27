@@ -30,6 +30,16 @@ namespace Event{
     _enable = false;
   }
 
+  /* StaticCallback */
+  bool	StaticCallback::operator()(Event::Data& event) {
+    _lambdaCallback(event);
+    return (true);
+  }
+
+  void	StaticCallback::enable(void){}
+
+  void	StaticCallback::disable(void){}
+
   /* TimedCallback */
   bool	TimedCallback::operator()(Event::Data& event) {
     _time -= 1;
@@ -98,12 +108,50 @@ namespace Event{
 				       Event::Callback::Id id){
     Event::CallbackRemover remove(id);
 
-    if (_high.find(type) != _high.end())
-      _high[type].remove_if(remove);
-    if (_med.find(type) != _med.end())
-      _med[type].remove_if(remove);
-    if (_low.find(type) != _low.end())
-      _low[type].remove_if(remove);
+    if (!_isdispatching){
+      if (_high.find(type) != _high.end())
+	_high[type].remove_if(remove);
+      if (_med.find(type) != _med.end())
+	_med[type].remove_if(remove);
+      if (_low.find(type) != _low.end())
+	_low[type].remove_if(remove);
+    } else {
+
+      if (_high.find(type) != _high.end()) {
+	auto arr = &(_high[type]);
+	  for (auto itt = arr->begin(); itt != arr->end(); ++itt)
+	    if (remove(*itt)) {
+	      if (itt == currentCallback)
+		currentCallback = arr->erase(itt);
+	      else
+		arr->erase(itt);
+	      return ;
+	    }
+      }
+
+      if (_med.find(type) != _med.end()){
+	auto arr = &(_med[type]);
+	  for (auto itt = arr->begin(); itt != arr->end(); ++itt)
+	    if (remove(*itt)) {
+	      if (itt == currentCallback)
+		currentCallback = arr->erase(itt);
+	      else
+		arr->erase(itt);
+	      return ;
+	    }
+      }
+      if (_low.find(type) != _low.end()){
+	auto arr = &(_low[type]);
+	  for (auto itt = arr->begin(); itt != arr->end(); ++itt)
+	    if (remove(*itt)) {
+	      if (itt == currentCallback)
+		currentCallback = arr->erase(itt);
+	      else
+		arr->erase(itt);
+	      return ;
+	    }
+      }
+    }
   }
 
   void	Dispatcher::dispatchEvent(Event::Data* event) {
@@ -120,21 +168,30 @@ namespace Event{
     _isdispatching = true;
     if ((itt = _high.find(event->type)) != _high.end()){
       CallbackArray = &(itt->second);
-      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt) {
+	currentCallback = itt;
         if (!(*(*itt))(*event))
 	  itt = CallbackArray->erase(itt);
+	itt = currentCallback;
+      }
     }
     if ((itt = _med.find(event->type)) != _med.end()){
       CallbackArray = &(itt->second);
-      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt) {
+	currentCallback = itt;
         if (!(*(*itt))(*event))
 	  itt = CallbackArray->erase(itt);
+	itt = currentCallback;
+      }
     }
     if ((itt = _low.find(event->type)) != _low.end()){
       CallbackArray = &(itt->second);
-      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt)
+      for (auto itt = CallbackArray->begin(); itt != CallbackArray->end(); ++itt) {
+	currentCallback = itt;
         if (!(*(*itt))(*event))
 	  itt = CallbackArray->erase(itt);
+	itt = currentCallback;
+      }
     }
 
     if (event->network){
