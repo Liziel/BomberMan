@@ -11,8 +11,14 @@ namespace Component
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this](Event::Data&) {
 		       double _speed = speed * phisix->getFriction();
-		       dispatchSelf(new Event::Type::RequireMovement(x, y, (direction[Right] * _speed - direction[Left] * _speed),
-								     (direction[Down] * _speed - direction[Up] * _speed)));
+		       double axeX = (direction[Right] * _speed - direction[Left] * _speed);
+		       double axeY = (direction[Down] * _speed - direction[Up] * _speed);
+
+		       if (axeX != 0.f && axeY != 0.f) {
+			 axeX /= 2;
+			 axeY /= 2;
+		       }
+		       dispatchSelf(new Event::Type::RequireMovement(x, y, axeX, axeY));
 		     }));
 
     attachCallback(Event::Info::Colliding,

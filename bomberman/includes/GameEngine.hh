@@ -15,14 +15,6 @@ namespace Engine{
 
   private:
 
-    class OnlineDelay : public Engine::Game::Delay{
-    private:
-      const Socket::Select&	select;
-    public:
-      OnlineDelay(const Socket&);
-      void	operator()(unsigned int delay);
-    };
-
     /* Game Part access */
   private:
     Entity::Pool*		_datapool;

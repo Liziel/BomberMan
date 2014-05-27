@@ -96,11 +96,11 @@ namespace Event{
     };
 
     struct Colliding : Event::Data{
-      Colliding(int _x, int _y)
+      Colliding(double _x, double _y, double _f)
 	: Event::Data(Event::Info::Colliding, sizeof(struct Colliding), false),
-	  endX(_x), endY(_y) {}
-      int endX;
-      int endY;
+	  endX(_x), endY(_y), collide(_f) {}
+      double endX;
+      double endY;
       double collide;
     }; 
 # endif

@@ -23,30 +23,63 @@ namespace Component{
   class Arena : public Component::Superior{
 
   public:
-    class winner{
+    class Winner{
     private:
-      int		id;
+      Component::Arena*		game;
     public:
-      winner();
-      void	setId(int);
-      void	imDead(void);
+      Winner(Component::Arena*);
+
+    public:
+      typedef	int	Id;
+    private:
+      Winner::Id	id;
+      void	setId(Winner::Id);
+
+    private:
+      bool	dead;
+    public:
+      void	imDead(bool);
+      bool	amIDead(void);
+
     };
 
   public:
-    class Player : public Component::abstract, public winner{
-    private:
-      Component::Arena*		game;
+    class Player : public Component::abstract, public Winner{
     public:
       Player(Entity::GameObject*, Component::Arena*);
     };
 
+  private:
+    std::list<Winner*>	fighter;
   public:
     Arena();
   };
 };
 
+# ifndef __DATAPOOL_H__
+namespace Entity{
+  enum Type {_default, game, gameOption};
+};
+# endif
+
 namespace  Event{
   namespace Type{
+
+# ifndef __DATAPOOL_H__
+    struct EntityEnable : Event::Data{
+      EntityEnable(Entity::Type _n)
+	: Event::Data(Event::Info::EntityEnable, sizeof(EntityEnable), false),
+	  type(_n) {}
+      Entity::Type	type;
+    };
+
+    struct EntityDisable : Event::Data{
+      EntityDisable(Entity::Type _n)
+	: Event::Data(Event::Info::EntityDisable, sizeof(EntityDisable), false),
+	  type(_n) {}
+      Entity::Type	type;
+    };
+# endif
 
 # ifndef __KEYBOARD_H__
     struct Keyboard : Event::Data{

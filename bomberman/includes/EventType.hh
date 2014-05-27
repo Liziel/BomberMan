@@ -6,7 +6,7 @@ namespace Event{
   namespace Info{
     /* #### Event Type ##### */
     enum Type{
-      Network = -1,
+      Network = -1, EntityEnable, EntityDisable,
       selfMovement, speedModifier, freezeMovement, /*phisix::vector*/
       setFriction,/* phisix */
       PlaceDot, Immunity, lifeLoss, lifeGain, revive, dead, /* Health */

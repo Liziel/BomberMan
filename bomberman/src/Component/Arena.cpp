@@ -1,9 +1,17 @@
 #include "Arena.hh"
 
 namespace Component{
+  /* Winner */
+  Arena::Winner::Winner(Component::Arena* _g) : game(_g), id(-1), dead(false) {}
+  void	Arena::Winner::setId(Arena::Winner::Id _id) {
+    id = _id;
+  }
+
+  void	Arena::Winner::imDead(bool _s) {dead = _s;}
+  bool	Arena::Winner::amIDead(void) {return (dead);}
   /* Player */
   Arena::Player::Player(Entity::GameObject* _p, Component::Arena* _a)
-    : Component::abstract(_p), game(_a) {
+    : Component::abstract(_p), Arena::Winner(_a) {
     attachCallback(Event::Info::Keyboard,
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Keyboard* event = 
@@ -18,8 +26,9 @@ namespace Component{
 		     }));
 
     attachCallback(Event::Info::dead,
-		   new Event::FixedCallback([this] (Event::Data&) {
-		       imDead();
+		   new Event::FixedCallback([this, _p] (Event::Data&) {
+		       _p->disable();
+		       imDead(true);
 		     }));
   }
 };
