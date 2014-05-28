@@ -4,7 +4,7 @@
 #include <Game.hh>
 #include <SdlContext.hh>
 
-#include "Cube.hpp"
+#include "Marvin.hpp"
 
 class GameEngine : public gdl::Game
 {
@@ -30,14 +30,14 @@ public:
 		glm::mat4 transformation;
 		projection = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 100.0f); 
 		transformation = glm::lookAt(glm::vec3(0, 10, -30), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); 
-		_shader.bind(); 
-		_shader.setUniform("view", transformation); 
-		_shader.setUniform("projection", projection); 
-		AObject *cube = new Cube(); 
-		if (cube->initialize() == false) 
-			return (false); 
-		_objects.push_back(cube); 
-		return true; 
+		_shader.bind();
+		_shader.setUniform("view", transformation);
+		_shader.setUniform("projection", projection);
+		AObject *object = new Marvin();
+		if (object->initialize() == false)
+			return (false);
+		_objects.push_back(object);
+		return true;
 	}
 
 	bool update() 
