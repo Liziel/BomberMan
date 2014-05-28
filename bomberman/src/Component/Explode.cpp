@@ -59,37 +59,41 @@ namespace Component{
   }
 
   void	Explode::dispatch(int x, int y) {
-    std::function<void(Effects::type, Effects::level)> =
+    std::function<void(Effects::type, Effects::level)> mad =
       [this, x, y] (Effects::type t, Effects::level lvl) {
-      if (t == Fire)
-	dispatch(new Event::Type::FireExplosion(x, y, lvl));
-      if (t == Ice)
-	dispatch(new Event::Type::IceExplosion(x, y, lvl));
-      if (t == Life)
-	dispatch(new Event::Type::LifeExplosion(x, y, lvl));
-      if (t == Electricity)
-	dispatch(new Event::Type::ElectricityExplosion(x, y, lvl));
-      if (t == Glyph)
-	dispatch(new Event::Type::GlyphExplosion(x, y, lvl));
-    }
-    std::array<bool, 3> it = {true, false, false}
-    Effects::level	lvl = low;
+      if (t == Effects::Fire)
+	dispatchAll(new Event::Type::FireExplosion(x, y, lvl));
+      if (t == Effects::Ice)
+	dispatchAll(new Event::Type::IceExplosion(x, y, lvl));
+      if (t == Effects::Life)
+	dispatchAll(new Event::Type::LifeExplosion(x, y, lvl));
+      if (t == Effects::Electricity)
+	dispatchAll(new Event::Type::ElectricityExplosion(x, y, lvl));
+      if (t == Effects::Glyph)
+	dispatchAll(new Event::Type::GlyphExplosion(x, y, lvl));
+    };
+    std::array<bool, 3> it = {true, false, false};
+    Effects::level	lvl = Effects::low;
 
     if (elements[0] == elements[1]) {
-      lvl = med;
+      lvl = Effects::med;
       it[1] = false;
     }
     if (elements[0] == elements[2]) {
-      lvl = (lvl == med) ? (high) : (med);
+      lvl = (lvl == Effects::med) ? (Effects::high) : (Effects::med);
       it[2] = false;
     }
+    mad(elements[0], lvl);
     if (!it[1]) {
-      lvl = low;
+      lvl = Effects::low;
       if (!it[2] && elements[1] == elements[2]) {
-	lvl = med;
+	lvl = Effects::med;
 	it[2] = false;
       }
+      mad(elements[1], lvl);
     }
+    if (!it[2])
+      mad(elements[2], Effects::low);
   }
   
   double	Explode::getSpread(Effects::type t){

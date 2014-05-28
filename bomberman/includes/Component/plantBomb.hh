@@ -17,10 +17,18 @@ namespace Component{
 namespace Component{
   class BombCast : public Component::abstract{
   private:
+    struct Cooldown { enum _c{value = 35}; };
+  private:
     Event::Time					isMuted;
+
+  private:
     unsigned int				stackedSpells;
     std::array<Component::Effects::type, 3>	spellArray;
 
+  private:
+    unsigned int				maxBomb;
+    unsigned int				stackedBomb;
+    Event::Time					BombReloading;
   public:
     BombCast(Entity::GameObject* _p);
 
@@ -31,6 +39,25 @@ namespace Component{
 
 namespace Event{
   namespace Type{
+
+# ifndef __PLAYER_UI_H__
+    struct BombReloaded : Event::Data {
+      BombReloaded()
+	: Event::Data(Event::Info::BombReloaded, sizeof(struct BombReloaded), false) {}
+    };
+
+    struct BombReleased : Event::Data {
+      BombReleased()
+	: Event::Data(Event::Info::BombReleased, sizeof(struct BombReleased), false) {}
+    };
+
+# endif
+
+    struct IncreaseBombStack : Event::Data{
+      IncreaseBombStack()
+	: Event::Data(Event::Info::IncreaseBombStack, sizeof(struct IncreaseBombStack), false) {}
+    };
+
 # ifndef __EXPLODE_H__
     struct PlantBomb : Event::Data{
       PlantBomb(int _x, int _y,
@@ -46,6 +73,15 @@ namespace Event{
       Component::Effects::type ter;
     };
 # endif
+
+# ifndef __PHISIX_H__
+    struct speedModifier : Event::Data{
+      speedModifier(double _s)
+	: Event::Data(Event::Info::speedModifier, sizeof(struct speedModifier), false), speed(_s) {}
+      double speed;
+    };
+# endif
+
 
 # ifndef __EFFECTS_H__
     struct isMute : Event::Data{
@@ -70,9 +106,6 @@ namespace Event{
       Component::Effects::type element;
     };
 
-# endif
-
-# ifndef __PLAYER_UI_H__
 # endif
 
   };

@@ -66,6 +66,16 @@ namespace Event{
       double collide;
     }; 
 # endif
+
+    struct GlyphExplosion : Event::Data{
+      GlyphExplosion(int _x, int _y, Component::Effects::level _l)
+	: Event::Data(Event::Info::GlyphExplosion, sizeof(struct GlyphExplosion), false),
+	  x(_x), y(_y), level(_l) {}
+      int x;
+      int y;
+      Component::Effects::level level;
+    };
+
 # ifndef __EFFECTS_H__
     struct FireExplosion : Event::Data{
       FireExplosion(int _x, int _y, Component::Effects::level _l)

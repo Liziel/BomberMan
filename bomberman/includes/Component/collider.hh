@@ -84,7 +84,7 @@ namespace Component {
 namespace Event{
   namespace Type{
 
-    struct StopCollide{}
+    struct StopCollide{};
 
 # ifndef __EXPLODE_H__
 # ifndef __PHISIX_H__
