@@ -19,8 +19,8 @@ public:
 		if (!_context.start(800, 600, "My bomberman!"))
 			return false;
 		glEnable(GL_DEPTH_TEST);
-		if ((!_shader.load("./lib/GDL/shaders/basic.fp", GL_FRAGMENT_SHADER)) ||
-			(!_shader.load("./lib/GDL/shaders/basic.vp", GL_VERTEX_SHADER))   ||
+		if ((!_shader.load("./lib/Gdl_lib/shaders/basic.fp", GL_FRAGMENT_SHADER)) ||
+			(!_shader.load("./lib/Gdl_lib/shaders/basic.vp", GL_VERTEX_SHADER))   ||
 			(!_shader.build()))
 		{
 			std::cout << "Error : Failed to load Shaders" << std::endl;
