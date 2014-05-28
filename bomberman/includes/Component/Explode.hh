@@ -25,8 +25,11 @@ namespace  Component{
     Event::Time					untilBOOM;
   public:
     Explode(Entity::GameObject*);
-    void	EXPLODE		(void);
 
+  public:
+    void	EXPLODE		(Entity::GameObject*);
+    void	dispatch	(int x, int y);
+    double	getSpread	(Component::Effects::type);
   public:
     std::string serialization();
     void	setBySerial(const Tokenizer&);
@@ -36,6 +39,33 @@ namespace  Component{
 namespace Event{
   namespace Type{
 
+    struct Explosion : Event::Data{
+      Explosion(int _x, int _y)
+	: Event::Data(Event::Info::Explosion, sizeof(struct Explosion), false), x(_x), y(_y) {}
+      int x;
+      int y;
+    };
+
+# ifndef __COLLIDER_H__
+    struct RequireMovement :  Event::Data{
+      RequireMovement(int _x, int _y, int vx, int vy)
+	: Event::Data(Event::Info::RequireMovement, sizeof(struct RequireMovement), false),
+	  x(_x), y(_y), vectorX(vx), vectorY(vy) {}
+      double x;
+      double y;
+      double vectorX;
+      double vectorY;
+    };
+
+    struct Colliding : Event::Data{
+      Colliding(double _x, double _y, double _f)
+	: Event::Data(Event::Info::Colliding, sizeof(struct Colliding), false),
+	  endX(_x), endY(_y), collide(_f) {}
+      double endX;
+      double endY;
+      double collide;
+    }; 
+# endif
 # ifndef __EFFECTS_H__
     struct FireExplosion : Event::Data{
       FireExplosion(int _x, int _y, Component::Effects::level _l)

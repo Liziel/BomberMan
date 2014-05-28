@@ -16,6 +16,7 @@ namespace Event{
       plantBomb, selfPlantBomb, addElement, /* plant Bomb */
       Keyboard, ChangeKeyConfig, /* keyBoard */
       isMute, /* quite a lot */
+      Explosion,
       isOnFire, isOnLife, isOnIce, isOnElectricity, /* display */ 
       Clock, Refresh,
     };

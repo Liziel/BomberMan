@@ -84,6 +84,9 @@ namespace Component {
 namespace Event{
   namespace Type{
 
+    struct StopCollide{}
+
+# ifndef __EXPLODE_H__
 # ifndef __PHISIX_H__
     struct RequireMovement :  Event::Data{
       RequireMovement(int _x, int _y, int vx, int vy)
@@ -104,7 +107,7 @@ namespace Event{
       double collide;
     }; 
 # endif
-
+# endif
   };
 };
 
