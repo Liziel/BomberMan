@@ -47,6 +47,10 @@ namespace Component{
     class Player : public Component::abstract, public Winner{
     public:
       Player(Entity::GameObject*, Component::Arena*);
+
+    public:
+      std::string	serialization();
+      void		setBySerial(const Tokenizer&);
     };
 
   private:

@@ -1,8 +1,9 @@
 #include <iostream>
+#include "GameEngine.hh"
 #include "Tokenizer.hpp"
-#include "Keyboard.hh"
 
 int main(){
+  new Engine::Game(new Event::Dispatcher, new Engine::Graphic);
   enum toto { ture, falsea } t = falsea;
 
   Tokenizer tt (Tokenizer::subserialize(t));

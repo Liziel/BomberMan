@@ -1,6 +1,7 @@
 #ifndef __ENTITY_H__
 # define __ENTITY_H__
 
+# include <map>
 # include <list>
 # include <utility>
 # include <string>
@@ -13,6 +14,10 @@ namespace Component{
   class abstract;
   class Factory;
 };
+
+namespace Component{
+  class Factory;
+}
 
 namespace Entity{
   enum Type {_default, game, gameOption};
@@ -36,7 +41,7 @@ namespace Entity{
     void	attachComponent(Component::abstract*);
 
   public:
-    virtual void	setBySerial(const Tokenizer&);
+    virtual void	setBySerial(const std::string&);
     virtual std::string	serialization();
     virtual std::string getName() { return ("entity"); }
 
@@ -64,6 +69,22 @@ namespace Entity{
 
   public:
     virtual int	getLifeAmount(void) { return (-1); }
+  };
+
+  class Factory{
+  private:
+    std::map< std::string, std::function< Entity::GameObject*(bool) > > _EntityAllocator;
+    Component::Factory*	_componentFactory;
+
+  public:
+    Factory(Component::Factory*);
+
+  public:
+    Entity::GameObject* allocateEntityByType(const std::string&);
+    Entity::GameObject* allocateEntityBySerial(const std::string&);
+    
+  public:
+    void	addAllocator(const std::string&, std::function< Entity::GameObject*(bool) >);
   };
 
 };

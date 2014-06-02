@@ -1,7 +1,17 @@
 #ifndef __GAMEENGINE_H__
 # define __GAMEENGINE_H__
 
-# include "DataPool.hh"
+# include "Entity.hh"
+# include "Component.hh"
+# include "Event.hpp"
+# include "GraphicEngine.hh"
+# include "GameEngine.hh"
+
+#include "phisix.hh"
+#include "effects.hh"
+#include "Arena.hh"
+#include "collider.hh"
+#include "health.hh"
 
 namespace Engine{
   class Game{
@@ -17,18 +27,23 @@ namespace Engine{
 
     /* Game Part access */
   private:
-    Entity::Pool*		_datapool;
     Event::Dispatcher*		_dispatcher;
     Engine::Graphic*		_grEngine;
-    
+
+  public:
+    Component::Factory*		_Cfactory;
+    Entity::Factory*		_Efactory;
+
+  public:
+    Component::Arena*		arena;
+Component::Collider*	collider;
+Component::Phisix		*phisix;
+
     /* Ctor && Dtor */
   public:
-    GameEngine(Event::Dispatcher*, Engine::Graphic*, Entity::Pool*);
-    ~GameEngine();
+    Game(Event::Dispatcher*, Engine::Graphic*);
+    ~Game();
     
-  public:
-    Engine::Game::Delay*	delayAllocator();
-    bool			refresh();
   public:
     Entity::GameObject*	allocate(/* by type and enum specifier*/);
   };

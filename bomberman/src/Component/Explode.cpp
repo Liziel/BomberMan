@@ -94,6 +94,7 @@ namespace Component{
     }
     if (!it[2])
       mad(elements[2], Effects::low);
+    dispatchAll(new Event::Type::Explosion(x, y));
   }
   
   double	Explode::getSpread(Effects::type t){

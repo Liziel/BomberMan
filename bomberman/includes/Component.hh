@@ -43,7 +43,7 @@ namespace Component{
       std::vector<Superior*>	superiorPool;
     public:
       void	callSerial(std::fstream&);
-      /* superior added at construct or with setter? */
+      
     };
 
   protected:

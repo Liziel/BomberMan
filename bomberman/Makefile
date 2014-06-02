@@ -12,10 +12,12 @@ MAIN	= src/Main/main.cpp
 EVENT	= src/Event/Event.cpp
 #### DATAPOOL & ENTITY
 ENTITY	= src/Entity/entity.cpp
+#### ENGINE
+ENGINE	= src/Engine/game.cpp
 #### COMPONENT
 COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp src/Component/Factory.cpp src/Component/abstract.cpp src/Component/plantBomb.cpp src/Component/Arena.cpp src/Component/Explode.cpp
 ########################
-SRC	= $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
+SRC	= $(COMPO) $(ENGINE) $(ENTITY) $(EVENT) $(MAIN)
 
 FLAGS	= -W -Wall  -std=c++11 $(INC) -g3
 #	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\

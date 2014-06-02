@@ -31,4 +31,12 @@ namespace Component{
 		       imDead(true);
 		     }));
   }
+
+  std::string Arena::Player::serialization(){
+    return (Tokenizer::serialize("Player", amIDead()));
+  }
+
+  void	Arena::Player::setBySerial(const Tokenizer& t){
+    imDead(t.get<bool>(1));
+  }
 };

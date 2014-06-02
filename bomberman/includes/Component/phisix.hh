@@ -30,7 +30,7 @@ namespace Component{
     public:
       std::string serialization();
       void setBySerial(const Tokenizer&);
-      static std::string	getName(void) { return ("PhisixVector"); }
+      static std::string	getName(void) { return (""); }
     }; /*  -- vector end --  */
 
   private:

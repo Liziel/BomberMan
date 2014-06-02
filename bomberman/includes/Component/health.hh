@@ -1,5 +1,5 @@
-#ifndef __PHISIX_H__
-# define __PHISIX_H__
+#ifndef __HEALTH_H__
+# define __HEALTH_H__
 
 # include "Component.hh"
 
