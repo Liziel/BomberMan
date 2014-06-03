@@ -41,7 +41,7 @@ namespace Entity{
     void	attachComponent(Component::abstract*);
 
   public:
-    virtual void	setBySerial(const std::string&);
+    virtual void	setBySerial(const Tokenizer&);
     virtual std::string	serialization();
     virtual std::string getName() { return ("entity"); }
 
@@ -80,7 +80,7 @@ namespace Entity{
     Factory(Component::Factory*);
 
   public:
-    Entity::GameObject* allocateEntityByType(const std::string&);
+    Entity::GameObject* allocateEntityByType(const std::string&, bool init = true);
     Entity::GameObject* allocateEntityBySerial(const std::string&);
     
   public:

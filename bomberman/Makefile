@@ -11,7 +11,7 @@ MAIN	= src/Main/main.cpp
 #### EVENT
 EVENT	= src/Event/Event.cpp
 #### DATAPOOL & ENTITY
-ENTITY	= src/Entity/entity.cpp
+ENTITY	= src/Entity/entity.cpp src/Entity/factory.cpp
 #### ENGINE
 ENGINE	= src/Engine/game.cpp
 #### COMPONENT
