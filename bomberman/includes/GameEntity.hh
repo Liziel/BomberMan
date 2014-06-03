@@ -9,8 +9,14 @@ namespace Entity{
   public:
     Player(Event::Dispatcher* Dispatch);
   };
-  class Bloc : public Entity::GameObject{};
-  class Bomb : public Entity::GameObject{};
+  class Bomb : public Entity::GameObject{
+  public:
+    Bomb(Event::Dispatcher* Dispatch);
+  };
+  class Bloc : public Entity::GameObject{
+  public:
+    Bloc(Event::Dispatcher* Dispatch);
+  };
   class AI : public Entity::GameObject{};
 };
 

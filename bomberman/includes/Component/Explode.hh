@@ -26,6 +26,8 @@ namespace  Component{
   public:
     Explode(Entity::GameObject*);
 
+  private:
+    bool	exploding;
   public:
     void	EXPLODE		(Entity::GameObject*);
     void	dispatch	(int x, int y);

@@ -12,6 +12,7 @@
 #include "Arena.hh"
 #include "collider.hh"
 #include "health.hh"
+#include "plantBomb.hh"
 
 namespace Engine{
   class Game{
@@ -35,7 +36,7 @@ namespace Engine{
     Entity::Factory*		_Efactory;
 
   public:
-    Component::Arena*		arena;
+Component::Arena*		arena;
 Component::Collider*	collider;
 Component::Phisix		*phisix;
 

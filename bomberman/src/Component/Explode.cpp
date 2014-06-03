@@ -1,7 +1,7 @@
 #include "Explode.hh"
 
 namespace Component{
-  Explode::Explode(Entity::GameObject* _p) : Component::abstract(_p), untilBOOM(-1) {
+  Explode::Explode(Entity::GameObject* _p) : Component::abstract(_p), untilBOOM(-1), exploding(false) {
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
 		       if (!untilBOOM)
@@ -19,6 +19,8 @@ namespace Component{
 		       double x;
 		       double y;
 
+		       if (exploding)
+			 return ;
 		       _p->getPosition(x, y);
 		       if (event->x == static_cast<int>(x) && event->y == static_cast<int>(y))
 			 EXPLODE(_p);
@@ -29,6 +31,7 @@ namespace Component{
     double x;
     double y;
 
+    exploding = true;
     _p->getPosition(x, y);
     attachCallback(Event::Info::Colliding,
 		   new Event::FixedCallback([this, x, y] (Event::Data& e) {
