@@ -115,8 +115,8 @@ namespace Component{
 
   void		Explode::setBySerial(const Tokenizer& t) {
     untilBOOM	= t.get<Event::Time> (1);
-    elements[0]	= static_cast<Component::Effects::type>(t.get<int>(3));
+    elements[0]	= static_cast<Component::Effects::type>(t.get<int>(2));
     elements[1]	= static_cast<Component::Effects::type>(t.get<int>(3));
-    elements[2]	= static_cast<Component::Effects::type>(t.get<int>(3));
+    elements[2]	= static_cast<Component::Effects::type>(t.get<int>(4));
   }
 };

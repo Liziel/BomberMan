@@ -53,6 +53,26 @@ namespace Component{
       void		setBySerial(const Tokenizer&);
     };
 
+  public:
+    class Bloc : public Component::abstract, public Winner{
+    public:
+      Bloc(Entity::GameObject*, Component::Arena*);
+
+    public:
+      std::string	serialization();
+      void		setBySerial(const Tokenizer&);
+    };
+
+  public:
+    class IA : public Component::abstract, public Winner{
+    public:
+      IA(Entity::GameObject*, Component::Arena*);
+
+    public:
+      std::string	serialization();
+      void		setBySerial();
+    };
+
   private:
     std::list<Winner*>	fighter;
   public:

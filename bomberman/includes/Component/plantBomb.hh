@@ -51,12 +51,13 @@ namespace Event{
 	: Event::Data(Event::Info::BombReleased, sizeof(struct BombReleased), false) {}
     };
 
-# endif
-
+#  ifndef __BONUS_H__
     struct IncreaseBombStack : Event::Data{
       IncreaseBombStack()
 	: Event::Data(Event::Info::IncreaseBombStack, sizeof(struct IncreaseBombStack), false) {}
     };
+#  endif
+# endif
 
 # ifndef __EXPLODE_H__
     struct PlantBomb : Event::Data{

@@ -64,13 +64,14 @@ namespace Component{
 
 namespace  Event{
   namespace Type{
+# ifndef __BONUS_H__
     struct Immunity : Event::Data{
       Immunity(int _t)
 	: Event::Data(Event::Info::Immunity, sizeof(struct Immunity), false),
 	  time(_t) {}
       int time;
     };
-
+# endif
 # ifndef __EFFECTS_H__
     struct PlaceDot : Event::Data{
       PlaceDot(int _d, unsigned int _dd)

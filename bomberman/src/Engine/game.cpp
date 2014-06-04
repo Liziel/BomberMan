@@ -78,30 +78,30 @@ namespace Engine{
 	return (player);
       });
 
-    _Efactory->addAllocator("player", [this](bool _ini) -> Entity::GameObject* {
-	Entity::GameObject*	player = new Entity::Player(_dispatcher);
+    /*    _Efactory->addAllocator("ia", [this](bool _ini) -> Entity::GameObject* {
+	Entity::GameObject*	ia = new Entity::Ia(_dispatcher);
 	if (!_ini)
-	  return (player);
-	player
+	  return (ia);
+	ia
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("ColliderMovable", player));
-	player
+			    ->allocateComponentByType("ColliderMovable", ia));
+	ia
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("IA", player));// Arena::IA --> Composante de gameplay a finir
-	player
+			    ->allocateComponentByType("IA", ia));// Arena::IA --> Composante de gameplay a finir
+	ia
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Status", player));
-	player
+			    ->allocateComponentByType("Status", ia));
+	ia
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Health", player));
-	player
+			    ->allocateComponentByType("Health", ia));
+	ia
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("PhisixVector", player));
-	player
+			    ->allocateComponentByType("PhisixVector", ia));
+	ia
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("BombCast", player));	
-	return (player);
-      });
+			    ->allocateComponentByType("BombCast", ia));	
+	return (ia);
+	});*/
 
     _Efactory->addAllocator("bomb", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	bomb = new Entity::Bomb(_dispatcher);
@@ -116,7 +116,7 @@ namespace Engine{
 	return (bomb);
       });
 
-    _Efactory->addAllocator("bloc", [this](bool _ini) -> Entity::GameObject* {
+    _Efactory->addAllocator("destructibleBloc", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
 	if (!_ini)
 	  return (bloc);
@@ -125,13 +125,33 @@ namespace Engine{
 			    ->allocateComponentByType("ColliderStatic", bloc));//ColliderStatic
 	bloc
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Status", bloc));
-	bloc
-	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Health", bloc));
+			    ->allocateComponentByType("BonusGiver", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("Bloc", bloc));//Arena::Bloc a faire
+	bloc
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Runic", bloc));//ColliderStatic
+	return (bloc);
+      });
+
+    _Efactory->addAllocator("EmptyBloc", [this](bool _ini) -> Entity::GameObject* {
+	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
+	if (!_ini)
+	  return (bloc);
+	bloc
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Runic", bloc));//ColliderStatic
+	return (bloc);
+      });
+
+    _Efactory->addAllocator("indestructibleBloc", [this](bool _ini) -> Entity::GameObject* {
+	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
+	if (!_ini)
+	  return (bloc);
+	bloc
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("ColliderStatic", bloc));//ColliderStatic
 	return (bloc);
       });
 
