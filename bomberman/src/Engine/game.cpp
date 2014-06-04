@@ -52,6 +52,12 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::BombCast(_player));
 				       });
+
+    _Cfactory->storeComponentAllocator("BonusReceiver",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::Bonus::Receiver(_player));
+				       });
     
     _Efactory->addAllocator("player", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	player = new Entity::Player(_dispatcher);
@@ -116,13 +122,25 @@ namespace Engine{
 	return (bomb);
       });
 
+    _Cfactory->storeComponentAllocator("BonusGiver",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::Bonus::Giver(_player));
+				       });
+
+    _Cfactory->storeComponentAllocator("ColliderStatic",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::Collider::Static(_player, collider));
+				       });
+
     _Efactory->addAllocator("destructibleBloc", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
 	if (!_ini)
 	  return (bloc);
 	bloc
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("ColliderStatic", bloc));//ColliderStatic
+			    ->allocateComponentByType("ColliderStatic", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("BonusGiver", bloc));
@@ -131,7 +149,7 @@ namespace Engine{
 			    ->allocateComponentByType("Bloc", bloc));//Arena::Bloc a faire
 	bloc
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Runic", bloc));//ColliderStatic
+			    ->allocateComponentByType("Runic", bloc));//Runic
 	return (bloc);
       });
 

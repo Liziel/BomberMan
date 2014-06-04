@@ -2,6 +2,44 @@
 
 namespace  Component{
   namespace Bonus{
+    Receiver::Receiver(Entity::GameObject* _p)
+      : Component::abstract(_p), stackLevel(1) {
+      attachCallback(Event::Info::BonusLocation,
+		     new Event::FixedCallback([this](Event::Data& e) {
+			 Event::Type::BonusLocation* event =
+			   reinterpret_cast<Event::Type::BonusLocation*>(&e);
+			 double x;
+			 double y;
+			 parent->getPosition(x, y);
+			 if (x == event->x && y == event->y) {
+			   if (reactByType(event->type))
+			     dispatchAll(new Event::Type::TakeBonus(x, y));
+			 }
+		       }));
+    }
+
+    std::string	Receiver::serialization() {
+      return (Tokenizer::serialize("BonusReceiver",
+				   stackLevel));
+    }
+
+    void	Receiver::setBySerial(const Tokenizer& t){	
+      stackLevel = t.get<int>(1);
+    }
+
+    bool	Receiver::reactByType(Bonus::Type _t) {
+      if (_t == Immunity) {
+	dispatchSelf(new Event::Type::Immunity(10));
+      } else {
+	stackLevel += 1;
+	if (stackLevel > 5)
+	  return (false);
+	dispatchSelf(new Event::Type::IncreaseBombStack());
+      }
+      return (true);
+    }
+
+
     Giver::Giver(Entity::GameObject* _p)
       : Component::abstract(_p), dispenserId(0), type(None) {
       parent->getPosition(x, y);
@@ -24,6 +62,7 @@ namespace  Component{
 			 parent->unsetCallback(dispenserId);
 		       }));
     }
+
     std::string	Giver::serialization() {
       return (Tokenizer::serialize("BonusGiver",
 				   type,
@@ -41,5 +80,6 @@ namespace  Component{
       x = t.get<double>(2);
       y = t.get<double>(3);
     }
+
   };
 };

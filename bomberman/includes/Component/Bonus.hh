@@ -6,10 +6,11 @@
 namespace Component{
   namespace Bonus{
     enum Type {None, Immunity, IncreaseStack};
+
     class Giver : public Component::abstract{
     public:
       Giver(Entity::GameObject*);
-    public:
+    private:
       double			x;
       double			y;
       Event::Callback::Id	dispenserId;
@@ -18,13 +19,19 @@ namespace Component{
       std::string serialization();
       void	setBySerial(const Tokenizer&);
     };
+
     class Receiver : public Component::abstract{
+    private:
+      int	stackLevel;
     public:
       Receiver(Entity::GameObject*);
+      bool	reactByType(Bonus::Type);
+
     public:
       std::string serialization();
       void	setBySerial(const Tokenizer&);
     };
+
   };
 
 };

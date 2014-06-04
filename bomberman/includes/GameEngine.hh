@@ -13,6 +13,7 @@
 #include "collider.hh"
 #include "health.hh"
 #include "plantBomb.hh"
+#include "Bonus.hh"
 
 namespace Engine{
   class Game{

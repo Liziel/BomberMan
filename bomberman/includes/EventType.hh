@@ -17,7 +17,8 @@ namespace Event{
       Keyboard, ChangeKeyConfig, /* keyBoard */
       isMute, /* quite a lot */
       LootBonus, BonusLocation, TakeBonus, /* Bonus */
-      Explosion,
+      Explosion, /* explode and bloc */
+      SocketGlyph, EnableGlyph,
       BombReloaded, BombReleased, IncreaseBombStack,/* UI */
       isOnFire, isOnLife, isOnIce, isOnElectricity, /* display */ 
       Clock, Refresh,

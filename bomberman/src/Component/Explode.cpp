@@ -114,9 +114,20 @@ namespace Component{
   }
 
   void		Explode::setBySerial(const Tokenizer& t) {
+    Component::Effects::type swap;
     untilBOOM	= t.get<Event::Time> (1);
     elements[0]	= static_cast<Component::Effects::type>(t.get<int>(2));
     elements[1]	= static_cast<Component::Effects::type>(t.get<int>(3));
     elements[2]	= static_cast<Component::Effects::type>(t.get<int>(4));
+    if (elements[2] == Component::Effects::Glyph) {
+      swap = elements[0];
+      elements[0] = elements[2];
+      elements[2] = swap;
+    }
+    if (elements[1] == Component::Effects::Glyph) {
+      swap = elements[0];
+      elements[0] = elements[1];
+      elements[1] = swap;
+    }
   }
 };

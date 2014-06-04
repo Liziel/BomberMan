@@ -69,6 +69,7 @@ namespace Event{
     }; 
 # endif
 
+# ifndef __RUNIC_H__
     struct GlyphExplosion : Event::Data{
       GlyphExplosion(int _x, int _y, Component::Effects::level _l)
 	: Event::Data(Event::Info::GlyphExplosion, sizeof(struct GlyphExplosion), false),
@@ -77,6 +78,7 @@ namespace Event{
       int y;
       Component::Effects::level level;
     };
+# endif
 
 # ifndef __EFFECTS_H__
     struct FireExplosion : Event::Data{
