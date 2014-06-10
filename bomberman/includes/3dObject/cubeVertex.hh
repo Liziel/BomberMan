@@ -20,10 +20,8 @@ namespace object3d {
     void setPosition(int x, int y, Layer = Up);
 
   public:
-    void	draw(gdl::AShader &shader);
+    void	draw(gdl::AShader &shader, gdl::Clock const& clock);
   };
-
-  class animatedVertex : public AObject {};
 };
 
 #endif

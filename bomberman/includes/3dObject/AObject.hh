@@ -11,7 +11,9 @@ namespace object3d {
   public:
     AObject();
     virtual ~AObject() {}
-    virtual void draw(gdl::AShader &) = 0;
+
+  public:
+    void	draw(gdl::AShader &shader, gdl::Clock const& clock);
 
   public:
     void translate(glm::vec3 const &);

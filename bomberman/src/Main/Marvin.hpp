@@ -4,8 +4,8 @@
 class Marvin : public AObject 
 { 
 private:
-	gdl::Model		_Model;
-	float	_speed;
+	gdl::Model	_Model;
+	float		_speed;
 	
 public:
 	Marvin(){}
