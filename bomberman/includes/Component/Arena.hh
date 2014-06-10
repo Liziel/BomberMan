@@ -93,12 +93,27 @@ namespace Component{
     Arena(Event::Dispatcher*, Entity::Factory*);
 
   public:
+    void		addSelf(Winner*);
     void		GenerateSquareMap(int nplay, int nIa, int x, int y);
   };
 };
 
 namespace  Event{
   namespace Type{
+
+    struct endGame : Event::Data {
+      endGame()
+	: Event::Data(Event::Info::endGame,
+		      sizeof(struct endGame), false) {}
+    };
+
+    struct winner : Event::Data {
+      winner(int _id)
+	: Event::Data(Event::Info::winner,
+		      sizeof(struct winner), false),
+	  id(_id) {}
+      int	id;
+    };
 
 # ifndef __COLLIDER_H__
     struct disableCollision : Event::Data {

@@ -70,9 +70,22 @@ namespace Component{
   /* #### ARENA #### */
   Arena::Arena(Event::Dispatcher* _d, Entity::Factory* _f)
     : Component::Superior(_d), _Efactory(_f) {
-    _d->attachCallbackOnEvent(Event::Info::Clock,
+    _d->addCallbackOnEvent(Event::Info::Clock,
 			      new Event::FixedCallback([this] (Event::Data&) {
-				  if (!)
+				  if (!fighter.size())
+				    return ;
+				  int	id = 0;
+				  int	whosnotdead = 0;
+				  for (auto itt = fighter.begin(); itt != fighter.end(); itt++) {
+				    if (!((*itt)->amIDead()) && whosnotdead == 0)
+				      whosnotdead = id + 1;
+				    else if (!((*itt)->amIDead()))
+				      whosnotdead = -1;
+				    id++;
+				  }
+				  if (whosnotdead > 0)
+				    dispatcher->dispatchEvent(new Event::Type::winner(whosnotdead - 1));
+				  dispatcher->dispatchEvent(new Event::Type::endGame());
 				}));
     _d->addCallbackOnEvent(Event::Info::beginGame,
 		   new Event::FixedCallback([this] (Event::Data& e) {
