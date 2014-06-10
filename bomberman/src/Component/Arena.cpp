@@ -109,15 +109,15 @@ namespace Component{
   }
 
   void		Arena::GenerateSquareMap(int nplay, int nIa, int x, int y) {
-    std::array<std::array<int , 2>, 4> dispoPlace = { std::array<int, 2>({1, 1}),  std::array<int, 2>({x-1, 1}),
-						      std::array<int, 2>({1,y-1}), std::array<int, 2>({x-1,y-1})  };
+    std::array<std::array<int , 2>, 4> dispoPlace = { std::array<int, 2>({x/2 - 1, y/2 - 1}),  std::array<int, 2>({x/2 - x-1, y/2 - 1}),
+						      std::array<int, 2>({x/2 - 1,y/2 - y-1}), std::array<int, 2>({x/2 - x-1,y/2 - y-1})  };
     for (int xi = 0; xi <= x; xi++) {
       for (int yi = 0; yi <= y; yi++) {
 	if (xi == 0 || xi == x || yi == 0 || yi == y)
-	  _Efactory->allocateEntityByType("indestructibleBloc")->setPosition(xi, yi);
+	  _Efactory->allocateEntityByType("indestructibleBloc")->setPosition(x/2 - xi, y/2 - yi);
 	else if ((xi != 1 && yi != 1 && xi != x -1 && yi != y -1) &&
 		 (!(xi % 2) || !(yi % 2)))
-	  _Efactory->allocateEntityByType("destructibleBloc")->setPosition(xi, yi);
+	  _Efactory->allocateEntityByType("destructibleBloc")->setPosition(x/2 - xi, y/2 - yi);
 	else
 	  _Efactory->allocateEntityByType("EmptyBloc")->setPosition(xi, yi);
       }
