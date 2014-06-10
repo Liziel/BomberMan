@@ -18,6 +18,7 @@ namespace Component {
       Component::Collider*		collider;
     public:
       Movable(Entity::GameObject*, Component::Collider*);
+      ~Movable();
 
     private:
       Collider::Id		id;
@@ -44,6 +45,7 @@ namespace Component {
       Component::Collider*		collider;
     public:
       Static(Entity::GameObject*, Component::Collider*);
+      ~Static();
 
     private:
       Collider::Id		id;
@@ -53,6 +55,7 @@ namespace Component {
     private:
       double	x;
       double	y;
+      bool	disabled;
     public:
       bool doCollide(int x, int y);
 
@@ -74,6 +77,9 @@ namespace Component {
   public:
     Collider::Id	addSelf(Component::Collider::Static*);
     Collider::Id	addSelf(Component::Collider::Movable*);
+
+    void	removeSelf(Component::Collider::Static*);
+    void	removeSelf(Component::Collider::Movable*);
 
     bool	operator()(int x, int y,
 			   Collider::Type ignoreType = _noType,
@@ -108,6 +114,15 @@ namespace Event{
     }; 
 # endif
 # endif
+
+# ifndef __ARENA_H__
+    struct disableCollision : Event::Data {
+      disableCollision()
+	: Event::Data(Event::Info::disableCollision,
+		      sizeof(struct disableCollision), false) {}
+    };
+# endif
+
   };
 };
 

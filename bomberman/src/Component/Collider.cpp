@@ -35,6 +35,10 @@ namespace Component{
 		     }));
   }
 
+  Collider::Movable::~Movable() {
+    collider->removeSelf(this);
+  }
+
   Collider::Id	Collider::Movable::getId(void) {
     return (id);
   }
@@ -55,8 +59,16 @@ namespace Component{
 
   /* Collider::Static */
   Collider::Static::Static(Entity::GameObject* _p, Component::Collider* _c)
-    : Component::abstract(_p), collider(_c), id(_c->addSelf(this)), x(-1), y(-1) {
+    : Component::abstract(_p), collider(_c), id(_c->addSelf(this)), x(-1), y(-1), disabled(false) {
     _p->getPosition(x, y);
+    attachCallback(Event::Info::disableCollision,
+		   new Event::FixedCallback([this] (Event::Data&) {
+		       disabled = true;
+		     }));
+  }
+
+  Collider::Static::~Static() {
+    collider->removeSelf(this);
   }
 
   Collider::Id	Collider::Static::getId(void) {
@@ -64,16 +76,19 @@ namespace Component{
   }
 
   bool		Collider::Static::doCollide(int _x, int _y) {
+    if (disabled)
+      return (false);
     return (x == _x && y == _y);
   }
 
   std::string	Collider::Static::serialization() {
-    return (Tokenizer::serialize(Collider::Static::getName(), x, y));
+    return (Tokenizer::serialize(Collider::Static::getName(), x, y, disabled));
   }
 
   void		Collider::Static::setBySerial(const Tokenizer& t) {
     x = t.get<int>(1);
     y = t.get<int>(2);
+    disabled = t.get<bool>(3);
   }
 
   /* Collider */
@@ -84,6 +99,22 @@ namespace Component{
     listStatic.push_back(st);
     _idGen += 1;
     return (_idGen - 1);
+  }
+
+  void	Collider::removeSelf(Component::Collider::Static* st){
+    for (auto itt = listStatic.begin(); itt != listStatic.end(); itt++)
+      if (*itt == st) {
+	listStatic.erase(itt);
+	return ;
+      }
+  }
+
+  void	Collider::removeSelf(Component::Collider::Movable* mv){
+    for (auto itt = listMovable.begin(); itt != listMovable.end(); itt++)
+      if (*itt == mv) {
+	listMovable.erase(itt);
+	return ;
+      }
   }
 
   Collider::Id	Collider::addSelf(Component::Collider::Movable* mv){

@@ -16,9 +16,7 @@ namespace Component{
 
 
 namespace  Component{
-  namespace Explosion{
-    
-  };
+
   class Explode : public Component::abstract{
   private:
     std::array<Component::Effects::type, 3>	elements;
@@ -36,17 +34,20 @@ namespace  Component{
     std::string serialization();
     void	setBySerial(const Tokenizer&);
    };
+
 };
 
 namespace Event{
   namespace Type{
 
+# ifndef __RUNIC_H__
     struct Explosion : Event::Data{
       Explosion(int _x, int _y)
 	: Event::Data(Event::Info::Explosion, sizeof(struct Explosion), false), x(_x), y(_y) {}
       int x;
       int y;
     };
+#endif
 
 # ifndef __COLLIDER_H__
     struct RequireMovement :  Event::Data{
@@ -78,9 +79,7 @@ namespace Event{
       int y;
       Component::Effects::level level;
     };
-# endif
-
-# ifndef __EFFECTS_H__
+#  ifndef __EFFECTS_H__
     struct FireExplosion : Event::Data{
       FireExplosion(int _x, int _y, Component::Effects::level _l)
 	: Event::Data(Event::Info::FireExplosion, sizeof(struct FireExplosion), false),
@@ -116,7 +115,9 @@ namespace Event{
       int y;
       Component::Effects::level level;
     };
+#  endif
 # endif
+
   };
 };
 #endif

@@ -35,19 +35,20 @@ namespace Component{
     _p->getPosition(x, y);
     attachCallback(Event::Info::Colliding,
 		   new Event::FixedCallback([this, x, y] (Event::Data& e) {
-		       Event::Type::Colliding* _ = 
-			 reinterpret_cast<Event::Type::Colliding*>(&e);		       
+		       Event::Type::Colliding* _ =
+			 reinterpret_cast<Event::Type::Colliding*>(&e);
+
 		       if (_->endX > x)
-			 for (; _->endX >= x + 1; --_->endX)
+			 for (_->endX += 1; _->endX >= x + 1; --_->endX)
 			   dispatch(_->endX, y);
 		       if (_->endX < x)
-			 for (; _->endX <= x - 1; ++_->endX)
+			 for (_->endX -= 1; _->endX <= x - 1; ++_->endX)
 			   dispatch(_->endX, y);
 		       if (_->endY > y)
-			 for (; _->endX >= y + 1; --_->endY)
+			 for (_->endY += 1; _->endX >= y + 1; --_->endY)
 			   dispatch(x, _->endY);
-		       if (_->endY > y)
-			 for (; _->endX >= y + 1; --_->endY)
+		       if (_->endY < y)
+			 for (_->endY -= 1; _->endX <= y + 1; ++_->endY)
 			   dispatch(x, _->endY);
 		     }));
     double spread = getSpread(elements[0]) +

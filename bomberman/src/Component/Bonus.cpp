@@ -39,7 +39,6 @@ namespace  Component{
       return (true);
     }
 
-
     Giver::Giver(Entity::GameObject* _p)
       : Component::abstract(_p), dispenserId(0), type(None) {
       parent->getPosition(x, y);

@@ -14,6 +14,8 @@
 #include "health.hh"
 #include "plantBomb.hh"
 #include "Bonus.hh"
+#include "Runic.hh"
+#include "Explode.hh"
 
 namespace Engine{
   class Game{

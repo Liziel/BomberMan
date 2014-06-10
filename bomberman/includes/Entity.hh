@@ -20,7 +20,7 @@ namespace Component{
 }
 
 namespace Entity{
-  enum Type {_default, game, gameOption};
+  enum Type {_default, game, gameOption, menu};
   class GameObject{
   private:
     GameObject();
@@ -82,6 +82,9 @@ namespace Entity{
   public:
     Entity::GameObject* allocateEntityByType(const std::string&, bool init = true);
     Entity::GameObject* allocateEntityBySerial(const std::string&);
+
+  public:
+    Component::Factory*	getComponentFactory(void) { return (_componentFactory); }
     
   public:
     void	addAllocator(const std::string&, std::function< Entity::GameObject*(bool) >);

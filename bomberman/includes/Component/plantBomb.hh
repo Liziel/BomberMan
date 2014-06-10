@@ -59,7 +59,7 @@ namespace Event{
 #  endif
 # endif
 
-# ifndef __EXPLODE_H__
+# ifndef __ARENA_H__
     struct PlantBomb : Event::Data{
       PlantBomb(int _x, int _y,
 		Component::Effects::type _p,

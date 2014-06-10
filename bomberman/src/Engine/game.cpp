@@ -1,14 +1,15 @@
 #include "GameEngine.hh"
 
 namespace Engine{
+
   /* ## Game ## */
   Game::Game(Event::Dispatcher* _d, Engine::Graphic* _g)
     : _dispatcher(_d), _grEngine(_g),
       _Cfactory(new Component::Factory()),
-      _Efactory(new Entity::Factory(_Cfactory)) {    
+      _Efactory(new Entity::Factory(_Cfactory)) {
 
     /* Superior Component */
-    arena = new Component::Arena();
+    arena = new Component::Arena(_d, _Efactory);
     collider = new Component::Collider();
     phisix = new Component::Phisix(_dispatcher);
 
@@ -58,8 +59,14 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::Bonus::Receiver(_player));
 				       });
+
+    _Cfactory->storeComponentAllocator("Explode",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::Explode(_player));
+				       });
     
-    _Efactory->addAllocator("player", [this](bool _ini) -> Entity::GameObject* {
+    _Efactory->addAllocator("player1", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	player = new Entity::Player(_dispatcher);
 	if (!_ini)
 	  return (player);
@@ -84,32 +91,32 @@ namespace Engine{
 	return (player);
       });
 
-    /*    _Efactory->addAllocator("ia", [this](bool _ini) -> Entity::GameObject* {
-	Entity::GameObject*	ia = new Entity::Ia(_dispatcher);
+    _Efactory->addAllocator("player2", [this](bool _ini) -> Entity::GameObject* {
+	Entity::GameObject*	player = new Entity::Player(_dispatcher);
 	if (!_ini)
-	  return (ia);
-	ia
+	  return (player);
+	player
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("ColliderMovable", ia));
-	ia
+			    ->allocateComponentByType("ColliderMovable", player));
+	player
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("IA", ia));// Arena::IA --> Composante de gameplay a finir
-	ia
+			    ->allocateComponentByType("Player", player));
+	player
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Status", ia));
-	ia
+			    ->allocateComponentByType("Status", player));
+	player
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Health", ia));
-	ia
+			    ->allocateComponentByType("Health", player));
+	player
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("PhisixVector", ia));
-	ia
+			    ->allocateComponentByType("PhisixVector", player));
+	player
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("BombCast", ia));	
-	return (ia);
-	});*/
+			    ->allocateComponentByType("BombCast", player));	
+	return (player);
+      });
 
-    _Efactory->addAllocator("bomb", [this](bool _ini) -> Entity::GameObject* {
+    _Efactory->addAllocator("bomb", [this](bool _ini) -> Entity::GameObject* { /* Entity::Bomb */
 	Entity::GameObject*	bomb = new Entity::Bomb(_dispatcher);
 	if (!_ini)
 	  return (bomb);
@@ -133,6 +140,13 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::Collider::Static(_player, collider));
 				       });
+
+    _Cfactory->storeComponentAllocator("Runic",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::Runic(_player));
+				       });
+
 
     _Efactory->addAllocator("destructibleBloc", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);

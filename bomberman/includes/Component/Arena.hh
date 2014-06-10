@@ -17,6 +17,9 @@ namespace Component{
       typedef enum elevel {low, med, high} level;
   };
 # endif
+  namespace Game{
+    enum mapType {square, croix};
+  };
 };
 
 namespace Component{
@@ -54,16 +57,6 @@ namespace Component{
     };
 
   public:
-    class Bloc : public Component::abstract, public Winner{
-    public:
-      Bloc(Entity::GameObject*, Component::Arena*);
-
-    public:
-      std::string	serialization();
-      void		setBySerial(const Tokenizer&);
-    };
-
-  public:
     class IA : public Component::abstract, public Winner{
     public:
       IA(Entity::GameObject*, Component::Arena*);
@@ -73,15 +66,59 @@ namespace Component{
       void		setBySerial();
     };
 
+  public:
+    class Bloc : public Component::abstract {
+    private:
+      double	x;
+      double	y;
+
+    public:
+      Bloc(Entity::GameObject*);
+
+    public: 
+      std::string	serialization();
+      void		setBySerial(const Tokenizer&);
+   };
+
+  private:
+    Entity::Factory*	_Efactory;
+
   private:
     std::list<Winner*>	fighter;
+
+  private:
+    Component::Game::mapType	_map;
+
   public:
-    Arena();
+    Arena(Event::Dispatcher*, Entity::Factory*);
+
+  public:
+    void		GenerateSquareMap(int nplay, int nIa, int x, int y);
   };
 };
 
 namespace  Event{
   namespace Type{
+
+# ifndef __COLLIDER_H__
+    struct disableCollision : Event::Data {
+      disableCollision()
+	: Event::Data(Event::Info::disableCollision,
+		      sizeof(struct disableCollision), false) {}
+    };
+# endif
+
+
+    struct beginGame : Event::Data {
+      beginGame()
+	: Event::Data(Event::Info::beginGame,
+		      sizeof(struct beginGame), true) {}
+      Component::Game::mapType	_map;
+      int			mapSizex;
+      int			mapSizey;
+      int			nbPlayer;
+      int			nbIa;
+    };
 
 # ifndef __KEYBOARD_H__
     struct Keyboard : Event::Data{
@@ -94,6 +131,23 @@ namespace  Event{
 # endif
 
 # ifndef __PLANTBOMB_H__
+
+# ifndef __EXPLODE_H__
+    struct PlantBomb : Event::Data{
+      PlantBomb(int _x, int _y,
+		Component::Effects::type _p,
+		Component::Effects::type _s,
+		Component::Effects::type _t)
+	: Event::Data(Event::Info::plantBomb, sizeof(struct PlantBomb), true),
+	  x(_x), y(_y), prim(_p), second(_s), ter(_t) {}
+      int x;
+      int y;
+      Component::Effects::type prim;
+      Component::Effects::type second;
+      Component::Effects::type ter;
+    };
+# endif
+
     struct selfPlantBomb : Event::Data{
       selfPlantBomb()
 	: Event::Data(Event::Info::selfPlantBomb, sizeof(struct selfPlantBomb), false)
@@ -106,6 +160,7 @@ namespace  Event{
 	  element(_e) {}
       Component::Effects::type element;
     };
+
 # endif
 
 # ifndef __PHISIX_H__
@@ -121,6 +176,27 @@ namespace  Event{
     struct dead : Event::Data{
       dead()
 	: Event::Data(Event::Info::dead, sizeof(struct dead), true) {}
+    };
+# endif
+
+# ifndef __BONUS_H__
+    struct LootBonus : Event::Data{
+      LootBonus()
+	: Event::Data(Event::Info::LootBonus, sizeof(struct LootBonus), true)
+      {}
+    };
+# endif
+
+
+# ifndef __EXPLODE_H__
+    struct Explosion : Event::Data {
+      Explosion(int _x, int _y)
+	: Event::Data(Event::Info::Explosion,
+		      sizeof(struct Explosion),
+		      false),
+	  x(_x), y(_y) {}
+      int	x;
+      int	y;
     };
 # endif
 

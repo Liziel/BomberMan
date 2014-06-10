@@ -54,11 +54,13 @@ namespace Event{
     };
 # endif
 
+# ifndef __ARENA_H__
     struct LootBonus : Event::Data{
       LootBonus()
 	: Event::Data(Event::Info::LootBonus, sizeof(struct LootBonus), true)
       {}
     };
+# endif
 
     struct BonusLocation : Event::Data{
       BonusLocation(int _x, int _y, Component::Bonus::Type _t)
