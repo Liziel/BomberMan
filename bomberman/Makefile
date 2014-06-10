@@ -6,7 +6,7 @@ RM	= rm -f
 SRC	=
 INC	= -I ./includes
 
-INC	= -I ./includes -I ./includes/Component/
+INC	= -I ./includes -I ./includes/Component/ -I ./includes/3dObject/
 ########################
 #### MAIN
 MAIN	= src/Main/main.cpp
@@ -16,10 +16,12 @@ EVENT	= src/Event/Event.cpp
 ENTITY	= src/Entity/entity.cpp src/Entity/factory.cpp
 #### ENGINE
 ENGINE	= src/Engine/game.cpp
+#### 3dObject
+3DOBJECT= src/3dObject/cubeVertex.cpp src/3dObject/AObject.cpp
 #### COMPONENT
 COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp src/Component/Factory.cpp src/Component/abstract.cpp src/Component/plantBomb.cpp src/Component/Arena.cpp src/Component/Explode.cpp src/Component/Bonus.cpp src/Component/Runic.cpp
 ########################
-SRC	= $(COMPO) $(ENGINE) $(ENTITY) $(EVENT) $(MAIN)
+SRC	=  $(ENGINE) $(3DOBJECT) $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
 
 FLAGS	= -W -Wall  -std=c++11 $(INC) -g3
 #	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\

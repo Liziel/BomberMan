@@ -1,9 +1,4 @@
 
-#include <SdlContext.hh>
-#include <OpenGL.hh>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <iostream>
 
 class AObject
 {

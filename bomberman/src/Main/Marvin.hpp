@@ -20,10 +20,10 @@ public:
 			return (false);
 		}
 		// _Model.createSubAnim(0, "accelerate", 0, 33);
-		// _Model.createSubAnim(0, "run", 33, 66);
+		// _Model.createSubAnim(1, "accelerate", 33, 66);
 		// _Model.createSubAnim(0, "decelerate", 66, 100);
-		// _Model.setCurrentSubAnim("run");
-		_Model.setCurrentAnim(0);
+		// _Model.setCurrentSubAnim("accelerate");
+		_Model.setCurrentAnim(1);
 		scale(glm::vec3(0.025f));
 		return (true);
 	}

@@ -129,5 +129,9 @@ namespace Component{
     for (int iIa = iplay; iIa < nIa + iplay; iIa++) {
       _Efactory->allocateEntityByType("Ia")->setPosition(dispoPlace[iIa][0], dispoPlace[iIa][1]);
     } 
-  };
+  }
+
+  void	Arena::addSelf(Arena::Winner* _w) {
+    fighter.push_back(_w);
+  }
 };

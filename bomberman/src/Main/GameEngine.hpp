@@ -40,12 +40,12 @@ public:
 		return true;
 	}
 
-	bool update() 
-	{ 
+	bool update()
+	{
 		if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT)) 
 			return false; 
-		_context.updateClock(_clock); 
-		_context.updateInputs(_input); 
+		_context.updateClock(_clock);
+		_context.updateInputs(_input);
 		for (size_t i = 0; i < _objects.size(); ++i) 
 			_objects[i]->update(_clock, _input); 
 		return true;

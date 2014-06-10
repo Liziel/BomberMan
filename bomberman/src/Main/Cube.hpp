@@ -98,7 +98,7 @@ public:
 		return (true);
 	}
 	
-	virtual void update(gdl::Clock const &clock, gdl::Input &input) 
+	virtual void update(gdl::Clock const &clock, gdl::Input &input)
 	{
 		if (input.getKey(SDLK_DOWN))
 			translate(glm::vec3(0, -1, 0) * static_cast<float>(clock.getElapsed()) * _speed); 
