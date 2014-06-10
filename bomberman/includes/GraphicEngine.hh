@@ -1,8 +1,31 @@
 #ifndef __GRAPHIQUEENGINE_H__
 # define __GRAPHIQUEENGINE_H__
 
+#include <Game.hh>
+#include <SdlContext.hh>
+#include <iostream>
+
+#include "AObject.hh"
+#include "Event.hpp"
+
 namespace Engine{
-  class Graphic{};
+  class Graphic : public gdl::Game{
+  private: 
+    gdl::SdlContext _context; 
+    gdl::Clock _clock; 
+    gdl::Input _input; 
+    gdl::BasicShader _shader; 
+    std::list<object3d::AObject*> _objects; 
+
+  public:
+    Graphic();
+    ~Graphic();
+
+  public:
+    void addObject(object3d::AObject*);
+    void subObject(object3d::AObject*);
+
+  };
 };
 
 #endif

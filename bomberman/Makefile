@@ -15,7 +15,7 @@ EVENT	= src/Event/Event.cpp
 #### DATAPOOL & ENTITY
 ENTITY	= src/Entity/entity.cpp src/Entity/factory.cpp
 #### ENGINE
-ENGINE	= src/Engine/game.cpp
+ENGINE	= src/Engine/game.cpp src/Engine/graphic.cpp
 #### 3dObject
 3DOBJECT= src/3dObject/cubeVertex.cpp src/3dObject/AObject.cpp src/3dObject/animatedVertex.cpp
 #### COMPONENT

@@ -65,11 +65,4 @@ public:
 		for (size_t i = 0; i < _objects.size(); ++i) 
 			delete _objects[i]; 
 	} 
-
-private: 
-	gdl::SdlContext _context; 
-	gdl::Clock _clock; 
-	gdl::Input _input; 
-	gdl::BasicShader _shader; 
-	std::vector<AObject*> _objects; 
 }; 
