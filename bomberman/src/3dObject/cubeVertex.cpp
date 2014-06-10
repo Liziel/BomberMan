@@ -81,9 +81,14 @@ namespace object3d {
     _geometry.build();
   };
 
-  void	cubeVertex::setPosition(int,int,cubeVertex::Layer) {}
+  void	cubeVertex::setPosition(int x, int y, cubeVertex::Layer layer) {
+    if (layer == cubeVertex::Ground)
+      translate(glm::vec3(x, y, -1));
+    else
+      translate(glm::vec3(x, y, 0));
+  }
 
-  void	cubeVertex::draw(gdl::AShader& shader) {
+  void	cubeVertex::draw(gdl::AShader& shader, gdl::Clock const&) {
     _texture.bind();
     _geometry.draw(shader, getTransformation(), GL_QUADS);
   }
