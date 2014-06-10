@@ -1,6 +1,8 @@
-
-#include	<cstdlib>
-#include	"GameEngine.hpp"
+# include	<cstdlib>
+# include	<iostream>
+# include	"GameEngine.hh"
+# include	"Tokenizer.hpp"
+# include	"GameEngine.hpp"
 
 int main()  /* Main de test */
 {
