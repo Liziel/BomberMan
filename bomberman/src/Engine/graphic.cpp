@@ -28,7 +28,7 @@ namespace Engine{
     _shader.setUniform("projection", projection);
 
     dispatcher
-      .addCallbackOnEvent(Event::Info::Clock,
+      ->addCallbackOnEvent(Event::Info::Clock,
 			  new Event::FixedCallback([this] (Event::Data&) {
 			      if (_input.getKey(SDLK_ESCAPE) ||
 				  _input.getInput(SDL_QUIT)) {
@@ -40,7 +40,7 @@ namespace Engine{
 			    }));
 
     dispatcher
-      .addCallbackOnEvent(Event::Info::Refresh,
+      ->addCallbackOnEvent(Event::Info::Refresh,
 			  new Event::FixedCallback([this] (Event::Data&) {}));
   }
 

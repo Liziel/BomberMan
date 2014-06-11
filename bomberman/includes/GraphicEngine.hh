@@ -19,6 +19,8 @@ namespace Engine{
 
   private:
     Event::Dispatcher*	dispatcher;
+    bool		_quit;
+
   public:
     Graphic(Event::Dispatcher*);
     ~Graphic();
