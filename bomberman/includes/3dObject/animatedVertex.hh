@@ -1,7 +1,6 @@
 #ifndef __ANIMATEDVERTEX_H__
 # define __ANIMATEDVERTEX_H__
 
-# include <iostream>
 # include "AObject.hh"
 
 namespace object3d {
@@ -11,17 +10,31 @@ namespace object3d {
     double	_scale;
 
   public:
-    animatedVertex(char* model, double scale);
-    virtual ~animatedVertex();
+    animatedVertex(char* model, double scale)
+      : _scale(scale) {
+      if (_model.load("tamere") == false) {
+	std::cerr << "can't load model :" << model << std::endl;
+	return ;
+      }
+    }
+
+    ~animatedVertex() {}
 
   public:
-    void	setPosition(int x, int y);
-    void	setDirection(double fX, double fY);
-    virtual bool verifyAnimation(std::string) = 0;
-    void	setAnimation(std::string animation);
+    void	setPosition(int x, int y) {
+      translate(glm::vec3(x, y, 0));
+    }
+    void	setDirection(double, double) {
+
+    }
+    void	setAnimation(std::string animation) {
+      _model.setCurrentSubAnim(animation);
+    }
 
   public:
-    void	draw(gdl::AShader &shader, gdl::Clock const& clock);
+    void	draw(gdl::AShader &shader, gdl::Clock const& clock) {
+      _model.draw(shader, getTransformation(), clock.getElapsed());
+    }
   };
 };
 

@@ -1,6 +1,8 @@
 #ifndef __AOBJECT_H__
 # define __AOBJECT_H__
 
+#include "GraphicEngine.hh"
+
 namespace object3d {
   class AObject{
   public:
@@ -22,7 +24,8 @@ namespace object3d {
     glm::vec3 _rotation; 
     glm::vec3 _scale; 
   };
-
 };
+
+#include "animatedVertex.hh"
 
 #endif

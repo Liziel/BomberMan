@@ -7,9 +7,9 @@
 namespace object3d {
   class cubeVertex : public object3d::AObject {
   private:
-	gdl::Texture _texture;
-	gdl::Geometry _geometry;
-	float _speed;
+    gdl::Texture _texture;
+    gdl::Geometry _geometry;
+    float _speed;
 
   public:
     cubeVertex(char* texture);
