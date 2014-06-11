@@ -29,6 +29,10 @@ namespace Engine{
     void addObject(object3d::AObject*);
     void subObject(object3d::AObject*);
 
+  public:
+    bool initialize() {return (true);}
+    bool update() {return (true);}
+    void draw() {}
   };
 };
 

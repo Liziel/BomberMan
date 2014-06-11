@@ -24,12 +24,11 @@ COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health
 SRC	=  $(ENGINE) $(3DOBJECT) $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
 
 FLAGS	= -W -Wall -Wextra $(INC)				\
-	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/		\
-	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread\
-	--std=c++11
+	-I lib/Gdl_lib/includes --std=c++11
+
 
 CFLAGS		+= $(FLAGS)
-LDFLAGS		+= $(FLAGS)
+LDFLAGS		= -L./lib/Gdl_lib/libs/ -lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
 
 OBJ		= $(SRC:.cpp=.o)
 
