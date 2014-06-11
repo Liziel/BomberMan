@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-# include	<cstdlib>
-# include	<iostream>
-# include	"GameEngine.hh"
-# include	"Tokenizer.hpp"
-# include	"GameEngine.hpp"
-=======
 
 #include	<cstdlib>
 #include <unistd.h>
 #include	"GameEngine.hpp"
->>>>>>> origin/mergemanette
 
 
 class InputJoystick

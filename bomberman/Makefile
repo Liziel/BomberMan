@@ -6,6 +6,7 @@ RM	= rm -f
 SRC	=
 INC	= -I ./includes
 
+<<<<<<< HEAD
 INC	= -I ./includes -I ./includes/Component/ -I ./includes/3dObject/
 ########################
 #### MAIN
@@ -34,6 +35,15 @@ FLAGS	= -W -Wall -Wextra $(INC)				\
 	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread\
 	--std=c++11
 
+=======
+MAIN	= 		src/Main/main.cpp
+
+SRC	= $(MAIN)
+
+FLAGS	= -g -W -Wall -Wextra $(INC)	`sdl-config --libs`			\
+	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
+	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
+>>>>>>> origin/mergemanette
 CFLAGS		+= $(FLAGS)
 LDFLAGS		+= $(FLAGS)
 
