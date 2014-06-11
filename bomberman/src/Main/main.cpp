@@ -5,5 +5,4 @@
 # include	"GameEngine.hh"
 # include	"Tokenizer.hpp"
 
-int main()
-{}
+int main(){ return (0); }

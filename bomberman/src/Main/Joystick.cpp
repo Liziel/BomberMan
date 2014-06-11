@@ -122,14 +122,3 @@ int		InputJoystick::Wait_Event(GameEngine 		&engine)
 	}
 	return 1;
 }
-
-int main()
-{
-	GameEngine 		engine;
-	InputJoystick	joy;
-
-	joy.InitMap();
-	joy.ConnectJoystick();
-	printf("*****%d*****\n", joy.nbr_joy);
-	joy.Wait_Event(engine);
-}
