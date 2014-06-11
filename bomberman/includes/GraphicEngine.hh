@@ -17,8 +17,10 @@ namespace Engine{
     gdl::BasicShader _shader; 
     std::list<object3d::AObject*> _objects; 
 
+  private:
+    Event::Dispatcher*	dispatcher;
   public:
-    Graphic();
+    Graphic(Event::Dispatcher*);
     ~Graphic();
 
   public:

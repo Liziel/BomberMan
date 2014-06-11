@@ -42,22 +42,22 @@ public:
 
 	bool update()
 	{
-		if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT)) 
-			return false; 
-		_context.updateClock(_clock);
-		_context.updateInputs(_input);
-		for (size_t i = 0; i < _objects.size(); ++i) 
-			_objects[i]->update(_clock, _input); 
+	  if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT)) 
+	    return false; 
+	  _context.updateClock(_clock);
+	  _context.updateInputs(_input);
+	  for (size_t i = 0; i < _objects.size(); ++i) 
+	    _objects[i]->update(_clock, _input); 
 		return true;
 	} 
 
 	void draw() 
 	{ 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		_shader.bind();
-		for (size_t i = 0; i < _objects.size(); ++i)
-			_objects[i]->draw(_shader, _clock);
-		_context.flush();
+	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	  _shader.bind();
+	  for (size_t i = 0; i < _objects.size(); ++i)
+	    _objects[i]->draw(_shader, _clock);
+	  _context.flush();
 	}
 
 	~GameEngine() 
