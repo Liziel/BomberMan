@@ -41,6 +41,10 @@ namespace Engine{
     bool initialize() {return (true);}
     bool update() {return (true);}
     void draw() {}
+
+  public:
+    gdl::BasicShader&	getShader(void);
+    gdl::Clock&		getClock(void);
   };
 };
 

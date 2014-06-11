@@ -1,4 +1,5 @@
 #include "GraphicEngine.hh"
+#include "AObject.hh"
 
 namespace Engine{
   Graphic::Graphic(Event::Dispatcher* _d)
@@ -28,7 +29,7 @@ namespace Engine{
     _shader.setUniform("projection", projection);
 
     dispatcher
-      ->addCallbackOnEvent(Event::Info::Clock,
+      ->addCallbackOnEvent(Event::Info::Refresh,
 			  new Event::FixedCallback([this] (Event::Data&) {
 			      if (_input.getKey(SDLK_ESCAPE) ||
 				  _input.getInput(SDL_QUIT)) {
@@ -37,11 +38,20 @@ namespace Engine{
 			      }
 			      _context.updateClock(_clock);
 			      _context.updateInputs(_input);
-			    }));
+			    }), Event::Info::high
+			   );
 
     dispatcher
       ->addCallbackOnEvent(Event::Info::Refresh,
-			  new Event::FixedCallback([this] (Event::Data&) {}));
+			   new Event::FixedCallback([this] (Event::Data&) {
+			       glClear(GL_COLOR_BUFFER_BIT
+				       | GL_DEPTH_BUFFER_BIT);
+			       _shader.bind();
+			       for (auto ob : _objects)
+				 ob->draw(_shader, _clock);
+			       _context.flush();
+			     }), Event::Info::low
+			   );
   }
 
   Graphic::~Graphic() {}

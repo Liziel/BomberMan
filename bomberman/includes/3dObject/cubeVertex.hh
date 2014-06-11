@@ -12,7 +12,7 @@ namespace object3d {
     float _speed;
 
   public:
-    cubeVertex(char* texture);
+    cubeVertex(const char* texture);
     virtual ~cubeVertex() {}
 
   public:

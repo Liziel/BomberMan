@@ -1,7 +1,7 @@
 #include "cubeVertex.hh"
 
 namespace object3d {
-  cubeVertex::cubeVertex(char* texture) : _speed(10.f) {
+  cubeVertex::cubeVertex(const char* texture) : _speed(10.f) {
     if (_texture.load(texture) == false) { 
       std::cerr << "Error : Failed to load texture" << std::endl; 
       return ;
