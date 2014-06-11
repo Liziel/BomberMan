@@ -6,11 +6,11 @@ RM	= rm -f
 SRC	=
 INC	= -I ./includes
 
-MAIN	= 	src/Main/main.cpp
+MAIN	= 		src/Main/main.cpp
 
 SRC	= $(MAIN)
 
-FLAGS	= -W -Wall -Wextra $(INC)				\
+FLAGS	= -g -W -Wall -Wextra $(INC)	`sdl-config --libs`			\
 	-I lib/Gdl_lib/includes -L./lib/Gdl_lib/libs/ 	\
 	-lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
 CFLAGS		+= $(FLAGS)
