@@ -27,11 +27,15 @@ namespace Engine{
 
   private:
     Event::Dispatcher*	dispatcher;
-    bool		_quit;
 
   public:
     Graphic(Event::Dispatcher*);
     ~Graphic();
+
+  private:
+    bool		_quit;
+  public:
+    bool		getQuit();
 
   public:
     void addObject(object3d::AObject*);

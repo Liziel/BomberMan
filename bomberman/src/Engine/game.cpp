@@ -65,8 +65,14 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::Explode(_player));
 				       });
+
+    _Cfactory->storeComponentAllocator("Ground",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::groundDisplay(_player, _grEngine));
+				       });
     
-    _Efactory->addAllocator("player1", [this](bool _ini) -> Entity::GameObject* {
+    _Efactory->addAllocator("player0", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	player = new Entity::Player(_dispatcher);
 	if (!_ini)
 	  return (player);
@@ -91,7 +97,7 @@ namespace Engine{
 	return (player);
       });
 
-    _Efactory->addAllocator("player2", [this](bool _ini) -> Entity::GameObject* {
+    _Efactory->addAllocator("player1", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	player = new Entity::Player(_dispatcher);
 	if (!_ini)
 	  return (player);
@@ -160,6 +166,9 @@ namespace Engine{
 			    ->allocateComponentByType("BonusGiver", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Ground", bloc));
+	bloc
+	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("Bloc", bloc));//Arena::Bloc a faire
 	bloc
 	  ->attachComponent(_Cfactory
@@ -173,19 +182,32 @@ namespace Engine{
 	  return (bloc);
 	bloc
 	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Ground", bloc));
+	bloc
+	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("Runic", bloc));//ColliderStatic
 	return (bloc);
       });
 
     _Efactory->addAllocator("indestructibleBloc", [this](bool _ini) -> Entity::GameObject* {
 	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
+
 	if (!_ini)
 	  return (bloc);
+	bloc
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Ground", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("ColliderStatic", bloc));//ColliderStatic
 	return (bloc);
       });
 
+  }
+  Game::~Game() {}
+
+  void	Game::refresh() {
+    _dispatcher->dispatchEvent(new Event::Type::Clock);
+    _dispatcher->dispatchEvent(new Event::Type::Refresh);
   }
 };

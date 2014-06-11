@@ -2,6 +2,11 @@
 # include	"GameEngine.hh"
 # include	"GraphicEngine.hh"
 # include	"Tokenizer.hpp"
+# include	"Manager.hh"
 
-#include "animatedVertex.hh"
-int main(){ return (0); }
+int main(){
+  Engine::Manager manager;
+
+  manager.start();
+  return (0);
+}

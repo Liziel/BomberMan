@@ -217,8 +217,9 @@ namespace Event{
 
     _isdispatching = false;
     if (!_eventQueue.empty()) {
-      dispatchEvent(_eventQueue.front());
+      Event::Data* levent = _eventQueue.front();
       _eventQueue.pop();
+      dispatchEvent(levent);
     }
     delete event;
   }

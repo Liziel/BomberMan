@@ -61,7 +61,7 @@ namespace Event{
 
   public:
     FixedCallback(std::function < void(Event::Data&) > _c)
-      : Callback(), _lambdaCallback(_c) {}
+      : Callback(), _lambdaCallback(_c), _enable(true) {}
   };
 
   class StaticCallback : public Event::Callback {
@@ -96,7 +96,7 @@ namespace Event{
     Event::Time		_time;
   public:
     TimedCallback(Event::Time time, std::function < void(Event::Data&, Event::Time)> _c)
-      : Callback(), _lambdaCallback(_c), _time(time) {}
+      : Callback(), _lambdaCallback(_c), _enable(true), _time(time) {}
   };
 
   /* ####### Callback Remover ####### */

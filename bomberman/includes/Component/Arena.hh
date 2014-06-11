@@ -125,9 +125,10 @@ namespace  Event{
 
 
     struct beginGame : Event::Data {
-      beginGame()
+      beginGame(Component::Game::mapType _m, int x, int y, int np, int ni)
 	: Event::Data(Event::Info::beginGame,
-		      sizeof(struct beginGame), true) {}
+		      sizeof(struct beginGame), true),
+	  _map(_m), mapSizex(x), mapSizey(y), nbPlayer(np), nbIa(ni) {}
       Component::Game::mapType	_map;
       int			mapSizex;
       int			mapSizey;

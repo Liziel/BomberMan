@@ -15,7 +15,7 @@ EVENT	= src/Event/Event.cpp
 #### DATAPOOL & ENTITY
 ENTITY	= src/Entity/entity.cpp src/Entity/factory.cpp
 #### ENGINE
-ENGINE	= src/Engine/game.cpp src/Engine/graphic.cpp
+ENGINE	= src/Engine/game.cpp src/Engine/graphic.cpp src/Engine/manager.cpp
 #### 3dObject
 3DOBJECT= src/3dObject/cubeVertex.cpp src/3dObject/AObject.cpp
 #### COMPONENT
@@ -24,7 +24,7 @@ COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health
 SRC	=  $(ENGINE) $(3DOBJECT) $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
 
 FLAGS	= -W -Wall -Wextra $(INC)				\
-	-I lib/Gdl_lib/includes --std=c++11
+	-I lib/Gdl_lib/includes --std=c++11 -g3
 
 
 CFLAGS		+= $(FLAGS)

@@ -3,7 +3,7 @@
 
 namespace Engine{
   Graphic::Graphic(Event::Dispatcher* _d)
-    : dispatcher(_d) {
+    : dispatcher(_d), _quit(false) {
     if (!_context.start(800, 600, "My bomberman!"))
       return ;
     glEnable(GL_DEPTH_TEST);
@@ -36,6 +36,7 @@ namespace Engine{
 				_quit = true;
 				return ;
 			      }
+			      std::cout << "alors?" << std::endl;
 			      _context.updateClock(_clock);
 			      _context.updateInputs(_input);
 			    }), Event::Info::high
@@ -62,5 +63,8 @@ namespace Engine{
       if (*itt == o)
 	_objects.erase(itt);
     }
+  }
+  bool	Graphic::getQuit(void) {
+    return (_quit);
   }
 };

@@ -12,9 +12,9 @@ namespace Entity{
   Entity::GameObject*	Factory::allocateEntityByType(const std::string& key, bool init) {
     auto it = _EntityAllocator.find(key);
     if (it != _EntityAllocator.end())
-      return (NULL);
-    else
       return (it->second(init));
+    else
+      return (NULL);
   }
 
   Entity::GameObject*	Factory::allocateEntityBySerial(const std::string& key)

@@ -2,25 +2,23 @@
 
 namespace Engine{
   /* ## Manager ## */
-  Manager::Manager(ArgsParsing& parsing)
-    : data(new Component::Pool()),
-      dispatcher(new Event::Dispatcher()),
-      graphic(new Engine::Graphic(parsing)),
-      game(new Engine::Game(dispatcher, graphic, data))
+  Manager::Manager()
+    : dispatcher(new Event::Dispatcher()),
+      graphic(new Engine::Graphic(dispatcher)),
+      game(new Engine::Game(dispatcher, graphic))
   {}
   Manager::~Manager() {
     delete dispatcher;
     delete graphic;
-    delete data;
     delete game;
   }
 
   void	Manager::start(void) {
-    Engine::Game::Delay*	delay = game->delayAllocator();
+    dispatcher->dispatchEvent(new Event::
+			      Type::beginGame(Component::Game::square, 10, 10, 1, 0));
     try {
-      while (1) {
+      while (!graphic->getQuit()) {
 	game->refresh();
-	delay(100);
       }
     } catch (const std::exception& e) {
       std::cerr << "exception non-catched :" << e.what() << std::endl;

@@ -14,9 +14,9 @@ namespace Component{
   {
     auto it = _ComponentAllocator.find(key);
     if (it != _ComponentAllocator.end())
-      return (NULL);
-    else
       return (it->second(game));
+    else
+      return (NULL);
   }
 
   Component::abstract*	Factory::allocateComponentBySerial(const std::string& key, Entity::GameObject *game)
