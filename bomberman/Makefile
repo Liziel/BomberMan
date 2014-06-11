@@ -21,7 +21,7 @@ ENGINE	= src/Engine/game.cpp src/Engine/graphic.cpp
 #### COMPONENT
 COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp src/Component/Factory.cpp src/Component/abstract.cpp src/Component/plantBomb.cpp src/Component/Arena.cpp src/Component/Explode.cpp src/Component/Bonus.cpp src/Component/Runic.cpp
 ########################
-SRC	=  $(ENGINE) $(3DOBJECT) $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
+SRC	=  $(ENGINE) $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
 
 FLAGS	= -W -Wall -Wextra $(INC)				\
 	-I lib/Gdl_lib/includes --std=c++11

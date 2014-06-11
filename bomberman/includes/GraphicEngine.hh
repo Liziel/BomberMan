@@ -5,8 +5,16 @@
 #include <SdlContext.hh>
 #include <iostream>
 
-#include "AObject.hh"
+#include <SdlContext.hh>
+#include <OpenGL.hh>
+#include <glm/gtc/matrix_transform.hpp>
+
+
 #include "Event.hpp"
+
+namespace object3d {
+  class AObject;
+};
 
 namespace Engine{
   class Graphic : public gdl::Game{
