@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 clean:
-	$(RM) src/Main/*.o
+	$(RM) $(OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
