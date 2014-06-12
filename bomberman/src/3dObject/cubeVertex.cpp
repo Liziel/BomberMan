@@ -5,9 +5,7 @@ namespace object3d {
     if (_texture.load(texture) == false) { 
       std::cerr << "Error : Failed to load texture" << std::endl; 
       return ;
-    }
-    _geometry.setColor(glm::vec4(1, 0, 0, 1)); 
-		
+    }		
     _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5)); 
     _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5)); 
     _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5)); 
@@ -17,8 +15,6 @@ namespace object3d {
     _geometry.pushUv(glm::vec2(1.0f, 0.0f)); 
     _geometry.pushUv(glm::vec2(1.0f, 1.0f)); 
     _geometry.pushUv(glm::vec2(0.0f, 1.0f)); 
-		
-    _geometry.setColor(glm::vec4(1, 1, 0, 1));  
 		
     _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5)); 
     _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5)); 
@@ -30,8 +26,6 @@ namespace object3d {
     _geometry.pushUv(glm::vec2(1.0f, 1.0f)); 
     _geometry.pushUv(glm::vec2(0.0f, 1.0f)); 
 		
-    _geometry.setColor(glm::vec4(0, 1, 1, 1)); 
-		
     _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5)); 
     _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5)); 
     _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5)); 
@@ -42,8 +36,6 @@ namespace object3d {
     _geometry.pushUv(glm::vec2(1.0f, 1.0f)); 
     _geometry.pushUv(glm::vec2(0.0f, 1.0f)); 
 		
-    _geometry.setColor(glm::vec4(1, 0, 1, 1)); 
-		
     _geometry.pushVertex(glm::vec3(-0.5, -0.5, 0.5)); 
     _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5)); 
     _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5)); 
@@ -53,8 +45,6 @@ namespace object3d {
     _geometry.pushUv(glm::vec2(1.0f, 0.0f)); 
     _geometry.pushUv(glm::vec2(1.0f, 1.0f)); 
     _geometry.pushUv(glm::vec2(0.0f, 1.0f)); 
-		
-    _geometry.setColor(glm::vec4(0, 1, 0, 1)); 
 		
     _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5)); 
     _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5)); 
@@ -65,8 +55,6 @@ namespace object3d {
     _geometry.pushUv(glm::vec2(1.0f, 0.0f));
     _geometry.pushUv(glm::vec2(1.0f, 1.0f));
     _geometry.pushUv(glm::vec2(0.0f, 1.0f));
-		
-    _geometry.setColor(glm::vec4(0, 0, 1, 1));
 		
     _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
     _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
@@ -85,7 +73,7 @@ namespace object3d {
     if (layer == cubeVertex::Ground)
       translate(glm::vec3(x, y, -1));
     else
-      translate(glm::vec3(x, y, 0));
+      translate(glm::vec3(x, y, -5));
   }
 
   void	cubeVertex::draw(gdl::AShader& shader, gdl::Clock const&) {

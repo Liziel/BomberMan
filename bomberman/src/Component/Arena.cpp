@@ -111,20 +111,36 @@ namespace Component{
   void		Arena::GenerateSquareMap(int nplay, int nIa, int x, int y) {
     std::array<std::array<int , 2>, 4> dispoPlace = { std::array<int, 2>({x/2 - 1, y/2 - 1}),  std::array<int, 2>({x/2 - x-1, y/2 - 1}),
 						      std::array<int, 2>({x/2 - 1,y/2 - y-1}), std::array<int, 2>({x/2 - x-1,y/2 - y-1})  };
+    Entity::GameObject*	obj;
     for (int xi = 0; xi <= x; xi++) {
       for (int yi = 0; yi <= y; yi++) {
-	if (xi == 0 || xi == x || yi == 0 || yi == y)
-	  _Efactory->allocateEntityByType("indestructibleBloc")->setPosition(x/2 - xi, y/2 - yi);
-	else if ((xi != 1 && yi != 1 && xi != x -1 && yi != y -1) &&
-		 (!(xi % 2) || !(yi % 2)))
-	  _Efactory->allocateEntityByType("destructibleBloc")->setPosition(x/2 - xi, y/2 - yi);
-	else
-	  _Efactory->allocateEntityByType("EmptyBloc")->setPosition(xi, yi);
+	if (xi == 0 || xi == x || yi == 0 || yi == y || (!(xi % 2) && !(yi % 2))) {
+	  std::cout << "indes" << x << ":" << y << ":" << xi << ":" << yi << std::endl;
+	  obj = _Efactory->allocateEntityByType("indestructibleBloc", false);
+	  obj->setPosition(x/2 - xi, y/2 - yi);
+	  _Efactory->allocateComponentByEntityType("indestructibleBloc", obj);
+	} else if (!((xi == 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
+		     (xi == x - 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
+		     (yi == 1 && (xi == 1 || xi == 2 || xi == x - 2)) ||
+		     (yi == y - 1 && (xi == 1 || xi == 2 || xi == x - 1 || xi == x - 2))
+		     )) {
+	  std::cout << "book" << x << ":" << y << ":" << xi << ":" << yi << std::endl;
+	  obj = _Efactory->allocateEntityByType("destructibleBloc", false);
+	  obj->setPosition(x/2 - xi, y/2 - yi);
+	  _Efactory->allocateComponentByEntityType("destructibleBloc", obj);
+	} else {
+	  std::cout << "empty" << x << ":" << y << ":" << xi << ":" << yi << std::endl;
+	  _Efactory->allocateEntityByType("EmptyBloc", false);
+	  obj->setPosition(x/2 - xi, y/2 - yi);
+	  _Efactory->allocateComponentByEntityType("EmptyBloc", obj);
+	}
       }
     }
     int iplay = 0;
     for (; iplay < nplay; iplay++) {
-      _Efactory->allocateEntityByType("player" + std::to_string(iplay))->setPosition(dispoPlace[iplay][0], dispoPlace[iplay][1]);
+      obj = _Efactory->allocateEntityByType("player" + std::to_string(iplay), false);
+      obj->setPosition(dispoPlace[iplay][0], dispoPlace[iplay][1]);
+      _Efactory->allocateComponentByEntityType("player" + std::to_string(iplay), obj);
     }
     for (int iIa = iplay; iIa < nIa + iplay; iIa++) {
       _Efactory->allocateEntityByType("Ia")->setPosition(dispoPlace[iIa][0], dispoPlace[iIa][1]);

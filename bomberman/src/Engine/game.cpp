@@ -71,9 +71,21 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::groundDisplay(_player, _grEngine));
 				       });
+
+    _Cfactory->storeComponentAllocator("indestructibleDisplay",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::indestructibleDisplay(_player, _grEngine));
+				       });
+
+    _Cfactory->storeComponentAllocator("bookshelfDisplay",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::bookshelfDisplay(_player, _grEngine));
+				       });
     
-    _Efactory->addAllocator("player0", [this](bool _ini) -> Entity::GameObject* {
-	Entity::GameObject*	player = new Entity::Player(_dispatcher);
+    _Efactory->addAllocator("player0", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
+	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
 	if (!_ini)
 	  return (player);
 	player
@@ -97,8 +109,8 @@ namespace Engine{
 	return (player);
       });
 
-    _Efactory->addAllocator("player1", [this](bool _ini) -> Entity::GameObject* {
-	Entity::GameObject*	player = new Entity::Player(_dispatcher);
+    _Efactory->addAllocator("player1", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
+	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
 	if (!_ini)
 	  return (player);
 	player
@@ -122,8 +134,8 @@ namespace Engine{
 	return (player);
       });
 
-    _Efactory->addAllocator("bomb", [this](bool _ini) -> Entity::GameObject* { /* Entity::Bomb */
-	Entity::GameObject*	bomb = new Entity::Bomb(_dispatcher);
+    _Efactory->addAllocator("bomb", [this](bool _ini, Entity::GameObject* __bomb) -> Entity::GameObject* { /* Entity::Bomb */
+	Entity::GameObject*	bomb = (!__bomb) ? (new Entity::Bomb(_dispatcher)) :(__bomb);
 	if (!_ini)
 	  return (bomb);
 	bomb
@@ -154,8 +166,8 @@ namespace Engine{
 				       });
 
 
-    _Efactory->addAllocator("destructibleBloc", [this](bool _ini) -> Entity::GameObject* {
-	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
+    _Efactory->addAllocator("destructibleBloc", [this](bool _ini, Entity::GameObject* __bloc) -> Entity::GameObject* {
+	Entity::GameObject*	bloc = (!__bloc) ? (new Entity::Bloc(_dispatcher)) :(__bloc);
 	if (!_ini)
 	  return (bloc);
 	bloc
@@ -169,6 +181,9 @@ namespace Engine{
 			    ->allocateComponentByType("Ground", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("bookshelfDisplay", bloc));
+	bloc
+	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("Bloc", bloc));//Arena::Bloc a faire
 	bloc
 	  ->attachComponent(_Cfactory
@@ -176,8 +191,8 @@ namespace Engine{
 	return (bloc);
       });
 
-    _Efactory->addAllocator("EmptyBloc", [this](bool _ini) -> Entity::GameObject* {
-	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
+    _Efactory->addAllocator("EmptyBloc", [this](bool _ini, Entity::GameObject* __bloc) -> Entity::GameObject* {
+	Entity::GameObject*	bloc = (!__bloc) ? (new Entity::Bloc(_dispatcher)) :(__bloc);
 	if (!_ini)
 	  return (bloc);
 	bloc
@@ -189,14 +204,17 @@ namespace Engine{
 	return (bloc);
       });
 
-    _Efactory->addAllocator("indestructibleBloc", [this](bool _ini) -> Entity::GameObject* {
-	Entity::GameObject*	bloc = new Entity::Bloc(_dispatcher);
+    _Efactory->addAllocator("indestructibleBloc", [this](bool _ini, Entity::GameObject* __bloc) -> Entity::GameObject* {
+	Entity::GameObject*	bloc = (!__bloc) ? (new Entity::Bloc(_dispatcher)) :(__bloc);
 
 	if (!_ini)
 	  return (bloc);
 	bloc
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("Ground", bloc));
+	bloc
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("indestructibleDisplay", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("ColliderStatic", bloc));//ColliderStatic

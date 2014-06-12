@@ -4,7 +4,7 @@
 namespace Engine{
   Graphic::Graphic(Event::Dispatcher* _d)
     : dispatcher(_d), _quit(false) {
-    if (!_context.start(800, 600, "My bomberman!"))
+    if (!_context.start(1600, 900, "My bomberman!"))
       return ;
     glEnable(GL_DEPTH_TEST);
     if ((!_shader.load("./lib/Gdl_lib/shaders/basic.fp", GL_FRAGMENT_SHADER)) ||

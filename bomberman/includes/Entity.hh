@@ -73,7 +73,7 @@ namespace Entity{
 
   class Factory{
   private:
-    std::map< std::string, std::function< Entity::GameObject*(bool) > > _EntityAllocator;
+    std::map< std::string, std::function< Entity::GameObject*(bool, Entity::GameObject*) > > _EntityAllocator;
     Component::Factory*	_componentFactory;
 
   public:
@@ -84,10 +84,13 @@ namespace Entity{
     Entity::GameObject* allocateEntityBySerial(const std::string&);
 
   public:
+    Entity::GameObject* allocateComponentByEntityType(const std::string&, Entity::GameObject*);
+
+  public:
     Component::Factory*	getComponentFactory(void) { return (_componentFactory); }
     
   public:
-    void	addAllocator(const std::string&, std::function< Entity::GameObject*(bool) >);
+    void	addAllocator(const std::string&, std::function< Entity::GameObject*(bool,Entity::GameObject*) >);
   };
 
 };

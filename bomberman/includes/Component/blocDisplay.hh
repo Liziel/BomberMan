@@ -4,9 +4,9 @@
 # include "Component.hh"
 
 # include "cubeVertex.hh"
-# define __GROUNDTEXTURE ""
-# define __INDESTEXTURE ""
-# define __BOOKSHELFTEXTURE ""
+# define __GROUNDTEXTURE "./textures/ground/lava.tga"
+# define __INDESTEXTURE "./textures/diamond/Diamond.tga"
+# define __BOOKSHELFTEXTURE "./textures/bookshelf/bookshelf.tga"
 
 namespace Component{
   class groundDisplay : public Component::abstract{
@@ -23,7 +23,7 @@ namespace Component{
     void	setBySerial(const Tokenizer&) {}
   };
 
-  class indestructibleDisplay : Component::abstract {
+  class indestructibleDisplay : public Component::abstract {
   private:
     object3d::cubeVertex	*cube;
     Engine::Graphic*		engine;
@@ -37,7 +37,7 @@ namespace Component{
     void	setBySerial(const Tokenizer&) {}
   };
 
-  class bookshelfDisplay : Component::abstract {
+  class bookshelfDisplay : public Component::abstract {
   private:
     object3d::cubeVertex	*cube;
     Engine::Graphic*		engine;
