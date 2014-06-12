@@ -1,52 +1,14 @@
 
 #include	<cstdlib>
 #include <unistd.h>
+#include <map>
 #include	"GameEngine.hpp"
-
-
-class InputJoystick
-{
-	public:
-	std::map<int, int>					button;
-	std::map<int, SDL_Joystick *>		joystick;
-    int					nbr_joy;
-
-    InputJoystick();
-    ~InputJoystick();
-    void		ConnectJoystick();
-    void	GetJoystickAxes(int);
-    void	GetJoystickButton(int);
-    void	InitMap();
-    int	Wait_Event(GameEngine 		&engine);
-};
+#include <SDL/SDL.h>
+#include "Joystick.hh"
 
 InputJoystick::InputJoystick(){}
 
 InputJoystick::~InputJoystick(){}
-
-void		InputJoystick::InitMap()
-{
-	button[0] = 0; 
-	button[1] = 0; 
-	button[2] = 0; 
-	button[3] = 0; 
-	button[4] = 0; 
-	button[5] = 0; 
-	button[6] = 0; 
-	button[7] = 0; 
-	button[8] = 0; 
-	button[9] = 0; 
-	button[10] = 0; 
-	button[11] = 0; 
-	button[12] = 0;
-	button[13] = 0;
-	button[14] = 0;
-	button[15] = 0;
-	button[16] = 0;
-	button[17] = 0;
-	button[18] = 0;
-	button[19] = 0;
-}
 
 void		InputJoystick::ConnectJoystick()
 {
@@ -73,7 +35,6 @@ void		InputJoystick::ConnectJoystick()
 			return;
 		}
 	}
-
 }
 
 void	InputJoystick::GetJoystickAxes(int player)
@@ -90,7 +51,9 @@ void	InputJoystick::GetJoystickAxes(int player)
 void	InputJoystick::GetJoystickButton(int player)
 {
 	int		i;
+	int		i_button;
 
+	i_button = 4;
 	for ( i = 0 ; i < SDL_JoystickNumButtons(joystick[player]) ; i++ )
 	{
 		if ( SDL_JoystickGetButton(joystick[player],i) )
@@ -101,10 +64,12 @@ void	InputJoystick::GetJoystickButton(int player)
 		{
 			printf("Player[%d] Bouton %d n'est pas appuyé\n",player, i);
 		}
+		button[i_button] = SDL_JoystickGetButton(joystick[player],i);
+		i_button++;
 	}
 }
 
-int		InputJoystick::Wait_Event(GameEngine 		&engine)
+int		InputJoystick::Wait_Event(GameEngine &engine)
 {
 	int	i;
 
@@ -114,11 +79,25 @@ int		InputJoystick::Wait_Event(GameEngine 		&engine)
 	{
 		engine.draw();
 		SDL_JoystickUpdate();
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < nbr_joy; i++)
 		{
 			GetJoystickAxes(i);
 			GetJoystickButton(i);
 		}
+		for(i = 0; i < 24; i++)
+		{
+			printf("touche %d = %d\n", i, button[i]);
+		}
 	}
 	return 1;
+}
+
+int main()
+{
+	GameEngine 		engine;
+	InputJoystick	joy;
+
+	joy.ConnectJoystick();
+	printf("*****%d*****\n", joy.nbr_joy);
+	joy.Wait_Event(engine);
 }
