@@ -19,6 +19,7 @@ void		InputJoystick::ConnectJoystick()
 		fprintf(stderr,"Error SDL\n");
 		return;
 	}
+
 	i = 0;
 	for (nbr_joy = SDL_NumJoysticks();  i < nbr_joy; i++)
 	{

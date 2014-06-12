@@ -17,6 +17,7 @@
 #include "Bonus.hh"
 #include "Runic.hh"
 #include "Explode.hh"
+#include "joystick.hh"
 
 namespace Engine{
   class Game{
@@ -33,6 +34,7 @@ namespace Engine{
     Component::Arena*		arena;
     Component::Collider*	collider;
     Component::Phisix		*phisix;
+    Component::JoystickManager	*joystick;
 
     /* Ctor && Dtor */
   public:

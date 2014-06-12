@@ -12,8 +12,37 @@ namespace Engine{
     arena = new Component::Arena(_d, _Efactory);
     collider = new Component::Collider();
     phisix = new Component::Phisix(_dispatcher);
+    joystick = new Component::JoystickManager();
 
     /* pLayer Component & Entity */
+    _Cfactory->storeComponentAllocator("joystick1",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::
+						 JoystickManager::joystick(_player, joystick->getJoystick(0));
+				       });
+
+    _Cfactory->storeComponentAllocator("joystick2",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::
+						 JoystickManager::joystick(_player, joystick->getJoystick(1));
+				       });
+
+    _Cfactory->storeComponentAllocator("joystick3",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::
+						 JoystickManager::joystick(_player, joystick->getJoystick(2));
+				       });
+
+    _Cfactory->storeComponentAllocator("joystick4",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::
+						 JoystickManager::joystick(_player, joystick->getJoystick(4));
+				       });
+
     _Cfactory->storeComponentAllocator("ColliderMovable",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {

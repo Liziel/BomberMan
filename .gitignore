@@ -25,6 +25,11 @@
 !libSDL2.a
 !libSDL2main.a
 
+#unignore 3d and texture
+!*.tga
+!*.FBX
+!*.max
+
 #unignore auteur
 !auteur
 
