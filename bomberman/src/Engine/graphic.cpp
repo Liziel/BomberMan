@@ -15,7 +15,6 @@ namespace Engine{
 	std::cout << "Error : Failed to load Shaders" << std::endl;
 	return;
       }
-    addHudObject(new object3d::planVertex("img/preview.tga", 400, 300, 50, 100));
 
     /* is it correct? */
 
@@ -57,7 +56,7 @@ namespace Engine{
       ->addCallbackOnEvent(Event::Info::Refresh,
 			   new Event::FixedCallback([this] (Event::Data&) {
 			       glm::mat4 projection;
-			       projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f); 
+			       projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 			       _shader.setUniform("projection", projection);
 			       _shader.setUniform("view", glm::mat4(1));
 

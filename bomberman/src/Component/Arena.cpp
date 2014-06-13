@@ -112,7 +112,7 @@ namespace Component{
   }
 
   void		Arena::GenerateSquareMap(int nplay, int nIa, int x, int y) {
-    std::array<std::array<double , 2>, 4> dispoPlace = { std::array<double, 2>({(-x/2 + 1.2f)/1000, (-y/2 + 1.2f)/1000}),  std::array<double, 2>({x/2 - 1.5, -y/2 + 1.5}),
+    std::array<std::array<double , 2>, 4> dispoPlace = { std::array<double, 2>({(-x/2 + 1.2f), (-y/2 + 1.2f)}),  std::array<double, 2>({x/2 - 1.5, -y/2 + 1.5}),
 						      std::array<double, 2>({x/2 - 1.5,y/2 - y-1.5}), std::array<double, 2>({x/2 - x-1.5,y/2 - y-1.5})  };
     Entity::GameObject*	obj;
     for (int xi = 0; xi <= x; xi++) {
