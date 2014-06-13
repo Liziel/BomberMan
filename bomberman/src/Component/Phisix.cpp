@@ -6,11 +6,13 @@ namespace Component
   Phisix::Vector::Vector(Entity::GameObject* _p, Component::Phisix* _c)
     : Component::abstract(_p), phisix(_c), speed(1.f) {
     direction = {false, false, false, false};
+    speedAxe[0] = 0.f;
+    speedAxe[1] = 0.f;
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this](Event::Data&) {
 		       double _speed = speed * phisix->getFriction();
-		       double axeX = (direction[Right] * _speed - direction[Left] * _speed);
-		       double axeY = (-direction[Down] * _speed + direction[Up] * _speed);
+		       double axeX = (-direction[Right] * _speed + direction[Left] * _speed) * speedAxe[1];
+		       double axeY = (-direction[Down] * _speed + direction[Up] * _speed) * speedAxe[0];
 
 		       parent->getPosition(x, y);
 		       if (axeX == 0.f && axeY == 0.f)
@@ -33,14 +35,21 @@ namespace Component
     attachCallback(Event::Info::selfMovement,
 		   new Event::FixedCallback([this](Event::Data& e){
 		       Event::Type::selfMovement *event = reinterpret_cast<Event::Type::selfMovement*>(&e);
-
 		       direction[event->direction] = event->state;
+		       if (event->direction == Left && event->state == true)
+			 std::cout << "tamereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" << std::endl;
 		     }));
 
     attachCallback(Event::Info::speedModifier,
 		   new Event::FixedCallback([this](Event::Data& e){
 		       Event::Type::speedModifier *event = reinterpret_cast<Event::Type::speedModifier*>(&e);
 		       speed *= event->speed;
+		     }));
+    attachCallback(Event::Info::speedAxeSetter,
+		   new Event::FixedCallback([this](Event::Data& e){
+		       Event::Type::speedAxeSetter* event =
+			 reinterpret_cast<Event::Type::speedAxeSetter*>(&e);
+		       speedAxe[event->axe] = event->speed;
 		     }));
   }
   

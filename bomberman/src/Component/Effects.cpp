@@ -60,7 +60,7 @@ namespace Component{
       attachCallback(Event::Info::FireExplosion,
 		     new Event::FixedCallback([this, &fireLow, &fireMed, &fireHigh] (Event::Data& e) {
 			 Event::Type::FireExplosion *event = reinterpret_cast<Event::Type::FireExplosion*>(&e);
-			 Event::Time _t;
+			 Event::Time _t = 0;
 			 double x;
 			 double y;
 			 std::cout << "peinard"<< std::endl;
@@ -84,7 +84,7 @@ namespace Component{
       attachCallback(Event::Info::ElectricityExplosion,
 		     new Event::FixedCallback([this, electricityLow, electricityMed, electricityHigh] (Event::Data& e) {
 			 Event::Type::ElectricityExplosion *event = reinterpret_cast<Event::Type::ElectricityExplosion*>(&e);
-			 Event::Time _t;
+			 Event::Time _t = 0;
 			 double x;
 			 double y;
 
@@ -105,7 +105,7 @@ namespace Component{
       attachCallback(Event::Info::IceExplosion,
 		     new Event::FixedCallback([this, iceLow, iceMed, iceHigh] (Event::Data& e) {
 			 Event::Type::IceExplosion *event = reinterpret_cast<Event::Type::IceExplosion*>(&e);
-			 Event::Time _t;
+			 Event::Time _t = 0;
 			 double x;
 			 double y;
 
@@ -165,12 +165,14 @@ namespace Component{
     }
 
     std::string Status::speedSerialization(std::list<SpeedModifier*>::iterator itt) {
-      auto nextItt = ++itt;
+      std::cout << "wut" << std::endl;
+      if (itt == speedVect.end())
+	return ("");
+      auto nextItt = itt++;
       --itt;
       if (nextItt == speedVect.end())
-	return (Tokenizer::serialize((*itt)->serialization(), speedSerialization(nextItt)));
-      else
 	return ((*itt)->serialization());
+      return (Tokenizer::serialize((*itt)->serialization(), speedSerialization(nextItt)));
     }
 
     std::string	Status::serialization() {

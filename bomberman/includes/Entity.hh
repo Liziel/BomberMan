@@ -125,11 +125,11 @@ namespace Event{
     };
 
     struct EntitySerialize : Event::Data{
-      EntitySerialize(Entity::Type _n)
+      EntitySerialize(Entity::Type _n, std::ostream* stream)
 	: Event::Data(Event::Info::EntitySerialize, sizeof(EntitySerialize), false),
-	  type(_n) {}
+	  type(_n), localSave(stream) {}
       Entity::Type	type;
-      std::fstream*	localSave;
+      std::ostream*	localSave;
     };
 
   };

@@ -55,7 +55,7 @@ std::string Entity::GameObject::serialization() {
   serial = Tokenizer::serialize(getName(), x, y) + "\n";
   for (auto component : ComponentList)
     serial += component->serialization() + "\n";
-  return (serial);
+  return (serial + "###\n");
 }
 
 void	Entity::GameObject::setBySerial(const Tokenizer& t){

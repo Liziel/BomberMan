@@ -18,7 +18,7 @@ namespace Component{
 
     private:
       double	speed;
-
+      double	speedAxe[2];
     public:
       enum Direction{ Up, Down, Left, Right };
     private:
@@ -60,6 +60,15 @@ namespace Event{
       speedModifier(double _s)
 	: Event::Data(Event::Info::speedModifier, sizeof(struct speedModifier), false), speed(_s) {}
       double speed;
+    };
+# endif
+
+# ifndef __JOYSTICK_H__
+    struct speedAxeSetter : Event::Data {
+      speedAxeSetter(double _s, int _a)
+	: Event::Data(Event::Info::speedAxeSetter, sizeof(struct speedAxeSetter), false), speed(_s), axe(_a) {}
+      double speed;
+      int    axe;
     };
 # endif
 
