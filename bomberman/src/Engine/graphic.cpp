@@ -15,17 +15,11 @@ namespace Engine{
 	std::cout << "Error : Failed to load Shaders" << std::endl;
 	return;
       }
-    addHudObject(new object3d::planVertex("img/preview.tga"));
+    addHudObject(new object3d::planVertex("img/preview.tga", 400, 300, 50, 100));
 
     /* is it correct? */
-    glm::mat4 transformation;
-    transformation
-      = glm::lookAt(glm::vec3(0, 10, -30),
-		    glm::vec3(0, 0, 0),
-		    glm::vec3(0, 1, 0)); 
 
     _shader.bind();
-    _shader.setUniform("view", transformation);
 
     dispatcher
       ->addCallbackOnEvent(Event::Info::Refresh,
@@ -46,26 +40,32 @@ namespace Engine{
 			       glm::mat4 projection;
 			       projection = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 100.0f); 
 			       _shader.setUniform("projection", projection);
-			       
-			       glClear(GL_COLOR_BUFFER_BIT
+			       glm::mat4 transformation;
+			       transformation = glm::lookAt(glm::vec3(0, 10, -30),
+							    glm::vec3(0, 0, 0),
+							    glm::vec3(0, 1, 0)); 
+			       _shader.setUniform("view", transformation);
+				   glClear(GL_COLOR_BUFFER_BIT
 				       | GL_DEPTH_BUFFER_BIT);
 			       _shader.bind();
-			       for (auto ob : _objects)
-				 ob->draw(_shader, _clock);
-			       _context.flush();
-			     }), Event::Info::low
+			        for (auto ob : _objects)
+				  ob->draw(_shader, _clock);
+			       //_context.flush();
+			     }), Event::Info::medium
 			   );
     dispatcher
       ->addCallbackOnEvent(Event::Info::Refresh,
 			   new Event::FixedCallback([this] (Event::Data&) {
 			       glm::mat4 projection;
-			       projection = glm::perspective(0.0f, 800.0f, 0.0f, 600.0f); 
+			       projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f); 
 			       _shader.setUniform("projection", projection);
-			       
-			       for (auto ob : _HUDobjects)
+			       _shader.setUniform("view", glm::mat4(1));
+
+			       for (auto ob : _HUDobjects){
 				 ob->draw(_shader, _clock);
+			       }
 			       _context.flush();
-			     }), Event::Info::high
+			     }), Event::Info::low
 			   );
 
   }
