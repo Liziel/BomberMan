@@ -1,6 +1,5 @@
 #include "GraphicEngine.hh"
 #include "AObject.hh"
-#include "planVertex.hh"
 
 namespace Engine{
   Graphic::Graphic(Event::Dispatcher* _d)
@@ -15,7 +14,6 @@ namespace Engine{
 	std::cout << "Error : Failed to load Shaders" << std::endl;
 	return;
       }
-    addHudObject(new object3d::planVertex("img/preview.tga"));
 
     /* is it correct? */
     glm::mat4 transformation;

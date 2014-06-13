@@ -121,7 +121,7 @@ namespace Component{
 	  obj = _Efactory->allocateEntityByType("indestructibleBloc", false);
 	  obj->setPosition(x/2 - xi, y/2 - yi);
 	  _Efactory->allocateComponentByEntityType("indestructibleBloc", obj);
-	} else if (false && !((xi == 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
+	} else if (!((xi == 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
 		     (xi == x - 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
 		     (yi == 1 && (xi == 1 || xi == 2 || xi == x - 2)) ||
 		     (yi == y - 1 && (xi == 1 || xi == 2 || xi == x - 1 || xi == x - 2))
