@@ -53,9 +53,10 @@ namespace Component{
     ziggs->rotate(glm::vec3(0,100.f,-90.f), 1);
     engine->addObject(ziggs);
     attachCallback(Event::Info::Clock,
-		   new Event::FixedCallback([this](Event::Data&) {
+		   new Event::FixedCallback([this, hitbox](Event::Data&) {
 		       double		_x,_y;
 		       parent->getPosition(_x, _y);
+		       _y += hitbox[3];
 		       ziggs->translate(glm::vec3((_x-x)*3, (_y-y)*3,0));
 		       x = _x;
 		       y = _y;
