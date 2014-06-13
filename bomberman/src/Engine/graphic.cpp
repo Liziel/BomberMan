@@ -35,7 +35,6 @@ namespace Engine{
 				_quit = true;
 				return ;
 			      }
-			      std::cout << "alors?" << std::endl;
 			      _context.updateClock(_clock);
 			      _context.updateInputs(_input);
 			    }), Event::Info::high
@@ -84,7 +83,7 @@ namespace Engine{
   void	Graphic::subObject(object3d::AObject* o) {
     for (auto itt = _objects.begin(); itt != _objects.end(); ++itt) {
       if (*itt == o)
-	_objects.erase(itt);
+	itt = _objects.erase(itt);
     }
   }
   void	Graphic::subHudObject(object3d::AObject* o) {

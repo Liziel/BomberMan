@@ -99,23 +99,26 @@ namespace Component{
 			   new Event::FixedCallback([this] (Event::Data& e) {
 			       Event::Type::PlantBomb* event = 
 				 reinterpret_cast<Event::Type::PlantBomb*>(&e);
-			       Entity::GameObject* b = _Efactory->allocateEntityByType("Bomb", false);
+			       Entity::GameObject* b = _Efactory->allocateEntityByType("bomb", false);
 			       b->setPosition(event->x, event->y);
-			       b->attachComponent(_Efactory->getComponentFactory()->allocateComponentByType("ColliderMovable", b));
-			       Component::abstract* exp = _Efactory->getComponentFactory()->allocateComponentByType("Explode", b);
-			       exp->setBySerial(Tokenizer::subserialize(0, /* achanger */10, event->prim, event->second, event->ter));
+			       b->attachComponent(_Efactory
+						  ->getComponentFactory()->allocateComponentByType("ColliderMovable", b));
+			       Component::abstract* exp = _Efactory
+				 ->getComponentFactory()->allocateComponentByType("Explode", b);
+
+			       exp->setBySerial(Tokenizer::subserialize(0, /* achanger */100, event->prim, event->second, event->ter));
 			       b->attachComponent(exp);
+			       std::cout << "bomb:" << Tokenizer::subserialize(0, event->x, event->y, /* achanger */10, event->prim, event->second, event->ter) << std::endl;
 			     }));
   }
 
   void		Arena::GenerateSquareMap(int nplay, int nIa, int x, int y) {
-    std::array<std::array<int , 2>, 4> dispoPlace = { std::array<int, 2>({x/2 - 1, y/2 - 1}),  std::array<int, 2>({x/2 - x-1, y/2 - 1}),
-						      std::array<int, 2>({x/2 - 1,y/2 - y-1}), std::array<int, 2>({x/2 - x-1,y/2 - y-1})  };
+    std::array<std::array<double , 2>, 4> dispoPlace = { std::array<double, 2>({(-x/2 + 1.2f)/1000, (-y/2 + 1.2f)/1000 + 1}),  std::array<double, 2>({x/2 - 1.5, -y/2 + 1.5}),
+						      std::array<double, 2>({x/2 - 1.5,y/2 - y-1.5}), std::array<double, 2>({x/2 - x-1.5,y/2 - y-1.5})  };
     Entity::GameObject*	obj;
     for (int xi = 0; xi <= x; xi++) {
       for (int yi = 0; yi <= y; yi++) {
 	if (xi == 0 || xi == x || yi == 0 || yi == y || (!(xi % 2) && !(yi % 2))) {
-	  std::cout << "indes" << x << ":" << y << ":" << xi << ":" << yi << std::endl;
 	  obj = _Efactory->allocateEntityByType("indestructibleBloc", false);
 	  obj->setPosition(x/2 - xi, y/2 - yi);
 	  _Efactory->allocateComponentByEntityType("indestructibleBloc", obj);
@@ -124,12 +127,10 @@ namespace Component{
 		     (yi == 1 && (xi == 1 || xi == 2 || xi == x - 2)) ||
 		     (yi == y - 1 && (xi == 1 || xi == 2 || xi == x - 1 || xi == x - 2))
 		     )) {
-	  std::cout << "book" << x << ":" << y << ":" << xi << ":" << yi << std::endl;
 	  obj = _Efactory->allocateEntityByType("destructibleBloc", false);
 	  obj->setPosition(x/2 - xi, y/2 - yi);
 	  _Efactory->allocateComponentByEntityType("destructibleBloc", obj);
-	} else {
-	  std::cout << "empty" << x << ":" << y << ":" << xi << ":" << yi << std::endl;
+	} else{
 	  _Efactory->allocateEntityByType("EmptyBloc", false);
 	  obj->setPosition(x/2 - xi, y/2 - yi);
 	  _Efactory->allocateComponentByEntityType("EmptyBloc", obj);
@@ -140,6 +141,7 @@ namespace Component{
     for (; iplay < nplay; iplay++) {
       obj = _Efactory->allocateEntityByType("player" + std::to_string(iplay), false);
       obj->setPosition(dispoPlace[iplay][0], dispoPlace[iplay][1]);
+      obj->getPosition(dispoPlace[iplay][0], dispoPlace[iplay][1]);
       _Efactory->allocateComponentByEntityType("player" + std::to_string(iplay), obj);
     }
     for (int iIa = iplay; iIa < nIa + iplay; iIa++) {

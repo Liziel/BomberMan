@@ -77,7 +77,7 @@ namespace Event{
 
 # ifndef  __COLLIDER_H__
     struct RequireMovement :  Event::Data{
-      RequireMovement(int _x, int _y, int vx, int vy)
+      RequireMovement(double _x, double _y, double vx, double vy)
 	: Event::Data(Event::Info::RequireMovement, sizeof(struct RequireMovement), false),
 	  x(_x), y(_y), vectorX(vx), vectorY(vy) {}
       double x;

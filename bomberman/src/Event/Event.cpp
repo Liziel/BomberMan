@@ -116,7 +116,6 @@ namespace Event{
       if (_low.find(type) != _low.end())
 	_low[type].remove_if(remove);
     } else {
-
       if (_high.find(type) != _high.end()) {
 	auto arr = &(_high[type]);
 	  for (auto itt = arr->begin(); itt != arr->end(); ++itt)

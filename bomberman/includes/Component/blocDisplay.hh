@@ -50,6 +50,22 @@ namespace Component{
     std::string serialization() { return (""); }
     void	setBySerial(const Tokenizer&) {}
   };
+
+  class playerDisplay : public Component::abstract {
+  private:
+    object3d::cubeVertex	*cube;
+    Engine::Graphic*		engine;
+
+  private:
+    double x,y;
+  public:
+    playerDisplay(Entity::GameObject*, Engine::Graphic*);
+    ~playerDisplay();
+
+  public:
+    std::string serialization() { return (""); }
+    void	setBySerial(const Tokenizer&) {}
+  };
 };
 
 #endif

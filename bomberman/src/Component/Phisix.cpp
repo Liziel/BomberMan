@@ -6,14 +6,13 @@ namespace Component
   Phisix::Vector::Vector(Entity::GameObject* _p, Component::Phisix* _c)
     : Component::abstract(_p), phisix(_c), speed(1.f) {
     direction = {false, false, false, false};
-    _p->getPosition(x, y);
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this](Event::Data&) {
 		       double _speed = speed * phisix->getFriction();
 		       double axeX = (direction[Right] * _speed - direction[Left] * _speed);
-		       double axeY = (direction[Down] * _speed - direction[Up] * _speed);
+		       double axeY = (-direction[Down] * _speed + direction[Up] * _speed);
 
-		       std::cout << Right << Left << Down << Up;
+		       parent->getPosition(x, y);
 		       if (axeX == 0.f && axeY == 0.f)
 			 return ;
 		       if (axeX != 0.f && axeY != 0.f) {
@@ -34,6 +33,7 @@ namespace Component
     attachCallback(Event::Info::selfMovement,
 		   new Event::FixedCallback([this](Event::Data& e){
 		       Event::Type::selfMovement *event = reinterpret_cast<Event::Type::selfMovement*>(&e);
+
 		       direction[event->direction] = event->state;
 		     }));
 
@@ -62,7 +62,7 @@ namespace Component
 
   /* Phisix */
   Phisix::Phisix(Event::Dispatcher *_d)
-    : Component::Superior(_d), friction(1.f) {
+    : Component::Superior(_d), friction(0.4f) {
     dispatcher->addCallbackOnEvent(Event::Info::setFriction,
 				   new Event::FixedCallback([this](Event::Data& e){
 				       Event::Type::setFriction *event = reinterpret_cast< Event::Type::setFriction* >(&e);

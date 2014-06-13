@@ -52,8 +52,9 @@ namespace Component{
 
     attachCallback(Event::Info::selfPlantBomb,
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
-		       if (stackedSpells != 3 || isMuted)
+		       if (stackedSpells != 3 || isMuted || !stackedBomb)
 			 return ;
+		       std::cout << "coucou" << std::endl;
 		       double x;
 		       double y;
 		       _p->getPosition(x, y);

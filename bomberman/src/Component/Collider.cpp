@@ -12,25 +12,75 @@ namespace Component{
     attachCallback(Event::Info::RequireMovement,
 		   new Event::FixedCallback([this](Event::Data& e) {
 		       Event::Type::RequireMovement *event = reinterpret_cast<Event::Type::RequireMovement*> (&e);
-		       if (static_cast<int>(event->vectorX + event->x) == static_cast<int>(event->x) &&
-			   static_cast<int>(event->vectorY + event->y) == static_cast<int>(event->y))
-			 dispatchSelf(new Event::Type::Colliding(event->x + event->vectorX, event->y + event->vectorY, 0));
-		       else if ((*collider)(event->x + event->vectorX, event->y + event->vectorY, Component::Collider::_noType, id))
-			 dispatchSelf(new Event::Type::Colliding(event->x + event->vectorX, event->y + event->vectorY, 0));
-		       else {
-			 int dist = static_cast<int>(event->vectorX) + static_cast<int>(event->vectorX);
-			 int distX = 0;
-			 int distY = 0;
-			 for (; dist > 0; --dist) {
-			   if (event->vectorX != 0.f)
-			     distX = dist / (1 + (event->vectorY != 0.f));
-			   if (event->vectorY != 0.f)
-			     distY = dist / (1 + (event->vectorX != 0.f));
-			   if ((*collider)(event->x + distX, event->y + distY, Component::Collider::_noType, id))
-			     dispatchSelf(new Event::Type::Colliding(event->x + distX, event->y + distY,
-								     static_cast<int>(event->vectorX) + static_cast<int>(event->x)
-								     - static_cast<int>(event->vectorX) - dist));
+		       double posx = event->x, posy = event->y;
+		       double ix = (0.f) , iy = (0.f);
+		       double ittx = 1.f - 2 * (event->vectorX < 0), ittY = 1.f - 2 * (event->vectorY < 0);
+		       while (!((ittx > 0 && ix <= event->vectorX && ix + 1.f >= event->vectorX) ||
+				(ittx < 0 && ix >= event->vectorX && ix - 1.f <= event->vectorX)) ||
+			      !((ittY > 0 && iy <= event->vectorY && iy + 1.f >= event->vectorY) ||
+				(ittY < 0 && iy >= event->vectorY && iy - 1.f <= event->vectorY))) {
+			 if (!(ix <= event->vectorX && ix + 1.f >= event->vectorX)) {
+			   if ((*collider)(posx + ittx, posy, parent->getHitBox(), Component::Collider::_Static, id))
+			     posx += ittx;
+			   ix += ittx;
 			 }
+			 
+			 if (!(iy <= event->vectorY && iy + 1.f >= event->vectorY)) {
+			   if ((*collider)(posx, posy + ittY,  parent->getHitBox(), Component::Collider::_Static, id))
+			     posy += ittY;
+			   iy += ittY;
+			 }
+		       }
+		       
+		       if (event->vectorX != 0.f && (*collider)(posx + event->vectorX - ix * ittx, posy, parent->getHitBox(), Component::Collider::_noType, id))
+			 posx += event->vectorX - ix;
+		       if (event->vectorY != 0.f && (*collider)(posx, posy + event->vectorY - iy * ittY, parent->getHitBox(), Component::Collider::_noType, id))
+			 posy += event->vectorY - iy;
+		       dispatchSelf(new Event::Type::Colliding(posx, posy, ix + iy));
+		     }));
+
+    attachCallback(Event::Info::RequireExplosion,
+		   new Event::FixedCallback([this](Event::Data& e) {
+		       Event::Type::RequireExplosion *event = reinterpret_cast<Event::Type::RequireExplosion*> (&e);
+		       if (static_cast<int>(event->vectorX + event->x) == static_cast<int>(event->x) &&
+			   static_cast<int>(event->vectorY + event->y) == static_cast<int>(event->y)) {
+			 dispatchSelf(new Event::Type::Colliding(event->x + event->vectorX, event->y + event->vectorY, 0));
+		       }
+		       else {
+			 double posx = event->x, posy = event->y;
+			 double ix = (0.f) , iy = (0.f);
+			 double ittx = 1.f - 2 * (event->vectorX < 0), ittY = 1.f - 2 * (event->vectorY < 0);
+			 bool bx = false, by = false;
+		       while (!((ittx > 0 && ix <= event->vectorX && ix + 1.f >= event->vectorX) ||
+				(ittx < 0 && ix >= event->vectorX && ix - 1.f <= event->vectorX)) ||
+			      !((ittY > 0 && iy <= event->vectorY && iy + 1.f >= event->vectorY) ||
+				(ittY < 0 && iy >= event->vectorY && iy - 1.f <= event->vectorY))) {
+			 if (!(ix <= event->vectorX && ix + 1.f >= event->vectorX)) {
+			   if ((*collider)(posx + ittx, posy, parent->getHitBox(), Component::Collider::_Static, id))
+			     posx += ittx;
+			   else
+			     bx = true;
+			   ix += ittx;
+			 }
+			 
+			 if (!(iy <= event->vectorY && iy + 1.f >= event->vectorY)) {
+			   if ((*collider)(posx, posy + ittY,  parent->getHitBox(), Component::Collider::_Static, id))
+			     posy += ittY;
+			   else
+			     by = true;
+			   iy += ittY;
+			 }
+		       }
+		       
+		       if (event->vectorX != 0.f && (*collider)(posx + event->vectorX - ix * ittx, posy, parent->getHitBox(), Component::Collider::_noType, id))
+			 posx += event->vectorX - ix;
+		       if (event->vectorY != 0.f && (*collider)(posx, posy + event->vectorY - iy * ittY, parent->getHitBox(), Component::Collider::_noType, id))
+			 posy += event->vectorY - iy;
+			 if (bx)
+			   posx += ittx;
+			 if (by)
+			   posy += ittY;
+			 dispatchSelf(new Event::Type::Colliding(posx, posy, ix + iy));
 		       }
 		     }));
   }
@@ -43,8 +93,21 @@ namespace Component{
     return (id);
   }
 
-  bool		Collider::Movable::doCollide(int _x, int _y) {
-    return (x == _x && y == _y);
+  bool		Collider::Movable::doCollide(double _x, double _y, const glm::vec4& _hitbox) {
+    const glm::vec4& hitbox = parent->getHitBox();
+    if (x + hitbox[XMIN] < _x + _hitbox[XMIN] && _x + _hitbox[XMIN] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX])
+      return (true);
+    if (x + hitbox[XMIN] < _x + _hitbox[XMAX] && _x + _hitbox[XMAX] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX])
+      return (true);
+    if (x + hitbox[XMIN] < _x + _hitbox[XMIN] && _x + _hitbox[XMIN] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX])
+      return (true);
+    if (x + hitbox[XMIN] < _x + _hitbox[XMAX] && _x + _hitbox[XMAX] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX])
+      return (true);
+    return (false);
   }
 
   std::string	Collider::Movable::serialization() {
@@ -52,8 +115,8 @@ namespace Component{
   }
 
   void		Collider::Movable::setBySerial(const Tokenizer& t) {
-    x = t.get<int>(1);
-    y = t.get<int>(2);
+    x = t.get<double>(1);
+    y = t.get<double>(2);
   }
 
 
@@ -75,10 +138,23 @@ namespace Component{
     return (id);
   }
 
-  bool		Collider::Static::doCollide(int _x, int _y) {
+  bool		Collider::Static::doCollide(double _x, double _y, const glm::vec4& _hitbox) {
     if (disabled)
       return (false);
-    return (x == _x && y == _y);
+    const glm::vec4& hitbox = parent->getHitBox();
+    if (x + hitbox[XMIN] < _x + _hitbox[XMIN] && _x + _hitbox[XMIN] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX])
+      return (true);
+    if (x + hitbox[XMIN] < _x + _hitbox[XMAX] && _x + _hitbox[XMAX] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX])
+      return (true);
+    if (x + hitbox[XMIN] < _x + _hitbox[XMIN] && _x + _hitbox[XMIN] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX])
+      return (true);
+    if (x + hitbox[XMIN] < _x + _hitbox[XMAX] && _x + _hitbox[XMAX] < x + hitbox[XMAX] &&
+	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX])
+      return (true);
+    return (false);
   }
 
   std::string	Collider::Static::serialization() {
@@ -86,8 +162,8 @@ namespace Component{
   }
 
   void		Collider::Static::setBySerial(const Tokenizer& t) {
-    x = t.get<int>(1);
-    y = t.get<int>(2);
+    x = t.get<double>(1);
+    y = t.get<double>(2);
     disabled = t.get<bool>(3);
   }
 
@@ -123,14 +199,14 @@ namespace Component{
     return (_idGen - 1);
   }
 
-  bool		Collider::operator()(int x, int y, Collider::Type _c, Collider::Id ignore) const {
+  bool		Collider::operator()(double x, double y, const glm::vec4& hitbox, Collider::Type _c, Collider::Id ignore) const {
     if (_c != _Movable)
       for (auto obj : listStatic)
-	if ((ignore == -1 || obj->getId() != ignore) && obj->doCollide(x, y))
+	if ((ignore == -1 || obj->getId() != ignore) && obj->doCollide(x, y, hitbox))
 	  return (false);
     if (_c != _Static)
       for (auto obj : listMovable)
-	if ((ignore == -1 || obj->getId() != ignore) && obj->doCollide(x, y))
+	if ((ignore == -1 || obj->getId() != ignore) && obj->doCollide(x, y, hitbox))
 	  return (false);
     return (true);
   }
