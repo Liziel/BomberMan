@@ -16,8 +16,8 @@ namespace object3d {
     virtual ~cubeVertex() {}
 
   public:
-    enum Layer{Up, Ground};
-    void setPosition(int x, int y, Layer = Up);
+    enum Layer{NONE, Up, Ground};
+    void setPosition(double x, double y, Layer = Up);
 
   public:
     void	draw(gdl::AShader &shader, gdl::Clock const& clock);

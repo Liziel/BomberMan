@@ -11,7 +11,7 @@ namespace Event{
       selfMovement, speedModifier, freezeMovement, /*phisix::vector*/
       setFriction,/* phisix */
       PlaceDot, Immunity, lifeLoss, lifeGain, revive, dead, /* Health */
-      RequireMovement, Colliding,/* collider::movable */
+      RequireMovement, RequireExplosion, Colliding,/* collider::movable */
       disableCollision,/*collider::static*/
       FireExplosion, ElectricityExplosion, IceExplosion, LifeExplosion, GlyphExplosion, /* status*/
       plantBomb, selfPlantBomb, addElement, /* plant Bomb */

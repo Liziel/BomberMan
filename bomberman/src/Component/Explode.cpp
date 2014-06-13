@@ -4,8 +4,11 @@ namespace Component{
   Explode::Explode(Entity::GameObject* _p) : Component::abstract(_p), untilBOOM(-1), exploding(false) {
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
-		       if (!untilBOOM)
+		       std::cout << untilBOOM << std::endl;
+		       if (!untilBOOM) {
 			 delete _p;
+			 return ;
+		       }
 		       if (untilBOOM > 0)
 			 untilBOOM -= 1;
 		       if (!untilBOOM) {
@@ -38,26 +41,37 @@ namespace Component{
 		       Event::Type::Colliding* _ =
 			 reinterpret_cast<Event::Type::Colliding*>(&e);
 
-		       if (_->endX > x)
-			 for (_->endX += 1; _->endX >= x + 1; --_->endX)
+		       std::cout << _->endX << x <<std::endl;
+		       std::cout << _->endY << y <<std::endl;
+		       if (_->endX > x) {
+			 for (; _->endX >= x; --_->endX)
 			   dispatch(_->endX, y);
-		       if (_->endX < x)
-			 for (_->endX -= 1; _->endX <= x - 1; ++_->endX)
+			 return ;
+		       }
+		       if (_->endX < x) {
+			 for (; _->endX <= x; ++_->endX)
 			   dispatch(_->endX, y);
-		       if (_->endY > y)
-			 for (_->endY += 1; _->endX >= y + 1; --_->endY)
+			 return ;
+		       }
+		       if (_->endY > y) {
+			 for (; _->endY >= y; --_->endY)
 			   dispatch(x, _->endY);
-		       if (_->endY < y)
-			 for (_->endY -= 1; _->endX <= y + 1; ++_->endY)
+			 return ;
+		       }
+		       if (_->endY < y) {
+			 for (; _->endY <= y; ++_->endY)
 			   dispatch(x, _->endY);
+			 return ;
+		       }
 		     }));
     double spread = getSpread(elements[0]) +
       getSpread(elements[1]) +
       getSpread(elements[2]) - 1;
-    dispatchSelf(new Event::Type::RequireMovement(x,y, spread, 0));
-    dispatchSelf(new Event::Type::RequireMovement(x,y, -spread, 0));
-    dispatchSelf(new Event::Type::RequireMovement(x,y, 0, -spread));
-    dispatchSelf(new Event::Type::RequireMovement(x,y, 0, spread));
+    std::cout << spread << std::endl;
+    dispatchSelf(new Event::Type::RequireExplosion(x,y, spread, 0));
+    dispatchSelf(new Event::Type::RequireExplosion(x,y, -spread, 0));
+    dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, -spread));
+    dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, spread));
     dispatch(x, y);
     delete _p;
   }

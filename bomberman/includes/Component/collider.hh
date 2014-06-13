@@ -3,6 +3,11 @@
 
 # include "Component.hh" 
 
+# define XMIN 0
+# define XMAX 1
+# define YMIN 2
+# define YMAX 3
+
 namespace Component {
 
   class Collider{
@@ -29,7 +34,7 @@ namespace Component {
       double	x;
       double	y;
     public:
-      bool doCollide(int x, int y);
+      bool doCollide(double x, double y, const glm::vec4& hitbox);
 
     public:
       std::string		serialization();
@@ -57,7 +62,7 @@ namespace Component {
       double	y;
       bool	disabled;
     public:
-      bool doCollide(int x, int y);
+      bool doCollide(double x, double y, const glm::vec4& hitbox);
 
     public:
       std::string		serialization();
@@ -81,7 +86,7 @@ namespace Component {
     void	removeSelf(Component::Collider::Static*);
     void	removeSelf(Component::Collider::Movable*);
 
-    bool	operator()(int x, int y,
+    bool	operator()(double x, double y, const glm::vec4& hitbox,
 			   Collider::Type ignoreType = _noType,
 			   Component::Collider::Id = -1) const;
   };
@@ -95,8 +100,18 @@ namespace Event{
 # ifndef __EXPLODE_H__
 # ifndef __PHISIX_H__
     struct RequireMovement :  Event::Data{
-      RequireMovement(int _x, int _y, int vx, int vy)
+      RequireMovement(double _x, double _y, double vx, double vy)
 	: Event::Data(Event::Info::RequireMovement, sizeof(struct RequireMovement), false),
+	  x(_x), y(_y), vectorX(vx), vectorY(vy) {}
+      double x;
+      double y;
+      double vectorX;
+      double vectorY;
+    };
+
+    struct RequireExplosion :  Event::Data{
+      RequireExplosion(double _x, double _y, double vx, double vy)
+	: Event::Data(Event::Info::RequireExplosion, sizeof(struct RequireMovement), false),
 	  x(_x), y(_y), vectorX(vx), vectorY(vy) {}
       double x;
       double y;

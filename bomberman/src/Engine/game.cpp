@@ -19,28 +19,28 @@ namespace Engine{
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
 					 return (new Component::
-						 JoystickManager::joystick(_player, joystick->getJoystick(0));
+						 JoystickManager::joystick(_player, joystick->getJoystick(0), 1));
 				       });
 
     _Cfactory->storeComponentAllocator("joystick2",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
 					 return (new Component::
-						 JoystickManager::joystick(_player, joystick->getJoystick(1));
+						 JoystickManager::joystick(_player, joystick->getJoystick(1), 2));
 				       });
 
     _Cfactory->storeComponentAllocator("joystick3",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
 					 return (new Component::
-						 JoystickManager::joystick(_player, joystick->getJoystick(2));
+						 JoystickManager::joystick(_player, joystick->getJoystick(2), 3));
 				       });
 
     _Cfactory->storeComponentAllocator("joystick4",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
 					 return (new Component::
-						 JoystickManager::joystick(_player, joystick->getJoystick(4));
+						 JoystickManager::joystick(_player, joystick->getJoystick(3), 4));
 				       });
 
     _Cfactory->storeComponentAllocator("ColliderMovable",
@@ -112,11 +112,23 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::bookshelfDisplay(_player, _grEngine));
 				       });
+
+    _Cfactory->storeComponentAllocator("playerDisplay",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::playerDisplay(_player, _grEngine));
+				       });
     
     _Efactory->addAllocator("player0", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
 	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
 	if (!_ini)
 	  return (player);
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("playerDisplay", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("joystick1", player));
 	player
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("ColliderMovable", player));
@@ -194,6 +206,12 @@ namespace Engine{
 					 return (new Component::Runic(_player));
 				       });
 
+    _Cfactory->storeComponentAllocator("Bloc",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component
+						 ::Arena::Bloc(_player));
+				       });
 
     _Efactory->addAllocator("destructibleBloc", [this](bool _ini, Entity::GameObject* __bloc) -> Entity::GameObject* {
 	Entity::GameObject*	bloc = (!__bloc) ? (new Entity::Bloc(_dispatcher)) :(__bloc);
@@ -213,10 +231,10 @@ namespace Engine{
 			    ->allocateComponentByType("bookshelfDisplay", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Bloc", bloc));//Arena::Bloc a faire
+			    ->allocateComponentByType("Bloc", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Runic", bloc));//Runic
+			    ->allocateComponentByType("Runic", bloc));
 	return (bloc);
       });
 
@@ -229,7 +247,7 @@ namespace Engine{
 			    ->allocateComponentByType("Ground", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Runic", bloc));//ColliderStatic
+			    ->allocateComponentByType("Runic", bloc));
 	return (bloc);
       });
 

@@ -60,6 +60,16 @@ namespace Event{
       double vectorY;
     };
 
+    struct RequireExplosion :  Event::Data{
+      RequireExplosion(int _x, int _y, int vx, int vy)
+	: Event::Data(Event::Info::RequireExplosion, sizeof(struct RequireMovement), false),
+	  x(_x), y(_y), vectorX(vx), vectorY(vy) {}
+      double x;
+      double y;
+      double vectorX;
+      double vectorY;
+    };
+
     struct Colliding : Event::Data{
       Colliding(double _x, double _y, double _f)
 	: Event::Data(Event::Info::Colliding, sizeof(struct Colliding), false),

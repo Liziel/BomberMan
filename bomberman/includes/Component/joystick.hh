@@ -16,8 +16,10 @@ namespace Component{
       SDL_Joystick*		_joystick;
       std::array< std::pair< int, bool >, 10 >	keyState;	
 
+    private:
+      int	_id;
     public:
-      joystick(Entity::GameObject*, SDL_Joystick*);
+      joystick(Entity::GameObject*, SDL_Joystick*, int id);
       ~joystick();
 
     public:

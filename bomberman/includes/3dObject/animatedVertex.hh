@@ -21,7 +21,7 @@ namespace object3d {
     ~animatedVertex() {}
 
   public:
-    void	setPosition(int x, int y) {
+    void	setPosition(double x, double y) {
       translate(glm::vec3(x, y, 0));
     }
     void	setDirection(double, double) {

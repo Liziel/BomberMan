@@ -7,6 +7,8 @@
 # include <string>
 # include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 # include "Event.hpp"
 # include "Tokenizer.hpp"
 
@@ -61,11 +63,14 @@ namespace Entity{
     void	disable(void);
 
   protected:
-    int x;
-    int y;
+    double x;
+    double y;
   public:
     void	getPosition(double& x, double& y) const;
     void	setPosition(double x, double y);
+
+  public:
+    virtual const glm::vec4&	getHitBox() = 0;
 
   public:
     virtual int	getLifeAmount(void) { return (-1); }

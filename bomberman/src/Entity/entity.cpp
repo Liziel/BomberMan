@@ -31,7 +31,6 @@ Entity::GameObject::GameObject(Event::Dispatcher* Dispatch, Entity::Type _t)
 Entity::GameObject::~GameObject() {
   for (auto _cb : _CallbackArray) {
     _Dispatch->unsetCallbackForId(_cb.first, _cb.second->getId());
-    delete _cb.second;
   }
   for (auto _cp : ComponentList) {
     delete _cp;

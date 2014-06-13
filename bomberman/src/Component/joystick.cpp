@@ -2,8 +2,8 @@
 
 
 namespace Component{
-  JoystickManager::joystick::joystick(Entity::GameObject* _p, SDL_Joystick* _k)
-    : Component::abstract(_p), _joystick(_k) {
+  JoystickManager::joystick::joystick(Entity::GameObject* _p, SDL_Joystick* _k, int id)
+    : Component::abstract(_p), _joystick(_k), _id(id) {
     keyState = {
       std::pair<int,bool>(4, false), /* movement */
       std::pair<int,bool>(6, false),
@@ -24,10 +24,10 @@ namespace Component{
 			 return ;
 		       int	itt = 0;
 
-		       for (auto key : keyState) {
+		       for (auto &key : keyState) {
 			 if (SDL_JoystickGetButton(_joystick, key.first) != key.second) {
 			   dispatchSelf(new Event::Type::Keyboard(itt, !key.second));
-			   key.second = !key.second;
+			   key.second = SDL_JoystickGetButton(_joystick, key.first);
 			 }
 			 ++itt;
 		       }
@@ -35,9 +35,14 @@ namespace Component{
   }
   JoystickManager::joystick::~joystick() {}
 
+  std::string JoystickManager::joystick::serialization()
+  { return ("joystick" + std::to_string(_id)); }
+  void	JoystickManager::joystick::setBySerial(const Tokenizer&) {}
+
   
 
   JoystickManager::JoystickManager() {
+    _joystick = { NULL, NULL, NULL, NULL};
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
   }
   JoystickManager::~JoystickManager() {}
