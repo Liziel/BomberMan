@@ -53,7 +53,7 @@ namespace Component{
 
   class playerDisplay : public Component::abstract {
   private:
-    object3d::cubeVertex	*cube;
+    object3d::animatedVertex	*ziggs;
     Engine::Graphic*		engine;
 
   private:

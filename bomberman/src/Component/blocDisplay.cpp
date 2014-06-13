@@ -1,3 +1,4 @@
+#include "ziggsAnimated.hpp"
 #include "blocDisplay.hh"
 
 namespace Component{
@@ -40,26 +41,25 @@ namespace Component{
   bookshelfDisplay::~bookshelfDisplay() { delete cube; }
 
   playerDisplay::playerDisplay(Entity::GameObject* _p, Engine::Graphic* _g)
-    : Component::abstract(_p), cube(new object3d::cubeVertex(__INDESTEXTURE)), engine(_g) {
+    : Component::abstract(_p), ziggs(new object3d::ziggsAnimated()),
+      engine(_g) {
     double		_x,_y;
     const glm::vec4&	hitbox = parent->getHitBox();
     parent->getPosition(_x, _y);
-    _x += hitbox[0];
-    _y += hitbox[2];
-    cube->setPosition(_x*3, _y*3, object3d::cubeVertex::Up);
-    cube->scale(glm::vec3(2,2,2));
+    _y += hitbox[3];
     x = _x;
     y = _y;
-    engine->addObject(cube);
+    ziggs->translate(glm::vec3(_x*3, _y*3, -8));
+    ziggs->rotate(glm::vec3(0,100.f,-90.f), 1);
+    engine->addObject(ziggs);
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this](Event::Data&) {
 		       double		_x,_y;
 		       parent->getPosition(_x, _y);
-		       cube->setPosition((_x-x)*3, (_y-y)*3,
-					 object3d::cubeVertex::NONE);
+		       ziggs->translate(glm::vec3((_x-x)*3, (_y-y)*3,0));
 		       x = _x;
 		       y = _y;
 		     }));
   }
-  playerDisplay::~playerDisplay() { delete cube; }
+  playerDisplay::~playerDisplay() { delete ziggs; }
 };
