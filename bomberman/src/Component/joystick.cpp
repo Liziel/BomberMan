@@ -37,7 +37,8 @@ namespace Component{
 
   
 
-  JoystickManager::JoystickManager() {
+  JoystickManager::JoystickManager(Event::Dispatcher* _d)
+    : Component::Superior(_d){
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
   }
   JoystickManager::~JoystickManager() {}
@@ -48,4 +49,12 @@ namespace Component{
       _joystick[_k] = SDL_JoystickOpen(_k);
     return (_joystick[_k]);
   }
+  std::string JoystickManager::joystick::serialization() {
+    return (Tokenizer::serialize("JoystickManager"));
+  }
+
+  void  JoystickManager::joystick::setBySerial(const Tokenizer& t) {
+    
+  }
+
 };
