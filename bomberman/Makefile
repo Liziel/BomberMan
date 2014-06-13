@@ -24,7 +24,7 @@ COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health
 SRC	=  $(ENGINE) $(3DOBJECT) $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
 
 FLAGS	= -W -Wall -Wextra $(INC)				\
-	-I lib/Gdl_lib/includes --std=c++11 -O3
+	-I lib/Gdl_lib/includes --std=c++11 -g3
 
 
 CFLAGS		+= $(FLAGS)

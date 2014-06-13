@@ -132,7 +132,9 @@ namespace Component {
   }
 
   std::string Health::dotSerialisation(std::list<Dot*>::iterator itt) {
-    auto nextIt = ++itt;
+    if (itt == dotList.end())
+      return ("");
+    auto nextIt = itt++;
     --itt;
     if (nextIt == dotList.end()) {
       return ((*itt)->serialize());

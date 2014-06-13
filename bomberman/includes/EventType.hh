@@ -8,7 +8,7 @@ namespace Event{
     enum Type{
       Network = -1,
       EntityEnable, EntityDisable, EntityFlush, EntitySerialize, beginGame,
-      selfMovement, speedModifier, freezeMovement, /*phisix::vector*/
+      selfMovement, speedModifier, freezeMovement, speedAxeSetter,/*phisix::vector*/
       setFriction,/* phisix */
       PlaceDot, Immunity, lifeLoss, lifeGain, revive, dead, /* Health */
       RequireMovement, RequireExplosion, Colliding,/* collider::movable */

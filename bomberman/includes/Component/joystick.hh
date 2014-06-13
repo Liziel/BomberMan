@@ -14,7 +14,8 @@ namespace Component{
     class joystick : public Component::abstract{
     private:
       SDL_Joystick*		_joystick;
-      std::array< std::pair< int, bool >, 10 >	keyState;	
+      std::array< std::pair< int, int>, 2>	joyState;
+      std::array< std::pair< int, int>, 6 >	keyState;	
 
     private:
       int	_id;
@@ -47,6 +48,15 @@ namespace Type{
       bool state;
     };
 # endif
+# ifndef __PHISIX_H__
+    struct speedAxeSetter : Event::Data {
+      speedAxeSetter(double _s, int _a)
+	: Event::Data(Event::Info::speedAxeSetter, sizeof(struct speedAxeSetter), false), speed(_s), axe(_a) {}
+      double speed;
+      int    axe;
+    };
+# endif
+
 };
 };
 
