@@ -6,7 +6,7 @@
 #include "Component.hh"
 
 namespace Component{
-  class JoystickManager{
+  class JoystickManager {
   private:
     std::array<SDL_Joystick*, 4>	_joystick;
 
@@ -33,7 +33,6 @@ SDL_Joystick*	getJoystick(int);
   public:
     JoystickManager();
     ~JoystickManager();
-
   };
 };
 
