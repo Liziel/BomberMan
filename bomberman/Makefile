@@ -17,7 +17,7 @@ ENTITY	= src/Entity/entity.cpp src/Entity/factory.cpp
 #### ENGINE
 ENGINE	= src/Engine/game.cpp src/Engine/graphic.cpp src/Engine/manager.cpp
 #### 3dObject
-3DOBJECT= src/3dObject/cubeVertex.cpp src/3dObject/AObject.cpp
+3DOBJECT= src/3dObject/cubeVertex.cpp src/3dObject/planVertex.cpp src/3dObject/AObject.cpp
 #### COMPONENT
 COMPO	= src/Component/Collider.cpp src/Component/Phisix.cpp src/Component/Health.cpp src/Component/Effects.cpp src/Component/Factory.cpp src/Component/abstract.cpp src/Component/plantBomb.cpp src/Component/Arena.cpp src/Component/Explode.cpp src/Component/Bonus.cpp src/Component/Runic.cpp src/Component/blocDisplay.cpp src/Component/joystick.cpp
 ########################

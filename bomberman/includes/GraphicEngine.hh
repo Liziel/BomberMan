@@ -24,6 +24,7 @@ namespace Engine{
     gdl::Input _input; 
     gdl::BasicShader _shader; 
     std::list<object3d::AObject*> _objects; 
+    std::list<object3d::AObject*> _HUDobjects; 
 
   private:
     Event::Dispatcher*	dispatcher;
@@ -40,6 +41,8 @@ namespace Engine{
   public:
     void addObject(object3d::AObject*);
     void subObject(object3d::AObject*);
+    void addHudObject(object3d::AObject*);
+    void subHudObject(object3d::AObject*);
 
   public:
     bool initialize() {return (true);}
