@@ -113,7 +113,7 @@ namespace Component{
   }
 
   void		Arena::GenerateSquareMap(int nplay, int nIa, int x, int y) {
-    std::array<std::array<double , 2>, 4> dispoPlace = { std::array<double, 2>({-x/2 + 1.2f, -y/2 + 1.2f}),  std::array<double, 2>({x/2 - 1.5, -y/2 + 1.5}),
+    std::array<std::array<double , 2>, 4> dispoPlace = { std::array<double, 2>({(-x/2 + 1.2f)/1000, (-y/2 + 1.2f)/1000 + 1}),  std::array<double, 2>({x/2 - 1.5, -y/2 + 1.5}),
 						      std::array<double, 2>({x/2 - 1.5,y/2 - y-1.5}), std::array<double, 2>({x/2 - x-1.5,y/2 - y-1.5})  };
     Entity::GameObject*	obj;
     for (int xi = 0; xi <= x; xi++) {
@@ -122,7 +122,7 @@ namespace Component{
 	  obj = _Efactory->allocateEntityByType("indestructibleBloc", false);
 	  obj->setPosition(x/2 - xi, y/2 - yi);
 	  _Efactory->allocateComponentByEntityType("indestructibleBloc", obj);
-	} else if (false && !((xi == 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
+	} else if (!((xi == 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
 		     (xi == x - 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
 		     (yi == 1 && (xi == 1 || xi == 2 || xi == x - 2)) ||
 		     (yi == y - 1 && (xi == 1 || xi == 2 || xi == x - 1 || xi == x - 2))

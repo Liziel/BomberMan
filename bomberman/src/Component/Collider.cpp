@@ -51,29 +51,31 @@ namespace Component{
 			 double ix = (0.f) , iy = (0.f);
 			 double ittx = 1.f - 2 * (event->vectorX < 0), ittY = 1.f - 2 * (event->vectorY < 0);
 			 bool bx = false, by = false;
-			 while (!(ix <= event->vectorX && ix + 1.f >= event->vectorX) ||
-				!(iy <= event->vectorY && iy + 1.f >= event->vectorY)) {
-			   if (!(ix <= event->vectorX && ix + ittx >= event->vectorX)) {
-			     if ((*collider)(posx + ittx, posy, parent->getHitBox(), Component::Collider::_Static, id))
-			       posx += ittx;
-			     else
-			       bx = true;
-			     ix += ittx;
-			   }
-
-			   if (!(iy <= event->vectorY && iy + ittY >= event->vectorY)) {
-			     if ((*collider)(posx, posy + ittY, parent->getHitBox(), Component::Collider::_Static, id))
-			       posy += ittY;
-			     else
-			       by = true;
-			     iy += ittY;
-			   }
+		       while (!((ittx > 0 && ix <= event->vectorX && ix + 1.f >= event->vectorX) ||
+				(ittx < 0 && ix >= event->vectorX && ix - 1.f <= event->vectorX)) ||
+			      !((ittY > 0 && iy <= event->vectorY && iy + 1.f >= event->vectorY) ||
+				(ittY < 0 && iy >= event->vectorY && iy - 1.f <= event->vectorY))) {
+			 if (!(ix <= event->vectorX && ix + 1.f >= event->vectorX)) {
+			   if ((*collider)(posx + ittx, posy, parent->getHitBox(), Component::Collider::_Static, id))
+			     posx += ittx;
+			   else
+			     bx = true;
+			   ix += ittx;
 			 }
-
-			 if (event->vectorX != 0.f && (*collider)(posx + event->vectorX - ix, posy, parent->getHitBox(), Component::Collider::_Movable, id))
-			   posx += event->vectorX - ix;
-			 if (event->vectorY != 0.f && (*collider)(posx, posy + event->vectorY - iy, parent->getHitBox(), Component::Collider::_Movable, id))
-			   posy += event->vectorY - iy;
+			 
+			 if (!(iy <= event->vectorY && iy + 1.f >= event->vectorY)) {
+			   if ((*collider)(posx, posy + ittY,  parent->getHitBox(), Component::Collider::_Static, id))
+			     posy += ittY;
+			   else
+			     by = true;
+			   iy += ittY;
+			 }
+		       }
+		       
+		       if (event->vectorX != 0.f && (*collider)(posx + event->vectorX - ix * ittx, posy, parent->getHitBox(), Component::Collider::_noType, id))
+			 posx += event->vectorX - ix;
+		       if (event->vectorY != 0.f && (*collider)(posx, posy + event->vectorY - iy * ittY, parent->getHitBox(), Component::Collider::_noType, id))
+			 posy += event->vectorY - iy;
 			 if (bx)
 			   posx += ittx;
 			 if (by)

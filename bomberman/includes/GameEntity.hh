@@ -10,7 +10,7 @@ namespace Entity{
     glm::vec4	hitbox;
   public:
     Player(Event::Dispatcher* _d)
-      : Entity::GameObject(_d, Entity::game), hitbox(-0.3,0.3,-0.3,-0.3) {}
+      : Entity::GameObject(_d, Entity::game), hitbox(-0.1,0.1,-0.1,-0.1) {}
     int	getLifeAmount(void) { return (100); }
     std::string getName() { return ("Player"); }
     const glm::vec4& getHitBox() { return (hitbox); }
@@ -21,7 +21,7 @@ namespace Entity{
     glm::vec4	hitbox;
   public:
     Bomb(Event::Dispatcher* _d)
-      : Entity::GameObject(_d, Entity::game), hitbox(-0.5,0.5,-0.5,0.5) {}
+      : Entity::GameObject(_d, Entity::game), hitbox(-0.1,0.1,-0.1,0.1) {}
     std::string getName() { return ("Bomb"); }
     const glm::vec4& getHitBox() { return (hitbox); }
   };

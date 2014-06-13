@@ -4,7 +4,6 @@ namespace Component{
   Explode::Explode(Entity::GameObject* _p) : Component::abstract(_p), untilBOOM(-1), exploding(false) {
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
-		       std::cout << untilBOOM << std::endl;
 		       if (!untilBOOM) {
 			 delete _p;
 			 return ;
