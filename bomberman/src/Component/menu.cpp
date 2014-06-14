@@ -10,6 +10,7 @@ namespace Component{
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Keyboard* event =
 			 reinterpret_cast<Event::Type::Keyboard*>(&e);
+		       std::cout << "keyevent" << std::endl;
                        if (event->state && event->key == 0)
 			 moveFocus(1);
                        else if (event->state && event->key == 1)
@@ -43,6 +44,7 @@ namespace Component{
 
   void Menu::moveFocus(int i)
   {
+    std::cout << "moveFocus" << std::endl;
     for (auto it = _buttons.cbegin(); it != _buttons.cend(); ++it)
       if ((*it)->_isFocus)
 	{
@@ -92,6 +94,7 @@ namespace Component{
 
   void Button::onFocus()
   {
+    std::cout << "onFocus" << std::endl;
     _isFocus = true;
     if (_gp)
       _graphic->subHudObject(_gp);
