@@ -119,6 +119,7 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::playerDisplay(_player, _grEngine));
 				       });
+
     _Cfactory->storeComponentAllocator("menuPrincipal",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
@@ -284,6 +285,7 @@ namespace Engine{
 	Entity::GameObject*     menu = (!__menu) ? (new Entity::Menu(_dispatcher)) :(__menu);
 	if (!_ini)
 	  return (menu);
+	std::cout << "instanciééééééééééééééééééééééééé" << std::endl;
 	menu
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("menuPrincipal", menu));
