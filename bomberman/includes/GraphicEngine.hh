@@ -9,8 +9,10 @@
 #include <OpenGL.hh>
 #include <glm/gtc/matrix_transform.hpp>
 
-
 #include "Event.hpp"
+
+#define WINDOW_X 1600.0f
+#define WINDOW_Y 900.0f
 
 namespace object3d {
   class AObject;

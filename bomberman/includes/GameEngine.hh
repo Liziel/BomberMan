@@ -18,6 +18,7 @@
 #include "Runic.hh"
 #include "Explode.hh"
 #include "joystick.hh"
+#include "menuPrincipal.hh"
 
 namespace Engine{
   class Game{
