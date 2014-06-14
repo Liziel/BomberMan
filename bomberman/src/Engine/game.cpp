@@ -118,6 +118,11 @@ namespace Engine{
 				       -> Component::abstract* {
 					 return (new Component::playerDisplay(_player, _grEngine));
 				       });
+    _Cfactory->storeComponentAllocator("menuPrincipal",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::MenuPrincipal(_player, _grEngine, WINDOW_X, WINDOW_Y, 0, 0, "preview.tga"));
+				       });
     
     _Efactory->addAllocator("player0", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
 	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
