@@ -56,6 +56,7 @@ namespace Event{
 #  endif
 # endif
 
+# ifndef __BLOCDISPLAY_H__
     struct SocketGlyph : Event::Data{
       SocketGlyph()
 	: Event::Data(Event::Info::SocketGlyph, sizeof(struct SocketGlyph), false) {}
@@ -65,6 +66,7 @@ namespace Event{
       extinctGlyph()
 	: Event::Data(Event::Info::extinctGlyph, sizeof(struct extinctGlyph), false) {}
     };
+# endif
 
 # ifndef __ARENA_H__
     struct EnableGlyph : Event::Data{

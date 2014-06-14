@@ -33,53 +33,49 @@ namespace Component{
     double x;
     double y;
 
-    std::cout << "calcuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul" << static_cast<int>(-5.5f) << std::endl;
     exploding = true;
     _p->getPosition(x, y);
+    double spread = getSpread(elements[0]) +
+      getSpread(elements[1]) +
+      getSpread(elements[2]) - 1;
     attachCallback(Event::Info::Colliding,
-		   new Event::FixedCallback([this, x, y] (Event::Data& e) {
+		   new Event::FixedCallback([this, x, y, spread] (Event::Data& e) {
 		       Event::Type::Colliding* _ =
 			 reinterpret_cast<Event::Type::Colliding*>(&e);
-		       
-		       std::cout << "1<<laaaaaaaaaaaaaaaaaaaaa" << std::endl;
+
 		       if (_->endX > x) {
 			 std::cout <<"+x"<< _->endX - x<< std::endl;
-			 for (double dist = _->endX - x; dist > 0.99; --dist)
+			 for (double dist = (_->endX - x < spread) ? (_->endX - x) : (spread); dist > 0.99; --dist)
 			   dispatch(x + dist, y);
 			 return ;
 		       }
 		       if (_->endX < x) {
 			 std::cout << "-x"<< _->endX-x<< std::endl;
-			 for (double dist = x-_->endX ; dist > 0.99; --dist)
+			 for (double dist = (x-_->endX < spread) ? (x-_->endX) : (spread) ; dist > 0.99; --dist)
 			   dispatch(x-dist, y);
 			 return ;
 		       }
 		       if (_->endY > y) {
 			 std::cout <<"+y"<< _->endY - y<< std::endl;
-			 for (double dist = _->endY - y; dist > 0.99; --dist)
+			 for (double dist = (_->endY - y < spread) ? (_->endY - y) : (spread); dist > 0.99; --dist)
 			   dispatch(x, y + dist);
 			 return ;
 		       }
 		       if (_->endY < y) {
 			 std::cout <<"-y"<< _->endY-y<< std::endl;
-			 for (double dist = y-_->endY ; dist > 0.99; --dist) {
+			 for (double dist = (y-_->endY < spread) ? (y-_->endY) : (spread) ; dist > 0.99; --dist) {
 			   std::cout << "dist:" << dist << std::endl;
 			   dispatch(x, y - dist);
 			 }
 			 return ;
 		       }
-		       std::cout << "2<<laaaaaaaaaaaaaaaaaaaaa" << std::endl;
 		     }));
-    double spread = getSpread(elements[0]) +
-      getSpread(elements[1]) +
-      getSpread(elements[2]) - 1;
     std::cout << spread << "position (" << x<< ")(" << y << ")" << std::endl;
     dispatchSelf(new Event::Type::RequireExplosion(x,y, spread, 0));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, -spread, 0));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, -spread));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, spread));
     dispatch(x, y);
-    std::cout << "3<<laaaaaaaaaaaaaaaaaaaaa" << std::endl;
     delete _p;
   }
 
