@@ -43,7 +43,7 @@ namespace Component{
 
   void Menu::moveFocus(int i)
   {
-    for (auto it = _buttons.cbegin(); it <= _buttons.cend(); ++it)
+    for (auto it = _buttons.begin(); it <= _buttons.end(); ++it)
       if (it->_isFocus)
 	{
 	  it->onLooseFocus();

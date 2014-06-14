@@ -48,6 +48,7 @@ namespace Event{
     };
 
 # ifndef __ARENA_H__
+#  ifndef __MENU_H__
     struct Keyboard : Event::Data{
       Keyboard(int k, bool s)
 	: Event::Data(Event::Info::Keyboard, sizeof(struct Keyboard), false),
@@ -55,8 +56,8 @@ namespace Event{
       int key;
       bool state;
     };
+#  endif
 # endif
-
   };
 };
 
