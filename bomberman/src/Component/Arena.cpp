@@ -140,7 +140,7 @@ namespace Component{
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("destructibleBloc", obj);
 	} else{
-	  _Efactory->allocateEntityByType("EmptyBloc", false);
+	  obj = _Efactory->allocateEntityByType("EmptyBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("EmptyBloc", obj);
 	}
