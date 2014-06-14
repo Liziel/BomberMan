@@ -24,6 +24,7 @@ namespace Event{
       isOnFire, isOnLife, isOnIce, isOnElectricity, /* display */ 
       endGame, winner,
       Clock, Refresh,
+      menuInstanciation,
     };
   };
 

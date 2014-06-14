@@ -41,9 +41,8 @@ namespace Engine{
 			       projection = glm::perspective(60.0f, WINDOW_X / WINDOW_Y, 0.1f, 100.0f); 
 			       _shader.setUniform("projection", projection);
 			       glm::mat4 transformation;
-			       transformation = glm::lookAt(glm::vec3(0, 10, -30),
-							    glm::vec3(0, 0, 0),
-							    glm::vec3(0, 1, 0)); 
+			       std::cout << "z = " << ((12.0 * 1.41f) / (tan(30 * 3.14159 / 180))) << std::endl;
+			       transformation = glm::lookAt(glm::vec3(0, -10.0, -((12.0 * 1.41f) / (tan(30 * 3.14159 / 180)))), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 			       _shader.setUniform("view", transformation);
 				   glClear(GL_COLOR_BUFFER_BIT
 				       | GL_DEPTH_BUFFER_BIT);

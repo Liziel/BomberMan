@@ -2,6 +2,7 @@
 #define __MENUPRINCIPAL_H__
 
 #include "menu.hh"
+#include "Event.hpp"
 
 namespace Component {
   class MenuPrincipal : public Component::Menu {
@@ -11,4 +12,13 @@ namespace Component {
   };
 };
 
+namespace Event {
+  namespace Type {
+    struct menuInstanciation : Event::Data {
+      menuInstanciation(int _t)
+      : Event::Data(Event::Info::menuInstanciation, sizeof(struct menuInstanciation), false), _type(_t) {}
+      int _type;
+    };
+  };
+};
 #endif
