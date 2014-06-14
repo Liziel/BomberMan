@@ -280,6 +280,7 @@ namespace Engine{
 	menu
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("joystick", menu));
+	return (menu);
       });
   }
   Game::~Game() {}
