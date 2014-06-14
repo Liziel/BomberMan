@@ -276,9 +276,6 @@ namespace Engine{
 			    ->allocateComponentByType("menuPrincipal", menu));
 	menu
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("keyboard", menu));
-	menu
-	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("joystick", menu));
 	return (menu);
       });
