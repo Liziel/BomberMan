@@ -291,13 +291,13 @@ namespace Engine{
 	Entity::GameObject*     menu = (!__menu) ? (new Entity::Menu(_dispatcher)) :(__menu);
 	if (!_ini)
 	  return (menu);
-	std::cout << "instanciééééééééééééééééééééééééé" << std::endl;
 	menu
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("menuPrincipal", menu));
 	menu
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("joystick", menu));
+			    ->allocateComponentByType("joystick1", menu));
+	std::cout << menu->serialization() << std::endl;
 	return (menu);
       });
   }

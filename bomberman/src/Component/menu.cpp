@@ -2,10 +2,10 @@
 #include "Entity.hh"
 
 namespace Component{
-  Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g)  : Component::abstract(_p)
-  {
+  Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g) 
+    : Component::abstract(_p), _graphic(g) {
     _validBackground = false;
-    _graphic = g;
+    std::cout << "oui j'ai été sauté par ton père!...." << std::endl;
     attachCallback(Event::Info::Keyboard,
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Keyboard* event =
@@ -20,16 +20,16 @@ namespace Component{
 		     }));
   }
 
-  Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture)  : Component::abstract(_p)
-  {
+  Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture)
+    : Menu(_p, g) {
     _sizeX = sizeX;
     _sizeY = sizeY;
     _posX = posX;
     _posY = posY;
     _texture = texture;
     _validBackground = true;
-    _graphic = g;
     _gp = NULL;
+    std::cout << "...... et par ta mère!" << std::endl;
   }
   
   Menu::~Menu()
