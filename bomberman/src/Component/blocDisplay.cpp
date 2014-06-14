@@ -120,4 +120,31 @@ namespace Component{
   }
   playerDisplay::~playerDisplay() { engine->subObject(ziggs); delete ziggs; }
 
+  bombDisplay::bombDisplay(Entity::GameObject* _p, Engine::Graphic* _g)
+    : Component::abstract(_p), bomb(NULL), engine(_g) {
+  }
+  void	bombDisplay::setBySerial(const Tokenizer& t) {
+    double		x,y;
+    const glm::vec4&	hitbox = parent->getHitBox();
+    parent->getPosition(x, y);
+    if (t.get<int>(1) == 0)
+      bomb = new object3d::bombGlyph();
+    if (t.get<int>(1) == 1)
+      bomb = new object3d::bombFeu();
+    if (t.get<int>(1) == 2)
+      bomb = new object3d::bombGlace();
+    if (t.get<int>(1) == 3)
+      bomb = new object3d::bombThunder();
+    if (t.get<int>(1) == 4)
+      bomb = new object3d::bombHealth();
+    x += hitbox[0];
+    y += hitbox[2];
+    bomb->translate(glm::vec3(x*3, y*3, -6));
+    bomb->scale(glm::vec3(0.7f));
+    bomb->rotate(glm::vec3(0,-9,9),10);
+    bomb->setAnimation("run");
+    engine->addObject(bomb);
+  }
+
+  bombDisplay::~bombDisplay() { engine->subObject(bomb); delete bomb; }
 };

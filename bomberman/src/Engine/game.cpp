@@ -120,6 +120,12 @@ namespace Engine{
 					 return (new Component::playerDisplay(_player, _grEngine));
 				       });
 
+    _Cfactory->storeComponentAllocator("bombDisplay",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::bombDisplay(_player, _grEngine));
+				       });
+
     _Cfactory->storeComponentAllocator("menuPrincipal",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {

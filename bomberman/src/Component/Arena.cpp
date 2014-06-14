@@ -115,9 +115,12 @@ namespace Component{
 						  ->getComponentFactory()->allocateComponentByType("ColliderMovable", b));
 			       Component::abstract* exp = _Efactory
 				 ->getComponentFactory()->allocateComponentByType("Explode", b);
-
+			       Component::abstract* disp = _Efactory
+				 ->getComponentFactory()->allocateComponentByType("bombDisplay", b);
+			       disp->setBySerial(Tokenizer::subserialize(0, event->prim));
 			       exp->setBySerial(Tokenizer::subserialize(0, /* achanger */100, event->prim, event->second, event->ter));
 			       b->attachComponent(exp);
+			       b->attachComponent(disp);
 			     }));
   }
 

@@ -4,6 +4,8 @@
 # include "Component.hh"
 
 # include "cubeVertex.hh"
+# include "bombAnimated.hh"
+
 # define __GROUNDTEXTURE "./textures/ground/lava.tga"
 # define __GLYPHEDTEXTURE "./textures/ground/glyphe.tga"
 # define __INDESTEXTURE "./textures/diamond/Diamond.tga"
@@ -68,6 +70,20 @@ namespace Component{
   public:
     std::string serialization() { return (""); }
     void	setBySerial(const Tokenizer&) {}
+  };
+
+  class bombDisplay : public Component::abstract {
+  private:
+    object3d::animatedVertex	*bomb;
+    Engine::Graphic*		engine;
+
+  public:
+    bombDisplay(Entity::GameObject*, Engine::Graphic*);
+    ~bombDisplay();
+
+  public:
+    std::string serialization() { return (""); }
+    void	setBySerial(const Tokenizer&);
   };
 };
 
