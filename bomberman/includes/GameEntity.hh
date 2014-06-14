@@ -21,7 +21,7 @@ namespace Entity{
     glm::vec4	hitbox;
   public:
     Bomb(Event::Dispatcher* _d)
-      : Entity::GameObject(_d, Entity::game), hitbox(-0.1,0.1,-0.1,0.1) {}
+      : Entity::GameObject(_d, Entity::game), hitbox(-0.4,0.4,-0.4,0.4) {}
     std::string getName() { return ("Bomb"); }
     const glm::vec4& getHitBox() { return (hitbox); }
   };

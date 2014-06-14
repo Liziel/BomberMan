@@ -54,7 +54,7 @@ namespace Component{
 			 reinterpret_cast<Event::Type::Explosion*>(&e);
 		       auto hitbox = parent->getHitBox();
 		       if (x + hitbox[0] <= event->x && event->x <= x + hitbox[1] &&
-			   y + hitbox[2] <= event->y && event->y <= y + hitbox[2]) {
+			   y + hitbox[2] <= event->y && event->y <= y + hitbox[3]) {
 			 dispatchSelf(new Event::Type::disableCollision());
 			 if (!(rand() % 10))
 			   dispatchSelf(new Event::Type::LootBonus());
@@ -102,6 +102,11 @@ namespace Component{
 			       Event::Type::PlantBomb* event = 
 				 reinterpret_cast<Event::Type::PlantBomb*>(&e);
 			       Entity::GameObject* b = _Efactory->allocateEntityByType("bomb", false);
+			       double add;
+			       add = 0.5 - 1 * (event->x < 0);
+			       event->x = static_cast<int>(event->x) + add;
+			       add = 0.5 - 1 * (event->y < 0);
+			       event->y = static_cast<int>(event->y) + add;
 			       std::cout << "000000000000000000000000000000:" << event->x << event->y << std::endl;
 			       b->setPosition(event->x, event->y);
 			       b->attachComponent(_Efactory

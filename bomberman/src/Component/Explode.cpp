@@ -8,6 +8,7 @@ namespace Component{
 			 delete _p;
 			 return ;
 		       }
+		       std::cout << untilBOOM << std::endl;
 		       if (untilBOOM > 0)
 			 untilBOOM -= 1;
 		       if (!untilBOOM) {
@@ -33,35 +34,42 @@ namespace Component{
     double x;
     double y;
 
+    std::cout << "calcuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul" << static_cast<int>(-5.5f) << std::endl;
     exploding = true;
     _p->getPosition(x, y);
     attachCallback(Event::Info::Colliding,
 		   new Event::FixedCallback([this, x, y] (Event::Data& e) {
 		       Event::Type::Colliding* _ =
 			 reinterpret_cast<Event::Type::Colliding*>(&e);
-
-		       std::cout << _->endX << x <<std::endl;
-		       std::cout << _->endY << y <<std::endl;
+		       
+		       std::cout << "1<<laaaaaaaaaaaaaaaaaaaaa" << std::endl;
 		       if (_->endX > x) {
-			 for (; _->endX >= x; --_->endX)
-			   dispatch(_->endX+0.5, y);
+			 std::cout <<"+x"<< _->endX - x<< std::endl;
+			 for (double dist = _->endX - x; dist > 0.99; --dist)
+			   dispatch(x + dist, y);
 			 return ;
 		       }
 		       if (_->endX < x) {
-			 for (; _->endX <= x; ++_->endX)
-			   dispatch(_->endX-0.5, y);
+			 std::cout << "-x"<< _->endX-x<< std::endl;
+			 for (double dist = x-_->endX ; dist > 0.99; --dist)
+			   dispatch(x-dist, y);
 			 return ;
 		       }
 		       if (_->endY > y) {
-			 for (; _->endY >= y; --_->endY)
-			   dispatch(x, _->endY+0.5);
+			 std::cout <<"+y"<< _->endY - y<< std::endl;
+			 for (double dist = _->endY - y; dist > 0.99; --dist)
+			   dispatch(x, y + dist);
 			 return ;
 		       }
 		       if (_->endY < y) {
-			 for (; _->endY <= y; ++_->endY)
-			   dispatch(x, _->endY-0.5);
+			 std::cout <<"-y"<< _->endY-y<< std::endl;
+			 for (double dist = y-_->endY ; dist > 0.99; --dist) {
+			   std::cout << "dist:" << dist << std::endl;
+			   dispatch(x, y - dist);
+			 }
 			 return ;
 		       }
+		       std::cout << "2<<laaaaaaaaaaaaaaaaaaaaa" << std::endl;
 		     }));
     double spread = getSpread(elements[0]) +
       getSpread(elements[1]) +
@@ -72,6 +80,7 @@ namespace Component{
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, -spread));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, spread));
     dispatch(x, y);
+    std::cout << "3<<laaaaaaaaaaaaaaaaaaaaa" << std::endl;
     delete _p;
   }
 
