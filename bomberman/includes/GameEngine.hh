@@ -18,6 +18,7 @@
 #include "Explode.hh"
 #include "joystick.hh"
 #include "menuPrincipal.hh"
+#include "menuSuperior.hh"
 #include "blocDisplay.hh"
 
 namespace Engine{
@@ -36,6 +37,7 @@ namespace Engine{
     Component::Collider*	collider;
     Component::Phisix		*phisix;
     Component::JoystickManager	*joystick;
+    Component::menuSuperior	*menus;
 
     /* Ctor && Dtor */
   public:

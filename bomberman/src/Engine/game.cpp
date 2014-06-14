@@ -13,6 +13,7 @@ namespace Engine{
     collider = new Component::Collider();
     phisix = new Component::Phisix(_dispatcher);
     joystick = new Component::JoystickManager();
+    menus = new Component::menuSuperior(_d, _Efactory);
 
     /* pLayer Component & Entity */
     _Cfactory->storeComponentAllocator("joystick1",
@@ -122,7 +123,7 @@ namespace Engine{
     _Cfactory->storeComponentAllocator("menuPrincipal",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
-					 return (new Component::MenuPrincipal(_player, _grEngine, WINDOW_X, WINDOW_Y, 0, 0, "preview.tga"));
+					 return (new Component::MenuPrincipal(_player, _grEngine, WINDOW_X, WINDOW_Y, 0, 0, "img/preview.tga"));
 				       });
     
     _Efactory->addAllocator("player0", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
