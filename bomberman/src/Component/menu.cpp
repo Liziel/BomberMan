@@ -13,7 +13,7 @@ namespace Component{
                        if (event->state && event->key == 0)
 			 moveFocus(1);
                        else if (event->state && event->key == 1)
-			 moveFocus(1);
+			 moveFocus(-1);
 		       //move to each menu
 		       //else if (event->state && event->key == 4)
 		     }));
