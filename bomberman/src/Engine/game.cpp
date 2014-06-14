@@ -113,10 +113,10 @@ namespace Engine{
 					 return (new Component::bookshelfDisplay(_player, _grEngine));
 				       });
 
-    _Cfactory->storeComponentAllocator("menuPrincipal",
+    _Cfactory->storeComponentAllocator("playerDisplay",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
-					 return (new Component::MenuPrincipal(_player, _grEngine, WINDOW_X, WINDOW_Y, 0, 0, "preview.tga"));
+					 return (new Component::playerDisplay(_player, _grEngine));
 				       });
     
     _Efactory->addAllocator("player0", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
@@ -203,7 +203,13 @@ namespace Engine{
     _Cfactory->storeComponentAllocator("Runic",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
-					 return (new Component::Runic(_player));
+					 return (new Component::Runic(_player, false));
+				       });
+
+    _Cfactory->storeComponentAllocator("RunicEnabled",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::Runic(_player, true));
 				       });
 
     _Cfactory->storeComponentAllocator("Bloc",
@@ -247,7 +253,7 @@ namespace Engine{
 			    ->allocateComponentByType("Ground", bloc));
 	bloc
 	  ->attachComponent(_Cfactory
-			    ->allocateComponentByType("Runic", bloc));
+			    ->allocateComponentByType("RunicEnabled", bloc));
 	return (bloc);
       });
 
@@ -267,6 +273,7 @@ namespace Engine{
 			    ->allocateComponentByType("ColliderStatic", bloc));//ColliderStatic
 	return (bloc);
       });
+
     _Efactory->addAllocator("MenuPrincipal", [this](bool _ini, Entity::GameObject* __menu) -> Entity::GameObject* {
 	Entity::GameObject*     menu = (!__menu) ? (new Entity::Menu(_dispatcher)) :(__menu);
 	if (!_ini)
