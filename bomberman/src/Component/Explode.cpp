@@ -44,29 +44,29 @@ namespace Component{
 		       std::cout << _->endY << y <<std::endl;
 		       if (_->endX > x) {
 			 for (; _->endX >= x; --_->endX)
-			   dispatch(_->endX, y);
+			   dispatch(_->endX+0.5, y);
 			 return ;
 		       }
 		       if (_->endX < x) {
 			 for (; _->endX <= x; ++_->endX)
-			   dispatch(_->endX, y);
+			   dispatch(_->endX-0.5, y);
 			 return ;
 		       }
 		       if (_->endY > y) {
 			 for (; _->endY >= y; --_->endY)
-			   dispatch(x, _->endY);
+			   dispatch(x, _->endY+0.5);
 			 return ;
 		       }
 		       if (_->endY < y) {
 			 for (; _->endY <= y; ++_->endY)
-			   dispatch(x, _->endY);
+			   dispatch(x, _->endY-0.5);
 			 return ;
 		       }
 		     }));
     double spread = getSpread(elements[0]) +
       getSpread(elements[1]) +
       getSpread(elements[2]) - 1;
-    std::cout << spread << std::endl;
+    std::cout << spread << "position (" << x<< ")(" << y << ")" << std::endl;
     dispatchSelf(new Event::Type::RequireExplosion(x,y, spread, 0));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, -spread, 0));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, -spread));
@@ -75,7 +75,8 @@ namespace Component{
     delete _p;
   }
 
-  void	Explode::dispatch(int x, int y) {
+  void	Explode::dispatch(double x, double y) {
+    std::cout << "ecplode on (" << x << ")(" << y << ")" << std::endl;
     std::function<void(Effects::type, Effects::level)> mad =
       [this, x, y] (Effects::type t, Effects::level lvl) {
       if (t == Effects::Fire)

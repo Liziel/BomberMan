@@ -72,6 +72,7 @@ namespace  Event{
       int time;
     };
 # endif
+
 # ifndef __EFFECTS_H__
     struct PlaceDot : Event::Data{
       PlaceDot(int _d, unsigned int _dd)

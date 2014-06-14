@@ -7,6 +7,8 @@ namespace Component{
     double		x,y;
     const glm::vec4&	hitbox = parent->getHitBox();
     parent->getPosition(x, y);
+    x+=hitbox[0];
+    y+=hitbox[2];
     cube->setPosition(x*3, y*3, object3d::cubeVertex::Ground);
     cube->scale(glm::vec3(3,3,3));
     engine->addObject(cube);
@@ -18,6 +20,8 @@ namespace Component{
     double		x,y;
     const glm::vec4&	hitbox = parent->getHitBox();
     parent->getPosition(x, y);
+    x+=hitbox[0];
+    y+=hitbox[2];
     cube->setPosition(x*3, y*3, object3d::cubeVertex::Up);
     cube->scale(glm::vec3(3,3,3));
     engine->addObject(cube);
@@ -29,12 +33,14 @@ namespace Component{
     double		x,y;
     const glm::vec4&	hitbox = parent->getHitBox();
     parent->getPosition(x, y);
+    x+=hitbox[0];
+    y+=hitbox[2];
     cube->scale(glm::vec3(2.5,2.5,2.5));
     cube->setPosition(x*3, y*3, object3d::cubeVertex::Up);
     engine->addObject(cube);
     attachCallback(Event::Info::disableCollision,
-		   new Event::FixedCallback([this](Event::Data&) {
-		       std::cout << engine << std::endl;
+		   new Event::FixedCallback([this,x,y](Event::Data&) {
+		       std::cout <<  x << y << std::endl;
 		       engine->subObject(cube);
 		     }));
   }
@@ -46,17 +52,20 @@ namespace Component{
     double		_x,_y;
     const glm::vec4&	hitbox = parent->getHitBox();
     parent->getPosition(_x, _y);
-    _y += hitbox[3];
+    _x += hitbox[0];
+    _y += hitbox[2];
     x = _x;
     y = _y;
-    ziggs->translate(glm::vec3(_x*3, _y*3, -8));
+    ziggs->translate(glm::vec3(_x*3, _y*3, -6));
     ziggs->rotate(glm::vec3(0,100.f,-90.f), 1);
+    ziggs->scale(glm::vec3(0.8f));
     engine->addObject(ziggs);
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, hitbox](Event::Data&) {
 		       double		_x,_y;
 		       parent->getPosition(_x, _y);
-		       _y += hitbox[3];
+		       _x += hitbox[0];
+		       _y += hitbox[2];
 		       ziggs->translate(glm::vec3((_x-x)*3, (_y-y)*3,0));
 		       x = _x;
 		       y = _y;

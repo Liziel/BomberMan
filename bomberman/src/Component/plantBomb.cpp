@@ -58,8 +58,9 @@ namespace Component{
 		       double x;
 		       double y;
 		       _p->getPosition(x, y);
+		       std::cout << "position bomb {" << x << "}{" << y<< "}" << std::endl;
 		       dispatchAll(new Event::Type::PlantBomb
-				   (static_cast<int>(x), static_cast<int>(y),
+				   (x, y,
 				    spellArray[0],
 				    spellArray[1],
 				    spellArray[2]));

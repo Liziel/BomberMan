@@ -63,7 +63,6 @@ namespace Component{
 			 Event::Time _t = 0;
 			 double x;
 			 double y;
-			 std::cout << "peinard"<< std::endl;
 			 parent->getPosition(x, y);
 			 if (event->x != x || event->y != y)
 			   return ;

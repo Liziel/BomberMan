@@ -15,10 +15,12 @@ namespace Component{
 		       double posx = event->x, posy = event->y;
 		       double ix = (0.f) , iy = (0.f);
 		       double ittx = 1.f - 2 * (event->vectorX < 0), ittY = 1.f - 2 * (event->vectorY < 0);
-		       while (!((ittx > 0 && ix <= event->vectorX && ix + 1.f >= event->vectorX) ||
-				(ittx < 0 && ix >= event->vectorX && ix - 1.f <= event->vectorX)) ||
-			      !((ittY > 0 && iy <= event->vectorY && iy + 1.f >= event->vectorY) ||
-				(ittY < 0 && iy >= event->vectorY && iy - 1.f <= event->vectorY))) {
+		       ittx /= 2;
+		       ittY /= 2;
+		       while (!((ittx > 0 && ix <= event->vectorX && ix + 0.5f >= event->vectorX) ||
+				(ittx < 0 && ix >= event->vectorX && ix - 0.5f <= event->vectorX)) ||
+			      !((ittY > 0 && iy <= event->vectorY && iy + 0.5f >= event->vectorY) ||
+				(ittY < 0 && iy >= event->vectorY && iy - 0.5f <= event->vectorY))) {
 			 if (!(ix <= event->vectorX && ix + 1.f >= event->vectorX)) {
 			   if ((*collider)(posx + ittx, posy, parent->getHitBox(), Component::Collider::_Static, id))
 			     posx += ittx;
@@ -71,7 +73,7 @@ namespace Component{
 			   iy += ittY;
 			 }
 		       }
-		       
+
 		       if (event->vectorX != 0.f && (*collider)(posx + event->vectorX - ix * ittx, posy, parent->getHitBox(), Component::Collider::_noType, id))
 			 posx += event->vectorX - ix;
 		       if (event->vectorY != 0.f && (*collider)(posx, posy + event->vectorY - iy * ittY, parent->getHitBox(), Component::Collider::_noType, id))
@@ -80,6 +82,7 @@ namespace Component{
 			   posx += ittx;
 			 if (by)
 			   posy += ittY;
+			 std::cout << "maxit(" << posx << ")("<< posy<<")" << std::endl;
 			 dispatchSelf(new Event::Type::Colliding(posx, posy, ix + iy));
 		       }
 		     }));
@@ -143,17 +146,21 @@ namespace Component{
       return (false);
     const glm::vec4& hitbox = parent->getHitBox();
     if (x + hitbox[XMIN] < _x + _hitbox[XMIN] && _x + _hitbox[XMIN] < x + hitbox[XMAX] &&
-	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX])
+	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX]) {
       return (true);
+    }
     if (x + hitbox[XMIN] < _x + _hitbox[XMAX] && _x + _hitbox[XMAX] < x + hitbox[XMAX] &&
-	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX])
+	y + hitbox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < y + hitbox[YMAX]) {
       return (true);
+    }
     if (x + hitbox[XMIN] < _x + _hitbox[XMIN] && _x + _hitbox[XMIN] < x + hitbox[XMAX] &&
-	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX])
+	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX]) {
       return (true);
+    }
     if (x + hitbox[XMIN] < _x + _hitbox[XMAX] && _x + _hitbox[XMAX] < x + hitbox[XMAX] &&
-	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX])
+	y + hitbox[YMIN] < _y + _hitbox[YMAX] && _y + _hitbox[YMAX] < y + hitbox[YMAX]) {
       return (true);
+    }
     return (false);
   }
 

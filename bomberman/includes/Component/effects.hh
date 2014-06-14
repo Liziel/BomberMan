@@ -109,38 +109,38 @@ namespace Event{
 
 # ifndef __EXPLODE_H__
     struct FireExplosion : Event::Data{
-      FireExplosion(int _x, int _y, Component::Effects::level _l)
+      FireExplosion(double _x, double _y, Component::Effects::level _l)
 	: Event::Data(Event::Info::FireExplosion, sizeof(struct FireExplosion), false),
 	  x(_x), y(_y), level(_l) {}
-      int x;
-      int y;
+      double x;
+      double y;
       Component::Effects::level level;
     };
 
     struct LifeExplosion : Event::Data{
-      LifeExplosion(int _x, int _y, Component::Effects::level _l)
+      LifeExplosion(double _x, double _y, Component::Effects::level _l)
 	: Event::Data(Event::Info::LifeExplosion, sizeof(struct LifeExplosion), false),
 	  x(_x), y(_y), level(_l) {}
-      int x;
-      int y;
+      double x;
+      double y;
       Component::Effects::level level;
     };
 
     struct ElectricityExplosion : Event::Data{
-      ElectricityExplosion(int _x, int _y, Component::Effects::level _l)
+      ElectricityExplosion(double _x, double _y, Component::Effects::level _l)
 	: Event::Data(Event::Info::ElectricityExplosion, sizeof(struct ElectricityExplosion), false),
 	  x(_x), y(_y), level(_l) {}
-      int x;
-      int y;
+      double x;
+      double y;
       Component::Effects::level level;
     };
 
     struct IceExplosion : Event::Data{
-      IceExplosion(int _x, int _y, Component::Effects::level _l)
+      IceExplosion(double _x, double _y, Component::Effects::level _l)
 	: Event::Data(Event::Info::IceExplosion, sizeof(struct IceExplosion), false),
 	  x(_x), y(_y), level(_l) {}
-      int x;
-      int y;
+      double x;
+      double y;
       Component::Effects::level level;
     };
 # endif
