@@ -43,16 +43,16 @@ namespace Component{
 
   void Menu::moveFocus(int i)
   {
-    for (auto it = _buttons.begin(); it <= _buttons.end(); ++it)
-      if (it->_isFocus)
+    for (auto it = _buttons.cbegin(); it != _buttons.cend(); ++it)
+      if ((*it)->_isFocus)
 	{
-	  it->onLooseFocus();
+	  (*it)->onLooseFocus();
 	  if (it == _buttons.cend())
-	    _buttons.cbegin()->onFocus();
+	    (*(_buttons.cbegin()))->onFocus();
 	  else if (it == _buttons.cbegin())
-	    _buttons.cend()->onFocus();
+	    (*(_buttons.cend()))->onFocus();
 	  else
-	    (it + 1)->onFocus();
+	    ((*it) + 1)->onFocus();
 	}
   }
   void Menu::addButton(Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture, const std::string& textureFocus, bool isFocus){
