@@ -33,6 +33,7 @@ namespace Component{
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
 		       _p->disable();
 		       imDead(true);
+		       std::cout << "im DEAAAAAD" << std::endl;
 		     }));
   }
 
@@ -52,8 +53,11 @@ namespace Component{
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Explosion* event =
 			 reinterpret_cast<Event::Type::Explosion*>(&e);
-		       if (event->x == x && event->y == y) {
+		       auto hitbox = parent->getHitBox();
+		       if (x + hitbox[0] <= event->x && event->x <= x + hitbox[1] &&
+			   y + hitbox[2] <= event->y && event->y <= y + hitbox[3]) {
 			 dispatchSelf(new Event::Type::disableCollision());
+			 dispatchSelf(new Event::Type::EnableGlyph());
 			 if (!(rand() % 10))
 			   dispatchSelf(new Event::Type::LootBonus());
 		       }
@@ -100,6 +104,12 @@ namespace Component{
 			       Event::Type::PlantBomb* event = 
 				 reinterpret_cast<Event::Type::PlantBomb*>(&e);
 			       Entity::GameObject* b = _Efactory->allocateEntityByType("bomb", false);
+			       double add;
+			       add = 0.5 - 1 * (event->x < 0);
+			       event->x = static_cast<int>(event->x) + add;
+			       add = 0.5 - 1 * (event->y < 0);
+			       event->y = static_cast<int>(event->y) + add;
+			       std::cout << "000000000000000000000000000000:" << event->x << event->y << std::endl;
 			       b->setPosition(event->x, event->y);
 			       b->attachComponent(_Efactory
 						  ->getComponentFactory()->allocateComponentByType("ColliderMovable", b));
@@ -112,14 +122,14 @@ namespace Component{
   }
 
   void		Arena::GenerateSquareMap(int nplay, int nIa, int x, int y) {
-    std::array<std::array<double , 2>, 4> dispoPlace = { std::array<double, 2>({(-x/2 + 1.2f)/1000, (-y/2 + 1.2f)/1000}),  std::array<double, 2>({x/2 - 1.5, -y/2 + 1.5}),
+    std::array<std::array<double , 2>, 4> dispoPlace = { std::array<double, 2>({(-x/2 + 1.5f), (-y/2 + 1.5f)}),  std::array<double, 2>({x/2 - 1.5, -y/2 + 1.5}),
 						      std::array<double, 2>({x/2 - 1.5,y/2 - y-1.5}), std::array<double, 2>({x/2 - x-1.5,y/2 - y-1.5})  };
     Entity::GameObject*	obj;
     for (int xi = 0; xi <= x; xi++) {
       for (int yi = 0; yi <= y; yi++) {
 	if (xi == 0 || xi == x || yi == 0 || yi == y || (!(xi % 2) && !(yi % 2))) {
 	  obj = _Efactory->allocateEntityByType("indestructibleBloc", false);
-	  obj->setPosition(x/2 - xi, y/2 - yi);
+	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("indestructibleBloc", obj);
 	} else if (!((xi == 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
 		     (xi == x - 1 && (yi == 1 || yi == 2 || yi == y - 2)) ||
@@ -127,11 +137,11 @@ namespace Component{
 		     (yi == y - 1 && (xi == 1 || xi == 2 || xi == x - 1 || xi == x - 2))
 		     )) {
 	  obj = _Efactory->allocateEntityByType("destructibleBloc", false);
-	  obj->setPosition(x/2 - xi, y/2 - yi);
+	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("destructibleBloc", obj);
 	} else{
 	  _Efactory->allocateEntityByType("EmptyBloc", false);
-	  obj->setPosition(x/2 - xi, y/2 - yi);
+	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("EmptyBloc", obj);
 	}
       }

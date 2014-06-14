@@ -34,7 +34,7 @@ namespace Component {
       double	x;
       double	y;
     public:
-      bool doCollide(double x, double y, const glm::vec4& hitbox);
+      bool doCollide(double x, double y, const glm::vec4& hitbox, const glm::vec4& ignorebox);
 
     public:
       std::string		serialization();
@@ -62,7 +62,7 @@ namespace Component {
       double	y;
       bool	disabled;
     public:
-      bool doCollide(double x, double y, const glm::vec4& hitbox);
+      bool doCollide(double x, double y, const glm::vec4& hitbox, const glm::vec4& ignorebox);
 
     public:
       std::string		serialization();
@@ -86,7 +86,7 @@ namespace Component {
     void	removeSelf(Component::Collider::Static*);
     void	removeSelf(Component::Collider::Movable*);
 
-    bool	operator()(double x, double y, const glm::vec4& hitbox,
+    bool	operator()(double x, double y, const glm::vec4& hitbox, const glm::vec4& ignorebox,
 			   Collider::Type ignoreType = _noType,
 			   Component::Collider::Id = -1) const;
   };

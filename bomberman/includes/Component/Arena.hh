@@ -150,14 +150,14 @@ namespace  Event{
 
 # ifndef __EXPLODE_H__
     struct PlantBomb : Event::Data{
-      PlantBomb(int _x, int _y,
+      PlantBomb(double _x, double _y,
 		Component::Effects::type _p,
 		Component::Effects::type _s,
 		Component::Effects::type _t)
 	: Event::Data(Event::Info::plantBomb, sizeof(struct PlantBomb), true),
 	  x(_x), y(_y), prim(_p), second(_s), ter(_t) {}
-      int x;
-      int y;
+      double x;
+      double y;
       Component::Effects::type prim;
       Component::Effects::type second;
       Component::Effects::type ter;
@@ -178,6 +178,14 @@ namespace  Event{
     };
 
 # endif
+
+# ifndef __RUNIC_H__
+    struct EnableGlyph : Event::Data{
+      EnableGlyph()
+	: Event::Data(Event::Info::EnableGlyph, sizeof(struct EnableGlyph), false) {}
+    };
+# endif
+
 
 # ifndef __PHISIX_H__
     struct selfMovement : Event::Data{
@@ -206,13 +214,13 @@ namespace  Event{
 
 # ifndef __EXPLODE_H__
     struct Explosion : Event::Data {
-      Explosion(int _x, int _y)
+      Explosion(double _x, double _y)
 	: Event::Data(Event::Info::Explosion,
 		      sizeof(struct Explosion),
 		      false),
 	  x(_x), y(_y) {}
-      int	x;
-      int	y;
+      double	x;
+      double	y;
     };
 # endif
 

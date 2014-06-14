@@ -1,6 +1,7 @@
 #include "GraphicEngine.hh"
 #include "AObject.hh"
 #include "planVertex.hh"
+#include "ziggsAnimated.hpp"
 
 namespace Engine{
   Graphic::Graphic(Event::Dispatcher* _d)
@@ -66,7 +67,6 @@ namespace Engine{
 			       _context.flush();
 			     }), Event::Info::low
 			   );
-
   }
 
   Graphic::~Graphic() {}
@@ -75,22 +75,26 @@ namespace Engine{
     if (o)
       _objects.push_back(o);
   }
+
   void	Graphic::addHudObject(object3d::AObject* o) { 
     if (o)
       _HUDobjects.push_back(o);
   }
+
   void	Graphic::subObject(object3d::AObject* o) {
     for (auto itt = _objects.begin(); itt != _objects.end(); ++itt) {
       if (*itt == o)
 	itt = _objects.erase(itt);
     }
   }
+
   void	Graphic::subHudObject(object3d::AObject* o) {
     for (auto itt = _HUDobjects.begin(); itt != _HUDobjects.end(); ++itt) {
       if (*itt == o)
 	_HUDobjects.erase(itt);
     }
   }
+
   bool	Graphic::getQuit(void) {
     return (_quit);
   }

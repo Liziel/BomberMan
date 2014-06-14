@@ -1,5 +1,9 @@
 #include "phisix.hh"
 
+# define XMIN 0
+# define XMAX 1
+# define YMIN 2
+# define YMAX 3
 namespace Component
 {
   /*  Vector  */
@@ -15,6 +19,9 @@ namespace Component
 		       double axeY = (-direction[Down] * _speed + direction[Up] * _speed) * speedAxe[0];
 
 		       parent->getPosition(x, y);
+		       auto _x = x;
+		       auto _y = y;
+		       auto _hitbox = parent->getHitBox();
 		       if (axeX == 0.f && axeY == 0.f)
 			 return ;
 		       if (axeX != 0.f && axeY != 0.f) {
@@ -36,8 +43,6 @@ namespace Component
 		   new Event::FixedCallback([this](Event::Data& e){
 		       Event::Type::selfMovement *event = reinterpret_cast<Event::Type::selfMovement*>(&e);
 		       direction[event->direction] = event->state;
-		       if (event->direction == Left && event->state == true)
-			 std::cout << "tamereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" << std::endl;
 		     }));
 
     attachCallback(Event::Info::speedModifier,

@@ -10,12 +10,13 @@ namespace object3d {
     double	_scale;
 
   public:
-    animatedVertex(char* model, double scale)
-      : _scale(scale) {
-      if (_model.load("tamere") == false) {
+    animatedVertex(const char* model, double _sc)
+      : _scale(_sc) {
+      if (_model.load(model) == false) {
 	std::cerr << "can't load model :" << model << std::endl;
 	return ;
       }
+      scale(glm::vec3(_scale,_scale,_scale));
     }
 
     ~animatedVertex() {}
@@ -24,9 +25,10 @@ namespace object3d {
     void	setPosition(double x, double y) {
       translate(glm::vec3(x, y, 0));
     }
-    void	setDirection(double, double) {
 
+    void	setDirection(double, double) {
     }
+
     void	setAnimation(std::string animation) {
       _model.setCurrentSubAnim(animation);
     }

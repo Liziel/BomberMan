@@ -7,7 +7,6 @@
 # include "GraphicEngine.hh"
 # include "GameEngine.hh"
 
-#include "blocDisplay.hh"
 #include "phisix.hh"
 #include "effects.hh"
 #include "Arena.hh"
@@ -19,6 +18,7 @@
 #include "Explode.hh"
 #include "joystick.hh"
 #include "menuPrincipal.hh"
+#include "blocDisplay.hh"
 
 namespace Engine{
   class Game{

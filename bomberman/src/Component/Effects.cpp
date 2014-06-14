@@ -63,9 +63,8 @@ namespace Component{
 			 Event::Time _t = 0;
 			 double x;
 			 double y;
-			 std::cout << "peinard"<< std::endl;
 			 parent->getPosition(x, y);
-			 if (event->x != x || event->y != y)
+			 if (static_cast<int>(event->x) != x || static_cast<int>(event->y) != y)
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(fireLow); _t = fireLow.dotDuration;  }
 			 if (event->level == med)  { this->interpretDamage(fireMed); _t = fireMed.dotDuration;  }
@@ -89,7 +88,7 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
-			 if (event->x != x || event->y != y)
+			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(electricityLow); _t = electricityLow.dotDuration;  }
 			 if (event->level == med)  { this->interpretDamage(electricityMed); _t = electricityMed.dotDuration;  }
@@ -110,7 +109,7 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
-			 if (event->x != x || event->y != y)
+			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(iceLow); _t = iceLow.dotDuration;  }
 			 if (event->level == med)  { this->interpretDamage(iceMed); _t = iceMed.dotDuration;  }
@@ -130,7 +129,7 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
-			 if (event->x != x || event->y != y)
+			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(lifeLow);  }
 			 if (event->level == med)  { this->interpretDamage(lifeMed);  }

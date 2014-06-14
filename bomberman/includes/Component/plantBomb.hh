@@ -61,14 +61,14 @@ namespace Event{
 
 # ifndef __ARENA_H__
     struct PlantBomb : Event::Data{
-      PlantBomb(int _x, int _y,
+      PlantBomb(double _x, double _y,
 		Component::Effects::type _p,
 		Component::Effects::type _s,
 		Component::Effects::type _t)
 	: Event::Data(Event::Info::plantBomb, sizeof(struct PlantBomb), true),
 	  x(_x), y(_y), prim(_p), second(_s), ter(_t) {}
-      int x;
-      int y;
+      double x;
+      double y;
       Component::Effects::type prim;
       Component::Effects::type second;
       Component::Effects::type ter;

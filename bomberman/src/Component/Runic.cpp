@@ -20,8 +20,10 @@ namespace Component{
 		   new Event::FixedCallback( [this]( Event::Data& ) {
 		       if (!runeDuration)
 			 return ;
+		       //		       std::cout << "element["<< element1 <<"]["<< element2 <<"], duration["<< runeDuration <<"], burning["<< runeBurning <<"], cooldown["<< runeCooldown <<"]" << std::endl;
 		       runeDuration -= 1;
-		       if (runeCooldown == -1)
+		       if (!runeDuration)
+			 dispatchSelf(new Event::Type::extinctGlyph());
 		       runeBurning -= 1;
 		       if (runeBurning)
 			 return ;
@@ -29,8 +31,6 @@ namespace Component{
 			 dispatchElement(element1);
 		       if (attachedElement == 2)
 			 dispatchElement(element2);
-		       if (!runeDuration)
-			 dispatchSelf(new Event::Type::extinctGlyph());
 		       runeBurning = runeCooldown;
 		     }));
 
@@ -43,8 +43,11 @@ namespace Component{
 			 reinterpret_cast<Event::Type::GlyphExplosion*>(&e);
 		       if (runeDuration)
 			 return ;
-		       if (!(event->x == x && event->y == y))
+		       auto hitbox = parent->getHitBox();
+		       if (!(x + hitbox[0] <= event->x && event->x <= x + hitbox[1] &&
+			     y + hitbox[2] <= event->y && event->y <= y + hitbox[3]))
 			 return ;
+		       std::cout << "hitbox["<< x + hitbox[0] <<"]["<< x + hitbox[1] <<"]["<< y + hitbox[2] <<"]["<< y + hitbox[3] <<"]" << std::endl;
 		       if (event->level == Component::Effects::low) {
 			 runeCooldown = 8;
 			 runeDuration = 8 * 3;
@@ -60,6 +63,8 @@ namespace Component{
 			 runeDuration = 8 * 10;
 			 attachableElement = 0;
 		       }
+		       runeBurning = runeCooldown;
+		       dispatchSelf(new Event::Type::SocketGlyph());
 		     }));
     if (!_runable)
       attachCallback(Event::Info::EnableGlyph,
