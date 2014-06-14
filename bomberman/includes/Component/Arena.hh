@@ -179,6 +179,14 @@ namespace  Event{
 
 # endif
 
+# ifndef __RUNIC_H__
+    struct EnableGlyph : Event::Data{
+      EnableGlyph()
+	: Event::Data(Event::Info::EnableGlyph, sizeof(struct EnableGlyph), false) {}
+    };
+# endif
+
+
 # ifndef __PHISIX_H__
     struct selfMovement : Event::Data{
       selfMovement(Component::Phisix::Vector::Direction _d, bool _b)

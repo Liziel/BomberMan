@@ -33,6 +33,7 @@ namespace Component{
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
 		       _p->disable();
 		       imDead(true);
+		       std::cout << "im DEAAAAAD" << std::endl;
 		     }));
   }
 
@@ -56,6 +57,7 @@ namespace Component{
 		       if (x + hitbox[0] <= event->x && event->x <= x + hitbox[1] &&
 			   y + hitbox[2] <= event->y && event->y <= y + hitbox[3]) {
 			 dispatchSelf(new Event::Type::disableCollision());
+			 dispatchSelf(new Event::Type::EnableGlyph());
 			 if (!(rand() % 10))
 			   dispatchSelf(new Event::Type::LootBonus());
 		       }

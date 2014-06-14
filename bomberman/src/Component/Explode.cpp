@@ -8,7 +8,6 @@ namespace Component{
 			 delete _p;
 			 return ;
 		       }
-		       std::cout << untilBOOM << std::endl;
 		       if (untilBOOM > 0)
 			 untilBOOM -= 1;
 		       if (!untilBOOM) {

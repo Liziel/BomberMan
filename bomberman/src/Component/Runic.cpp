@@ -43,8 +43,9 @@ namespace Component{
 			 reinterpret_cast<Event::Type::GlyphExplosion*>(&e);
 		       if (runeDuration)
 			 return ;
-		       if (!(event->x == x && event->y == y))
+		       if (!(static_cast<int>(event->x) == static_cast<int>(x) && static_cast<int>(event->y) == static_cast<int>(y)))
 			 return ;
+		       std::cout << "am I glyphed? {"<< x <<"}{"<< y <<"}["<< event->x <<"]["<< event->y <<"]" << std::endl;
 		       if (event->level == Component::Effects::low) {
 			 runeCooldown = 8;
 			 runeDuration = 8 * 3;
@@ -64,6 +65,7 @@ namespace Component{
     if (!_runable)
       attachCallback(Event::Info::EnableGlyph,
 		     new Event::FixedCallback([this] ( Event::Data& ) {
+			 std::cout << "im runable" << std::endl;
 			 runable = true;
 		       }));
 
