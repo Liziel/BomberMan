@@ -9,4 +9,5 @@ namespace object3d{
     ziggsAnimated();
   };
 };
+
 #endif

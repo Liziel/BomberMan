@@ -118,5 +118,6 @@ namespace Component{
 			 ziggs->setAnimation("stop");
 		     }));
   }
-  playerDisplay::~playerDisplay() { delete ziggs; }
+  playerDisplay::~playerDisplay() { engine->subObject(ziggs); delete ziggs; }
+
 };
