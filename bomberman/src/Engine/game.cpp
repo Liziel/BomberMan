@@ -273,6 +273,7 @@ namespace Engine{
 			    ->allocateComponentByType("ColliderStatic", bloc));//ColliderStatic
 	return (bloc);
       });
+
     _Efactory->addAllocator("MenuPrincipal", [this](bool _ini, Entity::GameObject* __menu) -> Entity::GameObject* {
 	Entity::GameObject*     menu = (!__menu) ? (new Entity::Menu(_dispatcher)) :(__menu);
 	if (!_ini)
@@ -286,6 +287,7 @@ namespace Engine{
 	menu
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("joystick", menu));
+	return (menu);
       });
   }
   Game::~Game() {}

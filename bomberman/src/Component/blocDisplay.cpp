@@ -74,7 +74,7 @@ namespace Component{
     y = _y;
     ziggs->translate(glm::vec3(_x*3, _y*3, -6));
     ziggs->rotate(glm::vec3(-9, 0, 0), 10);
-    ziggs->scale(glm::vec3(2.8f));
+    ziggs->scale(glm::vec3(0.8f));
     engine->addObject(ziggs);
 
     attachCallback(Event::Info::Clock,
