@@ -4,6 +4,8 @@
 # include "Component.hh"
 # include "GraphicEngine.hh"
 # include "planVertex.hh"
+# include "Event.hpp"
+# include "EventType.hh"
 
 namespace Component{
   class Button {
@@ -40,7 +42,7 @@ namespace Component{
     ~Menu();
     void addButton(Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture, const std::string& textureFocus, bool _isFocus);
     void draw();
-
+    void moveFocus(int i);
   public:
     std::string serialization() { return (""); }
     void	setBySerial(const Tokenizer&) {}
