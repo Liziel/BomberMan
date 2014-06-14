@@ -73,9 +73,10 @@ namespace Component{
     x = _x;
     y = _y;
     ziggs->translate(glm::vec3(_x*3, _y*3, -6));
-    ziggs->rotate(glm::vec3(0,100.f,-90.f), 1);
-    ziggs->scale(glm::vec3(0.8f));
+    ziggs->rotate(glm::vec3(-9, 0, 0), 10);
+    ziggs->scale(glm::vec3(2.8f));
     engine->addObject(ziggs);
+
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, hitbox](Event::Data&) {
 		       double		_x,_y;
@@ -86,11 +87,35 @@ namespace Component{
 		       x = _x;
 		       y = _y;
 		     }));
+
     attachCallback(Event::Info::selfMovement,
 		   new Event::FixedCallback([this](Event::Data& e) {
 		       Event::Type::selfMovement* event = 
 			 reinterpret_cast<Event::Type::selfMovement*>(&e);
 		       _direction[event->direction] = event->state;
+		       ziggs->setAnimation("run");
+		       if (_direction[Component::Phisix::Vector::Up]
+			   && _direction[Component::Phisix::Vector::Right])
+			 ziggs->rotate(glm::vec3(9, 13.5, 18), 10);
+		       else if (_direction[Component::Phisix::Vector::Up]
+			   && _direction[Component::Phisix::Vector::Left])
+			 ziggs->rotate(glm::vec3(9, -13.5, 18), 10);
+		       else if (_direction[Component::Phisix::Vector::Right]
+			   && _direction[Component::Phisix::Vector::Down])
+			 ziggs->rotate(glm::vec3(-9, 13.5, 0), 10);
+		       else if (_direction[Component::Phisix::Vector::Left]
+			   && _direction[Component::Phisix::Vector::Down])
+			 ziggs->rotate(glm::vec3(-9, -13.5, 0), 10);
+		       else if (_direction[Component::Phisix::Vector::Up])
+			 ziggs->rotate(glm::vec3(-9, 0, 0), 10);
+		       else if (_direction[Component::Phisix::Vector::Right])
+			 ziggs->rotate(glm::vec3(0, 9,-9.f), 10);
+		       else if (_direction[Component::Phisix::Vector::Left])
+			 ziggs->rotate(glm::vec3(-9, -9, 0), 10);
+		       else if (_direction[Component::Phisix::Vector::Down])
+			 ziggs->rotate(glm::vec3(-9, 18, 0), 10);
+		       else
+			 ziggs->setAnimation("stop");
 		     }));
   }
   playerDisplay::~playerDisplay() { delete ziggs; }

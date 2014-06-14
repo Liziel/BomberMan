@@ -9,7 +9,7 @@ namespace object3d {
   }
 
   void AObject::rotate(glm::vec3 const& axis, float angle) {
-    _rotation += axis * angle;
+    _rotation = axis * angle;
   }
 
   void AObject::scale(glm::vec3 const& scale) {
