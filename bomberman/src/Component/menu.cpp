@@ -19,21 +19,23 @@ namespace Component{
 			   moveFocus(-1);
                        else if (event->state && event->key == 1 && _buttons.size())
 			 moveFocus(1);
-		       else if (event->state && event->key == 2 && _buttons.size())
+		       else if ((event->state && event->key == 3 || event->state && event->key == 4)  && _buttons.size())
 			 {
 			   std::cout << "accepter" << std::endl;
 			   for (auto button : _buttons)
 			     if (button->_isFocus)
 			       {
-				  if (button->_texture == "img/buttons/play.tga")
-				    {
+				 if (button->_texture == "img/buttons/play.tga")
+				   {
 
-				      std::cout << "launch "<< button->_texture << std::endl;
+				     std::cout << "launch "<< button->_texture << std::endl;
 				     clearMenu();
 				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
 				     std::cout << "launched" << std::endl;
 				     return ;
 				   }
+				 else if (button->_texture == "img/buttons/exit.tga")
+				   exit(EXIT_SUCCESS);
 			       }
 			 }
 		     }));
@@ -97,15 +99,12 @@ namespace Component{
   
   void Menu::draw()
   {
-    if (_validBackground)
-      {
-	_gp = new object3d::planVertex(_texture, _sizeX, _sizeY, _posX, _sizeY);
-	_graphic->addHudObject(_gp);
-      }
+    _gp = new object3d::planVertex(_texture, _sizeX, _sizeY, _posX, _sizeY);
+    _graphic->addHudObject(_gp);
     for (auto button : _buttons)
       {
 	if (!(button->_gp))
-	button->_gp = new object3d::planVertex(button->_texture, button->_sizeX, button->_sizeY, button->_posX, button->_posY);
+	  button->_gp = new object3d::planVertex(button->_texture, button->_sizeX, button->_sizeY, button->_posX, button->_posY);
 	_graphic->addHudObject(button->_gp);
       }
   }

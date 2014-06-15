@@ -13,6 +13,6 @@ namespace Component {
   
   MenuPrincipal::~MenuPrincipal()
   {
-    _graphic->subHudObject(_gp);
+    //    _graphic->subHudObject(_gp);
   }
 }
