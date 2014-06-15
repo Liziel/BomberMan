@@ -26,11 +26,14 @@ namespace Component{
   class Arena : public Component::Superior{
 
   public:
-    class Winner{
+    class Winner : public Component::abstract{
     private:
       Component::Arena*		game;
     public:
-      Winner(Component::Arena*);
+      Winner(Entity::GameObject*, Component::Arena*);
+
+    public:
+      Entity::GameObject* getParent(void);
 
     public:
       typedef	int	Id;
@@ -47,7 +50,7 @@ namespace Component{
     };
 
   public:
-    class Player : public Component::abstract, public Winner{
+    class Player : public Winner{
     public:
       Player(Entity::GameObject*, Component::Arena*);
 
@@ -57,13 +60,15 @@ namespace Component{
     };
 
   public:
-    class IA : public Component::abstract, public Winner{
+    class IA : public Winner{
+    private:
+      
     public:
       IA(Entity::GameObject*, Component::Arena*);
 
     public:
       std::string	serialization();
-      void		setBySerial();
+      void		setBySerial(const Tokenizer&);
     };
 
   public:
@@ -101,6 +106,7 @@ namespace Component{
     Arena(Event::Dispatcher*, Entity::Factory*);
 
   public:
+    bool		PlayerAt(double x, double y, Winner*);
     void		addSelf(Winner*);
     void		GenerateSquareMap(int nplay, int nIa, int x, int y);
   };
