@@ -19,7 +19,7 @@ namespace Component{
 			   moveFocus(-1);
                        else if (event->state && event->key == 1 && _buttons.size())
 			 moveFocus(1);
-		       else if (event->state && event->key == 3 && _buttons.size())
+		       else if (event->state && event->key == 4 && _buttons.size())
 			 {
 			   std::cout << "accepter" << std::endl;
 			   for (auto button : _buttons)
@@ -28,7 +28,7 @@ namespace Component{
 				  if (button->_texture == "img/buttons/play_ia.tga")
 				    {
 				     clearMenu();
-				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
+				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 2, 0));
 				     return ;
 				   }
 				  else if (button->_texture == "img/buttons/play_vs.tga")
