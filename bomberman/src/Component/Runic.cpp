@@ -20,7 +20,6 @@ namespace Component{
 		   new Event::FixedCallback( [this]( Event::Data& ) {
 		       if (!runeDuration)
 			 return ;
-		       //		       std::cout << "element["<< element1 <<"]["<< element2 <<"], duration["<< runeDuration <<"], burning["<< runeBurning <<"], cooldown["<< runeCooldown <<"]" << std::endl;
 		       runeDuration -= 1;
 		       if (!runeDuration)
 			 dispatchSelf(new Event::Type::extinctGlyph());
@@ -47,7 +46,6 @@ namespace Component{
 		       if (!(x + hitbox[0] <= event->x && event->x <= x + hitbox[1] &&
 			     y + hitbox[2] <= event->y && event->y <= y + hitbox[3]))
 			 return ;
-		       std::cout << "hitbox["<< x + hitbox[0] <<"]["<< x + hitbox[1] <<"]["<< y + hitbox[2] <<"]["<< y + hitbox[3] <<"]" << std::endl;
 		       if (event->level == Component::Effects::low) {
 			 runeCooldown = 8;
 			 runeDuration = 8 * 3;
@@ -157,6 +155,7 @@ namespace Component{
 		     }));
 
   }
+
   std::string Runic::serialization() {
     if (runable) {
       if (runeDuration)
@@ -166,6 +165,7 @@ namespace Component{
     } else
       return (Tokenizer::serialize("Runic", runable));
   }
+
   void	Runic::setBySerial(const Tokenizer& t) {
     parent->getPosition(x, y);
     if ((runable = t.get<bool>(1)) == true) {

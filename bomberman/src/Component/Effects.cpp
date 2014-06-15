@@ -64,7 +64,6 @@ namespace Component{
 			 double x;
 			 double y;
 			 parent->getPosition(x, y);
-			 std::cout << "Fire event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
 			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(fireLow); _t = fireLow.dotDuration;  }
@@ -89,7 +88,6 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
-			 std::cout << "Electricity event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
 			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(electricityLow); _t = electricityLow.dotDuration;  }
@@ -111,7 +109,6 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
-			 std::cout << "Ice event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
 			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(iceLow); _t = iceLow.dotDuration;  }
@@ -132,7 +129,6 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
-			 std::cout << "Life event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
 			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(lifeLow);  }
@@ -145,7 +141,6 @@ namespace Component{
     }
 
     void	Status::interpretDamage(const Effects::damage& _d) {
-      std::cout << "Damage interpreted, D.O.T ["<< _d.dotDamage <<"]["<< _d.dotDuration <<"]["<< _d.dotTimed <<"], damage["<< _d.damage <<"]" << std::endl;
       if (_d.dotDamage)
 	dispatchSelf(new Event::Type::PlaceDot(_d.dotDamage, _d.dotDuration, _d.dotTimed));
       if (_d.damage < 0)

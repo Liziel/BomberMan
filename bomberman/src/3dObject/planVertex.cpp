@@ -6,7 +6,6 @@ namespace object3d {
       std::cerr << "Error : Failed to load texture " << texture << std::endl; 
       exit(0);
     }		
-    std::cout << "texture loaded: " << texture << std::endl;
     _geometry.pushVertex(glm::vec3(0, 0, 0)); 
     _geometry.pushVertex(glm::vec3(x, 0, 0)); 
     _geometry.pushVertex(glm::vec3(x, y, 0)); 

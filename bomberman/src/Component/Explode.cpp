@@ -5,9 +5,7 @@ namespace Component{
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
 		       if (!untilBOOM) {
-			 std::cout << "here is....." << std::endl;
 			 delete _p;
-			 std::cout << "..... the segfault?" << std::endl;
 			 return ;
 		       }
 		       if (untilBOOM > 0)
@@ -51,33 +49,27 @@ namespace Component{
 			 reinterpret_cast<Event::Type::Colliding*>(&e);
 
 		       if (_->endX > x) {
-			 std::cout <<"+x"<< _->endX - x<< std::endl;
 			 for (double dist = (_->endX - x < spread) ? (_->endX - x) : (spread); dist > 0.99; --dist)
 			   dispatch(x + dist, y);
 			 return ;
 		       }
 		       if (_->endX < x) {
-			 std::cout << "-x"<< _->endX-x<< std::endl;
 			 for (double dist = (x-_->endX < spread) ? (x-_->endX) : (spread) ; dist > 0.99; --dist)
 			   dispatch(x-dist, y);
 			 return ;
 		       }
 		       if (_->endY > y) {
-			 std::cout <<"+y"<< _->endY - y<< std::endl;
 			 for (double dist = (_->endY - y < spread) ? (_->endY - y) : (spread); dist > 0.99; --dist)
 			   dispatch(x, y + dist);
 			 return ;
 		       }
 		       if (_->endY < y) {
-			 std::cout <<"-y"<< _->endY-y<< std::endl;
 			 for (double dist = (y-_->endY < spread) ? (y-_->endY) : (spread) ; dist > 0.99; --dist) {
-			   std::cout << "dist:" << dist << std::endl;
 			   dispatch(x, y - dist);
 			 }
 			 return ;
 		       }
 		     }));
-    std::cout << spread << "position (" << x<< ")(" << y << ")" << std::endl;
     dispatchSelf(new Event::Type::RequireExplosion(x,y, spread, 0));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, -spread, 0));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, -spread));
@@ -86,7 +78,6 @@ namespace Component{
   }
 
   void	Explode::dispatch(double x, double y) {
-    std::cout << "ecplode on (" << x << ")(" << y << ")" << std::endl;
     std::function<void(Effects::type, Effects::level)> mad =
       [this, x, y] (Effects::type t, Effects::level lvl) {
       if (t == Effects::Fire)

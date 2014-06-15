@@ -24,7 +24,6 @@ namespace Component{
 		   new Event::FixedCallback([this](Event::Data&) {
 		       if (!_joystick)
 			 return ;
-		       std::cout << "my id is {" << _id << "}" << std::endl;
 		       int	itt = 0;
 
 		       for (auto &axe : joyState) {

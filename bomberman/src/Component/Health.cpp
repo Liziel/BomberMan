@@ -47,29 +47,24 @@ namespace Component {
     attachCallback(Event::Info::lifeGain,
 		   new Event::FixedCallback([this] (Event::Data& e){
 		       Event::Type::lifeGain* event = reinterpret_cast<Event::Type::lifeGain*>(&e);
-		       std::cout << "impacted {"<< event->amount <<"}" << std::endl;
 		       if (isDead())
 			 return ;
 		       *this + event->amount;
 		       if (!(life))
 			 dispatchSelf(new Event::Type::dead());
-		       std::cout << "life {" << (*this + 0) << "}" << std::endl;
 		     }));
     attachCallback(Event::Info::lifeLoss,
 		   new Event::FixedCallback([this] (Event::Data& e){
 		       Event::Type::lifeLoss* event = reinterpret_cast<Event::Type::lifeLoss*>(&e);
-		       std::cout << "impacted {"<< event->amount <<"}" << std::endl;
 		       if (isDead())
 			 return ;
 		       *this + event->amount;
 		       if (!(life))
 			 dispatchSelf(new Event::Type::dead());
-		       std::cout << "life {" << (*this + 0) << "}" << std::endl;
 		     }));
     attachCallback(Event::Info::Immunity,
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Immunity* event = reinterpret_cast<Event::Type::Immunity*>(&e);
-		       std::cout << "invicibility!!!! ["<< event->time <<"]" << std::endl;
 		       invincible(event->time);
 		     }));
     attachCallback(Event::Info::PlaceDot,
@@ -90,7 +85,6 @@ namespace Component {
   int	Health::actualize() {
     if (immunityTime > 0)
       immunityTime -= 1;
-    //    std::cout << "immunityTime["<< immunityTime << "]--->("<< isInvicible() <<")" << std::endl;
     if (isInvicible())
       return (life);
     dotList.remove_if(unsetDot);
@@ -106,7 +100,6 @@ namespace Component {
   int	Health::operator+(int n) {
     if (isDead() || (isInvicible() && n < 0))
       return (life);
-    std::cout << "in + {"<< n <<"}" << std::endl;
     life += n;
     if (life < 0)
       life = 0;
@@ -115,7 +108,6 @@ namespace Component {
     return (life);
   }
   int	Health::operator-(int n) {
-    std::cout << "errrrrrrrrrrrrrrrrrrr" << std::endl;
     return (*this + (-n));
   }
 

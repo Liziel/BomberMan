@@ -16,6 +16,10 @@ namespace object3d {
     _scale *= scale;
   }
 
+  void AObject::setScale(glm::vec3 const& scale) {
+    _scale = scale;
+  }
+
   glm::mat4 AObject::getTransformation() {
     glm::mat4 transform(1);
     transform = glm::translate(transform, _position);

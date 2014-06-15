@@ -19,6 +19,7 @@ namespace Component{
     object3d::AObject* _gp;
     HudElement(Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture);
     ~HudElement();
+    void resize(const glm::vec3& scale);
     void resize(int sizeX, int sizeY, int posX, int posY, const std::string& texture);
   };
 
@@ -53,7 +54,7 @@ namespace Component{
     int		nbPlayer;
 
   public:
-    Hud(Entity::GameObject* _p, Engine::Graphic* g);
+    Hud(Entity::GameObject* _p, Engine::Graphic* g, int _n);
     Hud(Entity::GameObject* _p, Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture);
     ~Hud();
     void addElement(Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture);

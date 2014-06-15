@@ -10,18 +10,12 @@ namespace Component{
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Keyboard* event =
 			 reinterpret_cast<Event::Type::Keyboard*>(&e);
-		       if (event->state)
-			 {
-			   std::cout << "event = "  << event->key << std::endl; 
-			   std::cout << "size = "  << _buttons.size() << std::endl; 
-			 }
                        if (event->state && event->key == 0 && _buttons.size())
 			   moveFocus(-1);
                        else if (event->state && event->key == 1 && _buttons.size())
 			 moveFocus(1);
 		       else if (event->state && event->key == 4 && _buttons.size())
 			 {
-			   std::cout << "accepter" << std::endl;
 			   for (auto button : _buttons)
 			     if (button->_isFocus)
 			       {
@@ -135,7 +129,6 @@ namespace Component{
   Button::~Button(){
     if (_gp)
       _graphic->subHudObject(_gp);
-    std::cout << "plop i'm a bitch" << std::endl;
     delete focused;
     delete unfocused;
   }

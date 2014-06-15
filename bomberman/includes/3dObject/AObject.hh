@@ -16,6 +16,7 @@ namespace object3d {
     void translate(glm::vec3 const &);
     void rotate(glm::vec3 const&, float);
     void scale(glm::vec3 const&);
+    void setScale(glm::vec3 const&);
 
     glm::mat4 getTransformation() ;
 

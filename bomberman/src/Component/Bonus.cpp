@@ -4,7 +4,6 @@ namespace  Component{
   namespace Bonus{
     Receiver::Receiver(Entity::GameObject* _p)
       : Component::abstract(_p), stackLevel(1) {
-      std::cout << "pute des boies sauvages" << std::endl;
       attachCallback(Event::Info::BonusLocation,
 		     new Event::FixedCallback([this](Event::Data& e) {
 			 Event::Type::BonusLocation* event =
@@ -62,9 +61,7 @@ namespace  Component{
 		       double x,y;
 		       parent->getPosition(x,y);
 		       if (Component::matchPosition(x,y, event->x, event->y)) {
-			 std::cout << "Here is ...." << std::endl;
 			 parent->unsetCallback(dispenserId);
-			 std::cout << ".... the segfault?" << std::endl;
 		       }
 		       }));
     }

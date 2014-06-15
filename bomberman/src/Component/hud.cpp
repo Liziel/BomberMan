@@ -8,16 +8,15 @@
 /*create and set var typeElem to compile(0, 1, 2, 3, 4)*/ 
 
 namespace Component{
-  Hud::Hud(Entity::GameObject* _p, Engine::Graphic* g) 
+  Hud::Hud(Entity::GameObject* _p, Engine::Graphic* g, int _n)
     : Component::abstract(_p), _graphic(g) {
-    std::cout << "hud?" << std::endl;
     _validBackground = false;
     mute = NULL;
     inv = NULL;
     nbBomb = 0;
     nblock = 1;
     nbPlayer = 1;
-    idPlayer = 1;
+    idPlayer = _n;
 
     life = new HudElement(_graphic, (WINDOW_X / 2) / nbPlayer , 30, ((WINDOW_X / 2) / nbPlayer) * idPlayer, WINDOW_Y - 70, "img/lifeBar.tga");
     mana = new HudElement(_graphic, (WINDOW_X / 10) / nbPlayer , 30, ((WINDOW_X / 2) / nbPlayer) * idPlayer, WINDOW_Y - 40, "img/manaBar.tga");
@@ -52,6 +51,7 @@ namespace Component{
 		       Event::Type::lifeActualize * event =
 			 reinterpret_cast<Event::Type::lifeActualize *>(&e);
 		       int currentLife = event->life;
+		       //life->resize(glm::vec3((WINDOW_X / 2 / nbPlayer) * (currentLife / 100.f) - 10, 1, 1));
 		       life->resize((WINDOW_X / 2 / nbPlayer) * (currentLife / 100.f), 30, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 70, "img/lifeBar.tga");
 		     }));
     attachCallback(Event::Info::BombReloaded,
@@ -63,7 +63,7 @@ namespace Component{
     attachCallback(Event::Info::BombReleased,
 		   new Event::FixedCallback([this] (Event::Data&) {
 		       nbBomb -= 1;
-		       mana->resize((WINDOW_X / 2 / nbPlayer) * (nbBomb * 0.2), 30, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 100, "img/manaBar.tga");
+		       mana->resize((WINDOW_X / 2 / nbPlayer) * (nbBomb * 0.2), 30, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 40, "img/manaBar.tga");
 		     }));
 
     attachCallback(Event::Info::IncreaseBombStack,
@@ -95,7 +95,6 @@ namespace Component{
 		   new Event::FixedCallback([this] (Event::Data&) {
 		       
 		     }));
-
   }
   
   Hud::~Hud()
@@ -148,5 +147,11 @@ namespace Component{
       _graphic->subHudObject(_gp);
     _gp = new object3d::planVertex(texture, sizeX, sizeY, posX, posY);
     _graphic->addHudObject(_gp);
+  }
+
+  void HudElement::resize(const glm::vec3& scale)
+  {
+    if (_gp)
+      _gp->setScale(scale);
   }
 }

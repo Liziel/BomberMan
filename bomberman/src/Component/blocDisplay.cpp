@@ -116,7 +116,6 @@ namespace Component{
 
     attachCallback(Event::Info::SocketGlyph,
 		   new Event::FixedCallback([this, x, y] (Event::Data&) {
-		       std::cout << "glyphedLocation{"<< x <<"}{"<< y <<"}" << std::endl;
 		       _glyphed = false;
 		       engine->subObject(cube);
 		       engine->addObject(glyphed);
@@ -155,7 +154,6 @@ namespace Component{
     engine->addObject(cube);
     attachCallback(Event::Info::disableCollision,
 		   new Event::FixedCallback([this,x,y](Event::Data&) {
-		       std::cout <<  x << y << std::endl;
 		       engine->subObject(cube);
 		     }));
   }
@@ -241,11 +239,11 @@ namespace Component{
 			 reinterpret_cast<Event::Type::TakeBonus*>(&e);
 		       double x,y;
 		       parent->getPosition(x,y);
-			     std::cout << "bonus position["<< event->x <<"]["<< event->y <<"], receiver["<< x <<"]["<< y <<"]" << std::endl;
 		       if (Component::matchPosition(x,y,event->x, event->y))
 			 engine->subObject(book);
 		     }));
   }
+
   bonusDisplay::~bonusDisplay() { delete book; } 
   bombDisplay::bombDisplay(Entity::GameObject* _p, Engine::Graphic* _g)
     : Component::abstract(_p), bomb(NULL), engine(_g) {

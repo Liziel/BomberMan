@@ -62,8 +62,8 @@ namespace Component{
   }
 
   void	Arena::IA::calculate(std::array<int, 2>& movement) {
-    movement[0] = 0;
-    movement[1] = 3;
+    movement[0] = random() % 4;
+    movement[1] = random() % 4;
   }
 
   bool	Arena::IA::lootBomb(double, double) {
@@ -166,7 +166,6 @@ namespace Component{
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
 		       _p->disable();
 		       imDead(true);
-		       std::cout << "im DEAAAAAD" << std::endl;
 		     }));
   }
 
@@ -243,7 +242,6 @@ namespace Component{
 		       Event::Type::beginGame* event = 
 			 reinterpret_cast<Event::Type::beginGame*>(&e);
 
-		       std::cout << "Map is being generated" << std::endl;
 		       if (event->_map == Component::Game::square)
 			 GenerateSquareMap(event->nbPlayer, event->nbIa, event->mapSizex, event->mapSizex);
 		     }));
@@ -296,7 +294,6 @@ namespace Component{
 	  _Efactory->allocateComponentByEntityType("destructibleBloc", obj);
 	} else {
 	  Map[x/2 - xi + 0.5].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Empty));
-	  std::cout << "{{{{{{{{{{{{{{{{"<< (y/2-yi+0.5) <<"}}}}}}}}}}}}}}}}" << std::endl;
 	  obj = _Efactory->allocateEntityByType("EmptyBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("EmptyBloc", obj);
@@ -312,7 +309,6 @@ namespace Component{
     }
 
     for (int iIa = iplay; iIa < nIa + iplay; iIa++) {
-      std::cout << "oui" << std::endl;
       obj = _Efactory->allocateEntityByType("Ia", false);
       obj->setPosition(dispoPlace[iIa][0], dispoPlace[iIa][1]);
       _Efactory->allocateComponentByEntityType("Ia", obj);
