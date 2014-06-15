@@ -61,8 +61,11 @@ namespace  Component{
 			 reinterpret_cast<Event::Type::TakeBonus*>(&e);
 		       double x,y;
 		       parent->getPosition(x,y);
-		       if (Component::matchPosition(x,y, event->x, event->y))
+		       if (Component::matchPosition(x,y, event->x, event->y)) {
+			 std::cout << "Here is ...." << std::endl;
 			 parent->unsetCallback(dispenserId);
+			 std::cout << ".... the segfault?" << std::endl;
+		       }
 		       }));
     }
 

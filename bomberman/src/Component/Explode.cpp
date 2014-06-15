@@ -5,7 +5,9 @@ namespace Component{
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, _p] (Event::Data&) {
 		       if (!untilBOOM) {
+			 std::cout << "here is....." << std::endl;
 			 delete _p;
+			 std::cout << "..... the segfault?" << std::endl;
 			 return ;
 		       }
 		       if (untilBOOM > 0)
@@ -26,6 +28,7 @@ namespace Component{
 		       _p->getPosition(x, y);
 		       if (Component::matchPosition(event->x, event->y, x, y)) {
 			 EXPLODE(_p);
+			 exploding = true;
 			 untilBOOM = 0;
 		       }
 		     }));
@@ -80,7 +83,6 @@ namespace Component{
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, -spread));
     dispatchSelf(new Event::Type::RequireExplosion(x,y, 0, spread));
     dispatch(x, y);
-    delete _p;
   }
 
   void	Explode::dispatch(double x, double y) {

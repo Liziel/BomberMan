@@ -17,7 +17,7 @@ namespace Component{
 namespace Component{
   class BombCast : public Component::abstract{
   private:
-    struct Cooldown { enum _c{value = 25}; };
+    struct Cooldown { enum _c{value = 45}; };
   private:
     Event::Time					isMuted;
 
