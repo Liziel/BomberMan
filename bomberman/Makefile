@@ -26,6 +26,8 @@ SRC	=  $(ENGINE) $(3DOBJECT) $(COMPO) $(ENTITY) $(EVENT) $(MAIN)
 FLAGS	= -W -Wall -Wextra $(INC)				\
 	-I lib/Gdl_lib/includes --std=c++11 -g3
 
+LD_LIBRARY_PATH := ./lib/Gdl_lib/libs/
+export LD_LIBRARY_PATH
 
 CFLAGS		+= $(FLAGS)
 LDFLAGS		= -L./lib/Gdl_lib/libs/ -lgdl_gl -lGL -lGLEW -lSDL2 -ldl -lrt -lfbxsdk -lpthread
