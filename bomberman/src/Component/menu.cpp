@@ -25,13 +25,16 @@ namespace Component{
 			   for (auto button : _buttons)
 			     if (button->_isFocus)
 			       {
-				  if (button->_texture == "img/buttons/play.tga")
+				  if (button->_texture == "img/buttons/play_ia.tga")
 				    {
-
-				      std::cout << "launch "<< button->_texture << std::endl;
 				     clearMenu();
 				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
-				     std::cout << "launched" << std::endl;
+				     return ;
+				   }
+				  else if (button->_texture == "img/buttons/play_vs.tga")
+				    {
+				     clearMenu();
+				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
 				     return ;
 				   }
 			       }
