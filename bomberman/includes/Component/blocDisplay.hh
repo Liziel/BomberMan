@@ -7,15 +7,34 @@
 # include "bombAnimated.hh"
 
 # define __GROUNDTEXTURE "./textures/ground/lava.tga"
+
+# define __GROUNDFIRETEXTURE "./textures/effects/fire.tga"
+# define __GROUNDHEALTHTEXTURE "./textures/effects/health.tga"
+# define __GROUNDICETEXTURE "./textures/effects/ice.tga"
+# define __GROUNDLIGHTTEXTURE "./textures/effects/light.tga"
+
 # define __GLYPHEDTEXTURE "./textures/ground/glyphe.tga"
 # define __INDESTEXTURE "./textures/diamond/Diamond.tga"
 # define __BOOKSHELFTEXTURE "./textures/bookshelf/bookshelf.tga"
+
+# define EFFECTS_TIME	5
 
 namespace Component{
   class groundDisplay : public Component::abstract{
   private:
     object3d::cubeVertex	*cube;
     object3d::cubeVertex	*glyphed;
+    bool			_glyphed;
+
+  private:
+    object3d::cubeVertex	*cubeFire;
+    object3d::cubeVertex	*cubeIce;
+    object3d::cubeVertex	*cubeLight;
+    object3d::cubeVertex	*cubeHealth;
+    object3d::cubeVertex	*cubeEffects;
+    Event::Time			effects;
+
+  private:
     Engine::Graphic*		engine;
 
   public:
@@ -87,6 +106,19 @@ namespace Component{
   };
 };
 
+# ifndef __EFFECTS_H__
+#  ifndef __PLANTBOMB_H__
+#   ifndef __EXPLODE_H__
+namespace Component{
+  namespace Effects{
+      typedef enum etype {Glyph, Fire, Ice, Electricity, Life} type;
+      typedef enum elevel {low, med, high} level;
+  };
+};
+#   endif
+#  endif
+# endif
+
 namespace Component{
 # ifndef __PHISIX_H__
 #  ifndef __ARENA_H__
@@ -109,6 +141,47 @@ namespace Event{
       bool					state;
     };
 # endif
+
+# ifndef __EXPLODE_H__
+#  ifndef __EFFECTS_H__
+    struct FireExplosion : Event::Data{
+      FireExplosion(double _x, double _y, Component::Effects::level _l)
+	: Event::Data(Event::Info::FireExplosion, sizeof(struct FireExplosion), false),
+	  x(_x), y(_y), level(_l) {}
+      double x;
+      double y;
+      Component::Effects::level level;
+    };
+
+    struct LifeExplosion : Event::Data{
+      LifeExplosion(double _x, double _y, Component::Effects::level _l)
+	: Event::Data(Event::Info::LifeExplosion, sizeof(struct LifeExplosion), false),
+	  x(_x), y(_y), level(_l) {}
+      double x;
+      double y;
+      Component::Effects::level level;
+    };
+
+    struct ElectricityExplosion : Event::Data{
+      ElectricityExplosion(double _x, double _y, Component::Effects::level _l)
+	: Event::Data(Event::Info::ElectricityExplosion, sizeof(struct ElectricityExplosion), false),
+	  x(_x), y(_y), level(_l) {}
+      double x;
+      double y;
+      Component::Effects::level level;
+    };
+
+    struct IceExplosion : Event::Data{
+      IceExplosion(double _x, double _y, Component::Effects::level _l)
+	: Event::Data(Event::Info::IceExplosion, sizeof(struct IceExplosion), false),
+	  x(_x), y(_y), level(_l) {}
+      double x;
+      double y;
+      Component::Effects::level level;
+    };
+#  endif
+# endif
+
   };
 };
 

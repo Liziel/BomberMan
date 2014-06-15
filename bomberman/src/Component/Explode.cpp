@@ -16,7 +16,7 @@ namespace Component{
 		     }));
     attachCallback(Event::Info::Explosion,
 		   new Event::FixedCallback([this, _p] (Event::Data& e) {
-		       Event::Type::Explosion* event = 
+		       Event::Type::Explosion* event =
 			 reinterpret_cast<Event::Type::Explosion*>(&e);
 		       double x;
 		       double y;
@@ -24,8 +24,10 @@ namespace Component{
 		       if (exploding)
 			 return ;
 		       _p->getPosition(x, y);
-		       if (event->x == static_cast<int>(x) && event->y == static_cast<int>(y))
+		       if (static_cast<int>(event->x) == static_cast<int>(x) && static_cast<int>(event->y) == static_cast<int>(y)) {
 			 EXPLODE(_p);
+			 untilBOOM = 0;
+		       }
 		     }));
   }
 
@@ -38,6 +40,8 @@ namespace Component{
     double spread = getSpread(elements[0]) +
       getSpread(elements[1]) +
       getSpread(elements[2]) - 1;
+    if (spread - static_cast<int>(spread) != 0.f)
+      spread -= 0.5f;
     attachCallback(Event::Info::Colliding,
 		   new Event::FixedCallback([this, x, y, spread] (Event::Data& e) {
 		       Event::Type::Colliding* _ =
@@ -99,18 +103,18 @@ namespace Component{
 
     if (elements[0] == elements[1]) {
       lvl = Effects::med;
-      it[1] = false;
+      it[1] = true;
     }
     if (elements[0] == elements[2]) {
       lvl = (lvl == Effects::med) ? (Effects::high) : (Effects::med);
-      it[2] = false;
+      it[2] = true;
     }
     mad(elements[0], lvl);
     if (!it[1]) {
       lvl = Effects::low;
       if (!it[2] && elements[1] == elements[2]) {
 	lvl = Effects::med;
-	it[2] = false;
+	it[2] = true;
       }
       mad(elements[1], lvl);
     }

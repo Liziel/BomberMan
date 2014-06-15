@@ -101,7 +101,7 @@ namespace Event{
 
     struct lifeGain : Event::Data{
       lifeGain(int _a)
-	: Event::Data(Event::Info::lifeLoss, sizeof(struct lifeLoss), false),
+	: Event::Data(Event::Info::lifeGain, sizeof(struct lifeLoss), false),
 	  amount(_a) {}
       int amount;
     };

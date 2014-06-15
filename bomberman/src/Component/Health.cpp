@@ -36,6 +36,7 @@ namespace Component {
 		   new Event::FixedCallback([this] (Event::Data&){
 		       if (isDead())
 			 return ;
+
 		       if (!this->actualize())
 			 dispatchSelf(new Event::Type::dead());
 		     }));
@@ -46,18 +47,24 @@ namespace Component {
     attachCallback(Event::Info::lifeGain,
 		   new Event::FixedCallback([this] (Event::Data& e){
 		       Event::Type::lifeGain* event = reinterpret_cast<Event::Type::lifeGain*>(&e);
+		       std::cout << "impacted {"<< event->amount <<"}" << std::endl;
 		       if (isDead())
 			 return ;
-		       if (*this + event->amount)
+		       *this + event->amount;
+		       if (!(life))
 			 dispatchSelf(new Event::Type::dead());
+		       std::cout << "life {" << (*this + 0) << "}" << std::endl;
 		     }));
     attachCallback(Event::Info::lifeLoss,
 		   new Event::FixedCallback([this] (Event::Data& e){
-		       Event::Type::lifeGain* event = reinterpret_cast<Event::Type::lifeGain*>(&e);
+		       Event::Type::lifeLoss* event = reinterpret_cast<Event::Type::lifeLoss*>(&e);
+		       std::cout << "impacted {"<< event->amount <<"}" << std::endl;
 		       if (isDead())
 			 return ;
-		       if (*this - event->amount)
+		       *this + event->amount;
+		       if (!(life))
 			 dispatchSelf(new Event::Type::dead());
+		       std::cout << "life {" << (*this + 0) << "}" << std::endl;
 		     }));
     attachCallback(Event::Info::Immunity,
 		   new Event::FixedCallback([this] (Event::Data& e) {
@@ -96,6 +103,7 @@ namespace Component {
   int	Health::operator+(int n) {
     if (isDead() || (isInvicible() && n < 0))
       return (life);
+    std::cout << "in + {"<< n <<"}" << std::endl;
     life += n;
     if (life < 0)
       life = 0;
@@ -104,6 +112,7 @@ namespace Component {
     return (life);
   }
   int	Health::operator-(int n) {
+    std::cout << "errrrrrrrrrrrrrrrrrrr" << std::endl;
     return (*this + (-n));
   }
 

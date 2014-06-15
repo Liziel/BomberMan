@@ -58,13 +58,14 @@ namespace Component{
       const Effects::damage fireMed  = {-5, -5, 10, 1, 1.f, 0, false, 0};
       const Effects::damage fireHigh = {-7, -5, 10, 0, 1.f, 0, false, 0};
       attachCallback(Event::Info::FireExplosion,
-		     new Event::FixedCallback([this, &fireLow, &fireMed, &fireHigh] (Event::Data& e) {
+		     new Event::FixedCallback([this, fireLow, fireMed, fireHigh] (Event::Data& e) {
 			 Event::Type::FireExplosion *event = reinterpret_cast<Event::Type::FireExplosion*>(&e);
 			 Event::Time _t = 0;
 			 double x;
 			 double y;
 			 parent->getPosition(x, y);
-			 if (static_cast<int>(event->x) != x || static_cast<int>(event->y) != y)
+			 std::cout << "Fire event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
+			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(fireLow); _t = fireLow.dotDuration;  }
 			 if (event->level == med)  { this->interpretDamage(fireMed); _t = fireMed.dotDuration;  }
@@ -77,9 +78,9 @@ namespace Component{
 		     new Event::FixedCallback([this] (Event::Data&) {
 		       }));
 
-      const Effects::damage electricityLow  = {0, -1, 10, 2, 1.1, 5, true, 2};
-      const Effects::damage electricityMed  = {0, -1, 10, 1, 1.2, 5, true, 5};
-      const Effects::damage electricityHigh = {0, -1, 10, 0, 1.5, 5, true, 10};
+      const Effects::damage electricityLow  = {0, -1, 10, 2, 1.1, 50, true, 2};
+      const Effects::damage electricityMed  = {0, -1, 10, 1, 1.2, 60, true, 5};
+      const Effects::damage electricityHigh = {0, -1, 10, 0, 1.5, 80, true, 10};
       attachCallback(Event::Info::ElectricityExplosion,
 		     new Event::FixedCallback([this, electricityLow, electricityMed, electricityHigh] (Event::Data& e) {
 			 Event::Type::ElectricityExplosion *event = reinterpret_cast<Event::Type::ElectricityExplosion*>(&e);
@@ -88,6 +89,7 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
+			 std::cout << "Electricity event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
 			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(electricityLow); _t = electricityLow.dotDuration;  }
@@ -98,9 +100,9 @@ namespace Component{
 			 isOnElectricity = _t;
 		       }), Event::Info::low);
 
-      const Effects::damage iceLow  = {-1, 0, 0, 2, 0.9, 3, false, 0};
-      const Effects::damage iceMed  = {-2, 0, 0, 1, 0.8, 5, false, 0};
-      const Effects::damage iceHigh = {-3, 0, 0, 0, 0.6, 10, false, 0};
+      const Effects::damage iceLow  = {-1, 0, 0, 2, 0.8, 30, false, 0};
+      const Effects::damage iceMed  = {-2, 0, 0, 1, 0.7, 50, false, 0};
+      const Effects::damage iceHigh = {-3, 0, 0, 0, 0.4, 100, false, 0};
       attachCallback(Event::Info::IceExplosion,
 		     new Event::FixedCallback([this, iceLow, iceMed, iceHigh] (Event::Data& e) {
 			 Event::Type::IceExplosion *event = reinterpret_cast<Event::Type::IceExplosion*>(&e);
@@ -109,6 +111,7 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
+			 std::cout << "Ice event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
 			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(iceLow); _t = iceLow.dotDuration;  }
@@ -129,6 +132,7 @@ namespace Component{
 			 double y;
 
 			 parent->getPosition(x, y);
+			 std::cout << "Life event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
 			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(lifeLow);  }
@@ -138,16 +142,16 @@ namespace Component{
 			   dispatchSelf(new Event::Type::isOnLife(true));
 			 isOnLife = 1;
 		       }), Event::Info::low);
-
     }
 
     void	Status::interpretDamage(const Effects::damage& _d) {
+      std::cout << "Damage interpreted, D.O.T ["<< _d.dotDamage <<"]["<< _d.dotDuration <<"]["<< _d.dotTimed <<"], damage["<< _d.damage <<"]" << std::endl;
       if (_d.dotDamage)
 	dispatchSelf(new Event::Type::PlaceDot(_d.dotDamage, _d.dotDuration, _d.dotTimed));
       if (_d.damage < 0)
-	dispatchSelf(new Event::Type::lifeLoss( -_d.damage ));
+	dispatchSelf(new Event::Type::lifeLoss( _d.damage ));
       if (_d.damage > 0)
-	dispatchSelf(new Event::Type::lifeGain(  _d.damage ));
+	dispatchSelf(new Event::Type::lifeGain( _d.damage ));
       if (_d.speedModifier != 1.f)
 	applySlow(_d.speedModifier, _d.speedModifierDuration);
       if (_d.mute)

@@ -5,7 +5,13 @@ namespace Component{
   groundDisplay::groundDisplay(Entity::GameObject* _p, Engine::Graphic* _g)
     : Component::abstract(_p),
       cube(new object3d::cubeVertex(__GROUNDTEXTURE)),
-      glyphed(new object3d::cubeVertex(__GLYPHEDTEXTURE)), engine(_g) {
+      glyphed(new object3d::cubeVertex(__GLYPHEDTEXTURE)),
+      _glyphed(false),
+      cubeFire(new object3d::cubeVertex(__GROUNDFIRETEXTURE)),
+      cubeIce(new object3d::cubeVertex(__GROUNDICETEXTURE)),
+      cubeLight(new object3d::cubeVertex(__GROUNDLIGHTTEXTURE)),
+      cubeHealth(new object3d::cubeVertex(__GROUNDHEALTHTEXTURE)),
+      effects(-1), engine(_g) {
     double		x,y;
     const glm::vec4&	hitbox = parent->getHitBox();
     parent->getPosition(x, y);
@@ -13,17 +19,111 @@ namespace Component{
     y+=hitbox[2];
     cube->setPosition(x*3, y*3, object3d::cubeVertex::Ground);
     cube->scale(glm::vec3(3,3,3));
+    cubeFire->setPosition(x*3, y*3, object3d::cubeVertex::Ground);
+    cubeFire->scale(glm::vec3(3,3,3));
+    cubeIce->setPosition(x*3, y*3, object3d::cubeVertex::Ground);
+    cubeIce->scale(glm::vec3(3,3,3));
+    cubeLight->setPosition(x*3, y*3, object3d::cubeVertex::Ground);
+    cubeLight->scale(glm::vec3(3,3,3));
+    cubeHealth->setPosition(x*3, y*3, object3d::cubeVertex::Ground);
+    cubeHealth->scale(glm::vec3(3,3,3));
     glyphed->setPosition(x*3, y*3, object3d::cubeVertex::Ground);
     glyphed->scale(glm::vec3(3,3,3));
     engine->addObject(cube);
+    attachCallback(Event::Info::Clock,
+		   new Event::FixedCallback([this] (Event::Data&) {
+		       if (effects > 0) {
+			 effects--;
+			 return ;
+		       } else if (!effects) {
+			 engine->subObject(cubeEffects);
+			 if (_glyphed)
+			   engine->addObject(glyphed);
+			 else
+			   engine->addObject(cube);
+			 effects = -1;
+		       }
+		     }));
+
+    attachCallback(Event::Info::LifeExplosion,
+		   new Event::FixedCallback([this] (Event::Data& e) {
+		       Event::Type::LifeExplosion* event =
+			 reinterpret_cast<Event::Type::LifeExplosion*>(&e);
+		       double x;
+		       double y;
+
+		       parent->getPosition(x, y);
+		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 return ;
+		       if (effects > 0)
+			 return ;
+		       cubeEffects = cubeHealth;
+		       engine->addObject(cubeEffects);
+		       engine->subObject(cube);
+		       effects = EFFECTS_TIME;
+		     }));
+    attachCallback(Event::Info::FireExplosion,
+		   new Event::FixedCallback([this] (Event::Data&e) {
+		       Event::Type::FireExplosion* event =
+			 reinterpret_cast<Event::Type::FireExplosion*>(&e);
+		       double x;
+		       double y;
+
+		       parent->getPosition(x, y);
+		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 return ;
+		       if (effects > 0)
+			 return ;
+		       cubeEffects = cubeFire;
+		       engine->addObject(cubeEffects);
+		       engine->subObject(cube);
+		       effects = EFFECTS_TIME;
+		     }));
+    attachCallback(Event::Info::IceExplosion,
+		   new Event::FixedCallback([this] (Event::Data&e) {
+		       Event::Type::IceExplosion* event =
+			 reinterpret_cast<Event::Type::IceExplosion*>(&e);
+		       double x;
+		       double y;
+
+		       parent->getPosition(x, y);
+		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 return ;
+		       if (effects > 0)
+			 return ;
+		       cubeEffects = cubeIce;
+		       engine->addObject(cubeEffects);
+		       engine->subObject(cube);
+		       effects = EFFECTS_TIME;
+		     }));
+    attachCallback(Event::Info::ElectricityExplosion,
+		   new Event::FixedCallback([this] (Event::Data&e) {
+		       Event::Type::ElectricityExplosion* event =
+			 reinterpret_cast<Event::Type::ElectricityExplosion*>(&e);
+		       double x;
+		       double y;
+
+		       parent->getPosition(x, y);
+		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 return ;
+		       if (effects > 0)
+			 return ;
+		       cubeEffects = cubeLight;
+		       engine->addObject(cubeEffects);
+		       engine->subObject(cube);
+		       effects = EFFECTS_TIME;
+		     }));
+
     attachCallback(Event::Info::SocketGlyph,
 		   new Event::FixedCallback([this, x, y] (Event::Data&) {
 		       std::cout << "glyphedLocation{"<< x <<"}{"<< y <<"}" << std::endl;
+		       _glyphed = false;
 		       engine->subObject(cube);
 		       engine->addObject(glyphed);
 		     }));
     attachCallback(Event::Info::extinctGlyph,
 		   new Event::FixedCallback([this] (Event::Data&) {
+		       _glyphed = false;
 		       engine->subObject(glyphed);
 		       engine->addObject(cube);
 		     }));
@@ -72,7 +172,7 @@ namespace Component{
     _y += hitbox[2];
     x = _x;
     y = _y;
-    ziggs->translate(glm::vec3(_x*3, _y*3, -6));
+    ziggs->translate(glm::vec3(_x*3, _y*3, -4));
     ziggs->rotate(glm::vec3(-9, 0, 0), 10);
     ziggs->scale(glm::vec3(0.8f));
     engine->addObject(ziggs);
@@ -139,7 +239,7 @@ namespace Component{
       bomb = new object3d::bombHealth();
     x += hitbox[0];
     y += hitbox[2];
-    bomb->translate(glm::vec3(x*3, y*3, -6));
+    bomb->translate(glm::vec3(x*3, y*3, -4));
     bomb->scale(glm::vec3(0.7f));
     bomb->rotate(glm::vec3(0,-9,9),10);
     bomb->setAnimation("run");

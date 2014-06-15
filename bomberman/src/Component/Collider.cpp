@@ -96,10 +96,6 @@ namespace Component{
 			 }
 		       }
 
-		       if (event->vectorX != 0.f && (*collider)(posx + event->vectorX - ix * ittx, posy, parent->getHitBox(), box, Component::Collider::_noType, id))
-			 posx += event->vectorX - ix;
-		       if (event->vectorY != 0.f && (*collider)(posx, posy + event->vectorY - iy * ittY, parent->getHitBox(), box, Component::Collider::_noType, id))
-			 posy += event->vectorY - iy;
 			 if (bx)
 			   posx += ittx;
 			 if (by)
@@ -119,6 +115,8 @@ namespace Component{
 
   bool		Collider::Movable::doCollide(double _x, double _y, const glm::vec4& _hitbox, const glm::vec4& ignorebox) {
     const glm::vec4& hitbox = parent->getHitBox();
+    if (parent->getName() == "Player")
+      return (false);
     if (!
 	(ignorebox[XMIN] < _x + _hitbox[XMIN] && _x + _hitbox[XMIN] < ignorebox[XMAX] &&
 	 ignorebox[YMIN] < _y + _hitbox[YMIN] && _y + _hitbox[YMIN] < ignorebox[YMAX]))

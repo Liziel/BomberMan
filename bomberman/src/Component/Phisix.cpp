@@ -76,7 +76,7 @@ namespace Component
 
   /* Phisix */
   Phisix::Phisix(Event::Dispatcher *_d)
-    : Component::Superior(_d), friction(0.3f) {
+    : Component::Superior(_d), friction(0.25f) {
     dispatcher->addCallbackOnEvent(Event::Info::setFriction,
 				   new Event::FixedCallback([this](Event::Data& e){
 				       Event::Type::setFriction *event = reinterpret_cast< Event::Type::setFriction* >(&e);
