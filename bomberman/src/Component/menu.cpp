@@ -16,7 +16,7 @@ namespace Component{
 			   std::cout << "haut" << std::endl;
 			   moveFocus(-1);
 			 }
-                       else if (event->state && event->key == 2)
+                       else if (event->state && event->key == 1)
 			 {
 			   std::cout << "bas" << std::endl;
 			   moveFocus(1);
@@ -55,7 +55,8 @@ namespace Component{
     	      it++;
 	    if (it != _buttons.cbegin() && i == -1)
 	      it--;
-    	    if (it != _buttons.cend())
+    	    if (it == _buttons.cend())
+	      it--;
     	      (*it)->onFocus();
     	  }
   }
@@ -104,7 +105,7 @@ namespace Component{
     _isFocus = true;
     if (_gp)
       _graphic->subHudObject(_gp);
-    _gp = new object3d::planVertex(_textureFocus, _sizeX, _sizeY, _posX, _posY);
+    _gp = new object3d::planVertex(_textureFocus, _sizeX, _sizeY - 7, _posX, _posY + 7);
     _graphic->addHudObject(_gp);
   }
 
