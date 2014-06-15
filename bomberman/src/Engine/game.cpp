@@ -23,6 +23,13 @@ namespace Engine{
 						 JoystickManager::joystick(_player, joystick->getJoystick(0), 1));
 				       });
 
+    _Cfactory->storeComponentAllocator("hud",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::
+						 Hud(_player, _grEngine));
+				       });
+
     _Cfactory->storeComponentAllocator("joystick2",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
@@ -183,6 +190,9 @@ namespace Engine{
 	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
 	if (!_ini)
 	  return (player);
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("hud", player));
 	player
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("playerDisplay", player));

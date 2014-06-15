@@ -10,14 +10,18 @@
 namespace Component{
   Hud::Hud(Entity::GameObject* _p, Engine::Graphic* g) 
     : Component::abstract(_p), _graphic(g) {
+    std::cout << "hud?" << std::endl;
     _validBackground = false;
     mute = NULL;
     inv = NULL;
     nbBomb = 0;
     nblock = 1;
+    nbPlayer = 1;
+    idPlayer = 1;
 
-    life = new HudElement(_graphic, (WINDOW_X / 2) / nbPlayer , 100, ((WINDOW_X / 2) / nbPlayer) * idPlayer, WINDOW_Y - 200, "img/lifeBar.tga");
-    mana = new HudElement(_graphic, (WINDOW_X / 10) / nbPlayer , 100, ((WINDOW_X / 2) / nbPlayer) * idPlayer, WINDOW_Y - 100, "img/manaBar.tga");
+    life = new HudElement(_graphic, (WINDOW_X / 2) / nbPlayer , 30, ((WINDOW_X / 2) / nbPlayer) * idPlayer, WINDOW_Y - 70, "img/lifeBar.tga");
+    mana = new HudElement(_graphic, (WINDOW_X / 10) / nbPlayer , 30, ((WINDOW_X / 2) / nbPlayer) * idPlayer, WINDOW_Y - 40, "img/manaBar.tga");
+    lock = new HudElement(_graphic, 20 , 100, ((WINDOW_X / 2) / nbPlayer) * (nblock * 0.2) + ((WINDOW_X / 2) / nbPlayer) * idPlayer, WINDOW_Y - 200, "img/lock.tga");
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this] (Event::Data&) {
 		       invi--;
@@ -38,32 +42,35 @@ namespace Component{
     attachCallback(Event::Info::Immunity,
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Immunity * event =
-			 reinterpret_cast<Event::Type:Immunity*>(&e);
+			 reinterpret_cast<Event::Type::Immunity*>(&e);
 			 inv = new HudElement(_graphic, 50, 50, (WINDOW_X / 2 / nbPlayer) * idPlayer - 150, WINDOW_Y - 250, "img/invincible.tga");
 			 invi = event->time;
 		     }));
 
     attachCallback(Event::Info::lifeActualize,
-		   new Event::FixedCallback([this] (Event::Data&) {
+		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::lifeActualize * event =
-			 reinterpret_cast<Event::Type:lifeActualize *>(&e);
-		       life->resize(_graphic, (WINDOW_X / 2 / nbPlayer) * (currentLife / 100), 100, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 200, "img/lifeBar.tga");
+			 reinterpret_cast<Event::Type::lifeActualize *>(&e);
+		       int currentLife = event->life;
+		       life->resize((WINDOW_X / 2 / nbPlayer) * (currentLife / 100.f), 30, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 70, "img/lifeBar.tga");
 		     }));
-    attachCallback(Event::Info::bombReloaded,
+    attachCallback(Event::Info::BombReloaded,
 		   new Event::FixedCallback([this] (Event::Data&) {
 		       nbBomb += 1;
-		       mana->resize(_graphic,  (WINDOW_X / 2 / nbPlayer) * (nbBomb * 0.2), 100, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 200, "img/manaBar.tga");
+		       mana->resize((WINDOW_X / 2 / nbPlayer) * (nbBomb * 0.2), 30, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 40, "img/manaBar.tga");
 		     }));
 
-    attachCallback(Event::Info::bombReleased,
+    attachCallback(Event::Info::BombReleased,
 		   new Event::FixedCallback([this] (Event::Data&) {
 		       nbBomb -= 1;
-		       mana->resize(_graphic,  (WINDOW_X / 2 / nbPlayer) * (nbBomb * 0.2), 100, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 200, "img/manaBar.tga");
+		       mana->resize((WINDOW_X / 2 / nbPlayer) * (nbBomb * 0.2), 30, (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 100, "img/manaBar.tga");
 		     }));
 
     attachCallback(Event::Info::IncreaseBombStack,
 		   new Event::FixedCallback([this] (Event::Data&) {
 		       nblock += 1;
+		       if (lock)
+			 delete lock;
 		       lock = new HudElement(_graphic, 20 , 100, (WINDOW_X / 2 / nbPlayer) * (nblock * 0.2) + (WINDOW_X / 2 / nbPlayer) * idPlayer, WINDOW_Y - 200, "img/lock.tga");
 		     }));
 

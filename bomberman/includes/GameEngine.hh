@@ -20,7 +20,7 @@
 #include "menuPrincipal.hh"
 #include "menuSuperior.hh"
 #include "blocDisplay.hh"
-
+#include "hud.hh"
 namespace Engine{
   class Game{
     /* Game Part access */

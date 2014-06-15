@@ -87,6 +87,14 @@ namespace Event{
       bool mute;
     };
 
+# ifndef __HEALTH_H__
+    struct lifeActualize : Event::Data{
+      lifeActualize(int _l)
+	: Event::Data(Event::Info::lifeActualize, sizeof(struct lifeActualize), false), life(_l) {}
+      int life;
+    };
+# endif
+
 #  ifndef __ARENA_H__
     struct addElement : Event::Data{
       addElement(Component::Effects::type _e)

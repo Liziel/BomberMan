@@ -73,6 +73,15 @@ namespace  Event{
     };
 # endif
 
+# ifndef __HUD_H__
+    struct lifeActualize : Event::Data{
+      lifeActualize(int _l)
+	: Event::Data(Event::Info::lifeActualize, sizeof(struct lifeActualize), false), life(_l) {}
+      int life;
+    };
+# endif
+
+
 # ifndef __EFFECTS_H__
     struct PlaceDot : Event::Data{
       PlaceDot(int _d, unsigned int _dd)

@@ -36,7 +36,7 @@ namespace Component {
 		   new Event::FixedCallback([this] (Event::Data&){
 		       if (isDead())
 			 return ;
-
+		       dispatchSelf(new Event::Type::lifeActualize(life));
 		       if (!this->actualize())
 			 dispatchSelf(new Event::Type::dead());
 		     }));
