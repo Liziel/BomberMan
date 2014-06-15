@@ -19,7 +19,7 @@ namespace Component{
 			   moveFocus(-1);
                        else if (event->state && event->key == 1 && _buttons.size())
 			 moveFocus(1);
-		       else if (event->state && event->key == 2 && _buttons.size())
+		       else if (event->state && event->key == 3 && _buttons.size())
 			 {
 			   std::cout << "accepter" << std::endl;
 			   for (auto button : _buttons)
@@ -65,7 +65,6 @@ namespace Component{
       _graphic->subHudObject(_gp);
     while (_buttons.size())
       {
-	std::cout << "HEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOO" << std::endl;
 	auto _bb = _buttons.back();
 	delete _bb;
 	_buttons.pop_back();

@@ -76,7 +76,7 @@ namespace Component{
       bool	hitted;
 
     public:
-      Bloc(Entity::GameObject*);
+      Bloc(Entity::GameObject*, Component::Arena*);
 
     public: 
       std::string	serialization();

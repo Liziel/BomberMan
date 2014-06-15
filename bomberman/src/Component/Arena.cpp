@@ -32,6 +32,9 @@ namespace Component{
 			 y = static_cast<int>(y) + add;
 			 if (_a->Map.find(x) != _a->Map.end()) {
 			   std::cout << "X in MAP!!" << std::endl;
+			   std::cout << "Y is {"<< y <<"}" << std::endl;
+			   for (auto t : _a->Map[x])
+			     std::cout << "wut? "<< t.first << std::endl;
 			   if (_a->Map[x].find(y) != _a->Map[x].end()) {
 			     std::cout << "Y in MAP!!" << std::endl;
 			     if (_a->Map[x][y] == Arena::Empty) {
@@ -64,11 +67,11 @@ namespace Component{
   }
 
   /* ####  Bloc #### */
-  Arena::Bloc::Bloc(Entity::GameObject* _p)
+  Arena::Bloc::Bloc(Entity::GameObject* _p, Component::Arena* arena)
     : Component::abstract(_p), hitted(false) {
     parent->getPosition(x,y);
     attachCallback(Event::Info::Explosion,
-		   new Event::FixedCallback([this] (Event::Data& e) {
+		   new Event::FixedCallback([this, arena] (Event::Data& e) {
 		       Event::Type::Explosion* event =
 			 reinterpret_cast<Event::Type::Explosion*>(&e);
 		       auto hitbox = parent->getHitBox();
@@ -78,6 +81,7 @@ namespace Component{
 			   y + hitbox[2] <= event->y && event->y <= y + hitbox[3]) {
 			 dispatchSelf(new Event::Type::disableCollision());
 			 dispatchSelf(new Event::Type::EnableGlyph());
+			 arena->Map[x][y] = Arena::Empty;
 			 if (!(rand() % 3))
 			   dispatchSelf(new Event::Type::LootBonus());
 			 hitted = true;
@@ -153,7 +157,7 @@ namespace Component{
       Map.insert(std::pair< double, std::map<double, Arena::type> >(x/2 - xi + 0.5, std::map<double, Arena::type>()));
       for (int yi = 0; yi <= y; yi++) {
 	if (xi == 0 || xi == x || yi == 0 || yi == y || (!(xi % 2) && !(yi % 2))) {
-	  Map[x/2 - xi].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Indestructible));
+	  Map[x/2 - xi + 0.5].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Indestructible));
 	  obj = _Efactory->allocateEntityByType("indestructibleBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("indestructibleBloc", obj);
@@ -162,12 +166,13 @@ namespace Component{
 		     (yi == 1 && (xi == 1 || xi == 2 || xi == x - 2)) ||
 		     (yi == y - 1 && (xi == 1 || xi == 2 || xi == x - 1 || xi == x - 2))
 		     )) {
-	  Map[x/2 - xi].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Breakable));
+	  Map[x/2 - xi + 0.5].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Breakable));
 	  obj = _Efactory->allocateEntityByType("destructibleBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("destructibleBloc", obj);
 	} else {
-	  Map[x/2 - xi].insert(std::pair<int, Arena::type>(y/2 - yi + 0.5, Arena::Empty));
+	  Map[x/2 - xi + 0.5].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Empty));
+	  std::cout << "{{{{{{{{{{{{{{{{"<< (y/2-yi+0.5) <<"}}}}}}}}}}}}}}}}" << std::endl;
 	  obj = _Efactory->allocateEntityByType("EmptyBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("EmptyBloc", obj);
