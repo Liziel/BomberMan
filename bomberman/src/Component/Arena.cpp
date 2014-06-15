@@ -117,6 +117,7 @@ namespace Component{
 		       Event::Type::beginGame* event = 
 			 reinterpret_cast<Event::Type::beginGame*>(&e);
 
+		       std::cout << "Map is being generated" << std::endl;
 		       if (event->_map == Component::Game::square)
 			 GenerateSquareMap(event->nbPlayer, event->nbIa, event->mapSizex, event->mapSizex);
 		     }));
@@ -182,7 +183,7 @@ namespace Component{
     }
     for (int iIa = iplay; iIa < nIa + iplay; iIa++) {
       _Efactory->allocateEntityByType("Ia")->setPosition(dispoPlace[iIa][0], dispoPlace[iIa][1]);
-    } 
+    }
   }
 
   void	Arena::addSelf(Arena::Winner* _w) {
