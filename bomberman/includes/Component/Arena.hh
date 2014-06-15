@@ -62,7 +62,14 @@ namespace Component{
   public:
     class IA : public Winner{
     private:
-      
+      Component::Arena*		arena;
+      std::array<int, 2>	_movement;
+    public:
+      bool	checkForBomb(double x, double y, double _x, double _y);
+      bool	findSafe(const std::array<bool, 4>& safe, std::array<int, 2>& movement, double x, double y);
+      void	calculate(std::array<int, 2>& movement);
+      bool	lootBomb(double x, double y);
+
     public:
       IA(Entity::GameObject*, Component::Arena*);
 

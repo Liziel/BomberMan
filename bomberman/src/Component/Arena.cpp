@@ -19,13 +19,14 @@ namespace Component{
   /*   IA   */
   Arena::IA::IA(Entity::GameObject* _p, Component::Arena* _a)
     : Arena::Winner(_p, _a), arena(_a) {
+    _movement = {-1,-1};
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this, _a] (Event::Data&) { /* Up, Down, Left, Right */
 		       dispatchSelf(new Event::Type::addElement(static_cast<Component::Effects::type>(rand() % 5)));
 		       dispatchSelf(new Event::Type::addElement(static_cast<Component::Effects::type>(rand() % 5)));
 		       dispatchSelf(new Event::Type::addElement(static_cast<Component::Effects::type>(rand() % 5)));
 
-		       double x,y;
+		       double x,y,add;
 		       parent->getPosition(x,y);
 		       add = 0.5 - 1 * (x < 0);
 		       x = static_cast<int>(x) + add;
@@ -33,7 +34,7 @@ namespace Component{
 		       y = static_cast<int>(y) + add;
 
 		       std::array<bool, 4> safe = {checkForBomb(x, y, 1, 0), checkForBomb(x, y, -1, 0),
-						   checkForBomb(x, y, 0, -1), checkForBomb(x, y, 0, 1);};
+						   checkForBomb(x, y, 0, -1), checkForBomb(x, y, 0, 1)};
 		       std::array<int, 2> movement = {-1, -1};
 		       if (!findSafe(safe, movement, x, y))
 			 calculate(movement);
@@ -60,6 +61,14 @@ namespace Component{
 		     }));
   }
 
+  void	Arena::IA::calculate(std::array<int, 2>& movement) {
+    movement[0] = 0;
+    movement[1] = 3;
+  }
+
+  bool	Arena::IA::lootBomb(double, double) {
+    return (true);
+  }
 
   bool	Arena::IA::findSafe(const std::array<bool, 4>& safe, std::array<int, 2>& movement, double x, double y) {
     std::array<bool, 4> shouldnt = {false, false, false, false};
@@ -99,15 +108,16 @@ namespace Component{
       if (arena->Map[x][y + -1] == Arena::Empty)
 	movement[1] = 3;
     }
+    return (false);
   }
 
-  bool	Arena::IA::checkForBomb(double x, double y, double _x, doubel _y) {
+  bool	Arena::IA::checkForBomb(double x, double y, double _x, double _y) {
     double	k = 1.f;
 
     for (;arena->Map.find(x + k * _x) != arena->Map.end() && arena->Map[x].find(y + k * _y) != arena->Map[x].end(); k += 1) {
-      if (Map[x][y] == Arena::Bomb)
+      if (arena->Map[x][y] == Arena::Bomb)
 	return (true);
-      else if (Map[x][y] != Arena::Empty)
+      else if (arena->Map[x][y] != Arena::Empty)
 	return (false); /* protected */
     }
     return (false);
@@ -311,10 +321,10 @@ namespace Component{
     fighter.push_back(_w);
   }
 
-  bool	Arena::PlayerAt(double x, double y, Arena::Winner* ignore) {
+  bool	Arena::PlayerAt(double x, double y, Arena::Winner* _ignore) {
     double _x,_y;
     for (auto _f : fighter) {
-      if (_f != ignore) {
+      if (_f != _ignore) {
 	_f->getParent()->getPosition(_x,_y);
 	if (Component::matchPosition(_x,_y, x, y))
 	  return (true);
