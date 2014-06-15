@@ -34,7 +34,7 @@ namespace Component{
 				  else if (button->_texture == "img/buttons/play_vs.tga")
 				    {
 				     clearMenu();
-				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
+				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 1));
 				     return ;
 				   }
 			       }

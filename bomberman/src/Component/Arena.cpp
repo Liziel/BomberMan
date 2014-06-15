@@ -308,12 +308,14 @@ namespace Component{
     for (; iplay < nplay; iplay++) {
       obj = _Efactory->allocateEntityByType("player" + std::to_string(iplay), false);
       obj->setPosition(dispoPlace[iplay][0], dispoPlace[iplay][1]);
-      obj->getPosition(dispoPlace[iplay][0], dispoPlace[iplay][1]);
       _Efactory->allocateComponentByEntityType("player" + std::to_string(iplay), obj);
     }
 
     for (int iIa = iplay; iIa < nIa + iplay; iIa++) {
-      _Efactory->allocateEntityByType("Ia")->setPosition(dispoPlace[iIa][0], dispoPlace[iIa][1]);
+      std::cout << "oui" << std::endl;
+      obj = _Efactory->allocateEntityByType("Ia", false);
+      obj->setPosition(dispoPlace[iIa][0], dispoPlace[iIa][1]);
+      _Efactory->allocateComponentByEntityType("Ia", obj);
     }
   }
 

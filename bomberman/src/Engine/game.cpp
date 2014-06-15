@@ -58,6 +58,13 @@ namespace Engine{
 						 Arena::Player(_player, arena));
 				       });
 
+    _Cfactory->storeComponentAllocator("Ia",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::
+						 Arena::IA(_player, arena));
+				       });
+
     _Cfactory->storeComponentAllocator("Status",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
@@ -138,6 +145,40 @@ namespace Engine{
 					 return (new Component::MenuPrincipal(_player, _grEngine, WINDOW_X, WINDOW_Y, 0, 0, "img/preview.tga"));
 				       });
     
+    _Efactory->addAllocator("Ia", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
+	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
+	if (!_ini)
+	  return (player);
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Ia", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("playerDisplay", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("ColliderMovable", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Player", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Status", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("Health", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("PhisixVector", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("BombCast", player));	
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("BonusReceiver", player));	
+	return (player);
+      });
+
     _Efactory->addAllocator("player0", [this](bool _ini, Entity::GameObject* __player) -> Entity::GameObject* {
 	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
 	if (!_ini)
