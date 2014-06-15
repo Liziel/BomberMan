@@ -5,16 +5,14 @@ namespace Component{
   Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g) 
     : Component::abstract(_p), _graphic(g) {
     _validBackground = false;
-    std::cout << "oui j'ai été sauté par ton père!...." << std::endl;
     attachCallback(Event::Info::Keyboard,
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Keyboard* event =
 			 reinterpret_cast<Event::Type::Keyboard*>(&e);
-		       std::cout << "keyevent" << std::endl;
                        if (event->state && event->key == 0)
 			 moveFocus(1);
                        else if (event->state && event->key == 1)
-			 moveFocus(-1);
+			 moveFocus(1);
 		       //move to each menu
 		       //else if (event->state && event->key == 4)
 		     }));
@@ -29,7 +27,6 @@ namespace Component{
     _texture = texture;
     _validBackground = true;
     _gp = NULL;
-    std::cout << "...... et par ta mère!" << std::endl;
   }
   
   Menu::~Menu()
@@ -38,7 +35,7 @@ namespace Component{
       _graphic->subHudObject(_gp);
     for (auto button : _buttons)
       {
-	delete (button);
+    	delete (button);
       }
   }
 
@@ -49,12 +46,18 @@ namespace Component{
       if ((*it)->_isFocus)
 	{
 	  (*it)->onLooseFocus();
+	  if (i == 1)
+	    ++it;
+	  else
+	    --it;
 	  if (it == _buttons.cend())
 	    (*(_buttons.cbegin()))->onFocus();
 	  else if (it == _buttons.cbegin())
 	    (*(_buttons.cend()))->onFocus();
+	  if (i == 1)
+	    --it;
 	  else
-	    ((*it) + 1)->onFocus();
+	    ++it;
 	}
   }
   void Menu::addButton(Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture, const std::string& textureFocus, bool isFocus){
@@ -65,12 +68,12 @@ namespace Component{
   {
     if (_validBackground)
       {
-	_gp = new object3d::planVertex(_texture.c_str(), _sizeX, _sizeY, _posX, _sizeY);
+	_gp = new object3d::planVertex(_texture, _sizeX, _sizeY, _posX, _sizeY);
 	_graphic->addHudObject(_gp);
       }
     for (auto button : _buttons)
       {
-	button->_gp = new object3d::planVertex(button->_texture.c_str(), button->_sizeX, button->_sizeY, button->_posX, button->_posY);
+	button->_gp = new object3d::planVertex(button->_texture, button->_sizeX, button->_sizeY, button->_posX, button->_posY);
 	_graphic->addHudObject(button->_gp);
       }
   }
@@ -94,20 +97,23 @@ namespace Component{
 
   void Button::onFocus()
   {
-    std::cout << "onFocus" << std::endl;
+    std::cout << "onFocus " << _texture << std::endl;
     _isFocus = true;
-    if (_gp)
-      _graphic->subHudObject(_gp);
-    _gp = new object3d::planVertex(_textureFocus.c_str(), _sizeX, _sizeY, _posX, _posY);
+    // if (_gp)
+    //   _graphic->subHudObject(_gp);
+    _gp = new object3d::planVertex(_textureFocus, _sizeX, _sizeY, _posX, _posY);
     _graphic->addHudObject(_gp);
+   std::cout << "endOnFocus" << std::endl;
   }
 
   void Button::onLooseFocus()
   {
-    _isFocus = false;
+        std::cout << "offFocus "<< _texture << std::endl;
+  _isFocus = false;
     if (_gp)
       _graphic->subHudObject(_gp);
-    _gp = new object3d::planVertex(_textureFocus.c_str(), _sizeX, _sizeY, _posX, _posY);
+
+    _gp = new object3d::planVertex(_texture, _sizeX, _sizeY, _posX, _posY);
     _graphic->addHudObject(_gp);
   }
 }

@@ -89,7 +89,7 @@ namespace Engine{
   void	Graphic::subHudObject(object3d::AObject* o) {
     for (auto itt = _HUDobjects.begin(); itt != _HUDobjects.end(); ++itt) {
       if (*itt == o)
-	_HUDobjects.erase(itt);
+	itt = _HUDobjects.erase(itt);
     }
   }
 

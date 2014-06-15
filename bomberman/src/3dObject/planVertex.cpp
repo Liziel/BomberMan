@@ -1,11 +1,12 @@
 #include "planVertex.hh"
 
 namespace object3d {
-  planVertex::planVertex(const char* texture, int x, int y, int tx, int ty) : _speed(10.f) {
-    if (_texture.load(texture) == false) { 
-      std::cerr << "Error : Failed to load texture" << std::endl; 
+  planVertex::planVertex(const std::string& texture, int x, int y, int tx, int ty) : _speed(10.f) {
+    if (_texture.load(texture.c_str()) == false) { 
+      std::cerr << "Error : Failed to load texture " << texture << std::endl; 
       return ;
     }		
+    std::cout << "texture loaded: " << texture << std::endl;
     _geometry.pushVertex(glm::vec3(0, 0, 0)); 
     _geometry.pushVertex(glm::vec3(x, 0, 0)); 
     _geometry.pushVertex(glm::vec3(x, y, 0)); 

@@ -12,7 +12,7 @@ namespace object3d {
     float _speed;
 
   public:
-    planVertex(const char* texture, int x, int y, int tx = 0, int ty = 0);
+    planVertex(const std::string& texture, int x, int y, int tx = 0, int ty = 0);
     virtual ~planVertex() {}
 
   public:
