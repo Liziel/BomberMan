@@ -247,7 +247,7 @@ namespace Engine{
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
 					 return (new Component
-						 ::Arena::Bloc(_player));
+						 ::Arena::Bloc(_player, arena));
 				       });
 
     _Efactory->addAllocator("destructibleBloc", [this](bool _ini, Entity::GameObject* __bloc) -> Entity::GameObject* {

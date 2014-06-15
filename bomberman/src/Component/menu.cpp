@@ -68,7 +68,6 @@ namespace Component{
       _graphic->subHudObject(_gp);
     while (_buttons.size())
       {
-	std::cout << "HEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOO" << std::endl;
 	auto _bb = _buttons.back();
 	delete _bb;
 	_buttons.pop_back();
