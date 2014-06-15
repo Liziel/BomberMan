@@ -1,5 +1,6 @@
 #include "menu.hh"
 #include "Entity.hh"
+#include "Arena.hh"
 
 namespace Component{
   Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g) 
@@ -9,15 +10,32 @@ namespace Component{
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Keyboard* event =
 			 reinterpret_cast<Event::Type::Keyboard*>(&e);
-                       if (event->state && event->key == 0)
+		       if (event->state)
+			 {
+			   std::cout << "event = "  << event->key << std::endl; 
+			   std::cout << "size = "  << _buttons.size() << std::endl; 
+			 }
+                       if (event->state && event->key == 0 && _buttons.size())
+			   moveFocus(-1);
+                       else if (event->state && event->key == 1 && _buttons.size())
 			 moveFocus(1);
-                       else if (event->state && event->key == 1)
-			 moveFocus(1);
-		       //move to each menu
-		       //else if (event->state && event->key == 4)
+		       else if (event->state && event->key == 2 && _buttons.size())
+			 {
+			   std::cout << "accepter" << std::endl;
+			   for (auto button : _buttons)
+			     if (button->_isFocus)
+			       {
+				 if (button->_texture == "img/buttons/play.tga")
+				   {
+				     clearMenu();
+				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
+				     std::cout << "launched" << std::endl;
+				   }				 
+			       }
+			 }
 		     }));
   }
-
+  
   Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture)
     : Menu(_p, g) {
     _sizeX = sizeX;
@@ -39,27 +57,34 @@ namespace Component{
       }
   }
 
+  void Menu::clearMenu()
+  {
+    if (_gp)
+      _graphic->subHudObject(_gp);
+    while (_buttons.size())
+      {
+      _buttons.pop_back();
+      }
+   
+  }
+
   void Menu::moveFocus(int i)
   {
-    std::cout << "moveFocus" << std::endl;
-    for (auto it = _buttons.cbegin(); it != _buttons.cend(); ++it)
-      if ((*it)->_isFocus)
-	{
-	  (*it)->onLooseFocus();
-	  if (i == 1)
-	    ++it;
-	  else
-	    --it;
-	  if (it == _buttons.cend())
-	    (*(_buttons.cbegin()))->onFocus();
-	  else if (it == _buttons.cbegin())
-	    (*(_buttons.cend()))->onFocus();
-	  if (i == 1)
-	    --it;
-	  else
-	    ++it;
-	}
+    for (auto it = _buttons.cbegin(); it != _buttons.cend(); it++)
+    	if ((*it)->_isFocus)
+    	  {
+    	    (*it)->onLooseFocus();
+    	    if (i == 1)
+    	      it++;
+	    if (it != _buttons.cbegin() && i == -1)
+	      it--;
+    	    if (it == _buttons.cend())
+	      it--;
+    	      (*it)->onFocus();
+    	  }
   }
+
+
   void Menu::addButton(Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture, const std::string& textureFocus, bool isFocus){
     _buttons.push_back(new Component::Button(g, sizeX, sizeY, posX, posY, texture, textureFocus, isFocus));
   }
@@ -73,6 +98,7 @@ namespace Component{
       }
     for (auto button : _buttons)
       {
+	if (!(button->_gp))
 	button->_gp = new object3d::planVertex(button->_texture, button->_sizeX, button->_sizeY, button->_posX, button->_posY);
 	_graphic->addHudObject(button->_gp);
       }
@@ -88,6 +114,8 @@ namespace Component{
     _isFocus = isFocus;
     _gp = NULL;
     _graphic = g;
+    if (isFocus)
+      onFocus();
   }
 
   Button::~Button(){
@@ -97,22 +125,18 @@ namespace Component{
 
   void Button::onFocus()
   {
-    std::cout << "onFocus " << _texture << std::endl;
     _isFocus = true;
-    // if (_gp)
-    //   _graphic->subHudObject(_gp);
-    _gp = new object3d::planVertex(_textureFocus, _sizeX, _sizeY, _posX, _posY);
+    if (_gp)
+      _graphic->subHudObject(_gp);
+    _gp = new object3d::planVertex(_textureFocus, _sizeX, _sizeY - 7, _posX, _posY + 7);
     _graphic->addHudObject(_gp);
-   std::cout << "endOnFocus" << std::endl;
   }
 
   void Button::onLooseFocus()
   {
-        std::cout << "offFocus "<< _texture << std::endl;
   _isFocus = false;
     if (_gp)
       _graphic->subHudObject(_gp);
-
     _gp = new object3d::planVertex(_texture, _sizeX, _sizeY, _posX, _posY);
     _graphic->addHudObject(_gp);
   }

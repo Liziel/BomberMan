@@ -17,8 +17,8 @@ namespace Engine{
     Uint32	time, spend;
     dispatcher->dispatchEvent(new Event::
 			      Type::menuInstanciation(1));
-    dispatcher->dispatchEvent(new Event::
-    			      Type::beginGame(Component::Game::square, 10, 10, 1, 0));
+    // dispatcher->dispatchEvent(new Event::
+    // 			      Type::beginGame(Component::Game::square, 10, 10, 1, 0));
     dispatcher->dispatchEvent(new Event::Type::PlantBomb(0,1,Component::Effects::Fire,Component::Effects::Fire,Component::Effects::Fire));
     //dispatcher->dispatchEvent(new Event::Type::EntitySerialize(Entity::game, &(std::cout)));
     try {
