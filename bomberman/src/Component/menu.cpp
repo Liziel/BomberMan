@@ -1,5 +1,6 @@
 #include "menu.hh"
 #include "Entity.hh"
+#include "Arena.hh"
 
 namespace Component{
   Menu::Menu(Entity::GameObject* _p, Engine::Graphic* g) 
@@ -10,16 +11,27 @@ namespace Component{
 		       Event::Type::Keyboard* event =
 			 reinterpret_cast<Event::Type::Keyboard*>(&e);
 		       if (event->state)
-			 std::cout << "key = " << event->key << std::endl;
-                       if (event->state && event->key == 0)
 			 {
-			   std::cout << "haut" << std::endl;
-			   moveFocus(-1);
+			   std::cout << "event = "  << event->key << std::endl; 
+			   std::cout << "size = "  << _buttons.size() << std::endl; 
 			 }
-                       else if (event->state && event->key == 1)
+                       if (event->state && event->key == 0 && _buttons.size())
+			   moveFocus(-1);
+                       else if (event->state && event->key == 1 && _buttons.size())
+			 moveFocus(1);
+		       else if (event->state && event->key == 2 && _buttons.size())
 			 {
-			   std::cout << "bas" << std::endl;
-			   moveFocus(1);
+			   std::cout << "accepter" << std::endl;
+			   for (auto button : _buttons)
+			     if (button->_isFocus)
+			       {
+				 if (button->_texture == "img/buttons/play.tga")
+				   {
+				     clearMenu();
+				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
+				     std::cout << "launched" << std::endl;
+				   }				 
+			       }
 			 }
 		     }));
   }
@@ -43,6 +55,17 @@ namespace Component{
       {
     	delete (button);
       }
+  }
+
+  void Menu::clearMenu()
+  {
+    if (_gp)
+      _graphic->subHudObject(_gp);
+    while (_buttons.size())
+      {
+      _buttons.pop_back();
+      }
+   
   }
 
   void Menu::moveFocus(int i)

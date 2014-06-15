@@ -40,6 +40,7 @@ namespace Component{
     Menu(Entity::GameObject* _p, Engine::Graphic* g);
     Menu(Entity::GameObject* _p, Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture);
     ~Menu();
+    void clearMenu();
     void addButton(Engine::Graphic* g, int sizeX, int sizeY, int posX, int posY, const std::string& texture, const std::string& textureFocus, bool _isFocus);
     void draw();
     void moveFocus(int i);
@@ -49,20 +50,20 @@ namespace Component{
   };
 };
 
-namespace Event{
-  namespace Type{
-# ifndef __ARENA_H__
-#  ifndef __KEYBOARD_H__
-    struct Keyboard : Event::Data{
-      Keyboard(int k, bool s)
-	: Event::Data(Event::Info::Keyboard, sizeof(struct Keyboard), false),
-	  key(k), state(s) {}
-      int key;
-      bool state;
-    };
-#  endif
-# endif
-  };
-};
+// namespace Event{
+//   namespace Type{
+// # ifndef __ARENA_H__
+// #  ifndef __KEYBOARD_H__
+//     struct Keyboard : Event::Data{
+//       Keyboard(int k, bool s)
+// 	: Event::Data(Event::Info::Keyboard, sizeof(struct Keyboard), false),
+// 	  key(k), state(s) {}
+//       int key;
+//       bool state;
+//     };
+// #  endif
+// # endif
+//   };
+// };
 
 #endif

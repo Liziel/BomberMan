@@ -13,6 +13,7 @@ namespace Component {
   
   MenuPrincipal::~MenuPrincipal()
   {
-
+    for (auto button : _buttons)
+      _graphic->subHudObject(_gp);
   }
 }
