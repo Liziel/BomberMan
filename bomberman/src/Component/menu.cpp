@@ -25,12 +25,14 @@ namespace Component{
 			   for (auto button : _buttons)
 			     if (button->_isFocus)
 			       {
+				 std::cout << button << std::endl;
 				 if (button->_texture == "img/buttons/play.tga")
 				   {
 				     clearMenu();
 				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
 				     std::cout << "launched" << std::endl;
-				   }				 
+				     return ;
+				   }
 			       }
 			 }
 		     }));
@@ -63,7 +65,10 @@ namespace Component{
       _graphic->subHudObject(_gp);
     while (_buttons.size())
       {
-      _buttons.pop_back();
+	std::cout << "HEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOO" << std::endl;
+	auto _bb = _buttons.back();
+	delete _bb;
+	_buttons.pop_back();
       }
    
   }
@@ -114,6 +119,8 @@ namespace Component{
     _isFocus = isFocus;
     _gp = NULL;
     _graphic = g;
+    focused = new object3d::planVertex(_textureFocus, _sizeX, _sizeY - 7, _posX, _posY + 7);
+    unfocused = new object3d::planVertex(_texture, _sizeX, _sizeY, _posX, _posY);
     if (isFocus)
       onFocus();
   }
@@ -121,6 +128,9 @@ namespace Component{
   Button::~Button(){
     if (_gp)
       _graphic->subHudObject(_gp);
+    std::cout << "plop i'm a bitch" << std::endl;
+    delete focused;
+    delete unfocused;
   }
 
   void Button::onFocus()
@@ -128,7 +138,7 @@ namespace Component{
     _isFocus = true;
     if (_gp)
       _graphic->subHudObject(_gp);
-    _gp = new object3d::planVertex(_textureFocus, _sizeX, _sizeY - 7, _posX, _posY + 7);
+    _gp = focused;
     _graphic->addHudObject(_gp);
   }
 
@@ -137,7 +147,7 @@ namespace Component{
   _isFocus = false;
     if (_gp)
       _graphic->subHudObject(_gp);
-    _gp = new object3d::planVertex(_texture, _sizeX, _sizeY, _posX, _posY);
+    _gp = unfocused;
     _graphic->addHudObject(_gp);
   }
 }

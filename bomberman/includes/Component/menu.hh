@@ -12,6 +12,8 @@ namespace Component{
   public:
     std::string _texture;
     std::string _textureFocus;
+    object3d::planVertex* focused;
+    object3d::planVertex* unfocused;
     int _sizeX;
     int _sizeY;
     int _posX;

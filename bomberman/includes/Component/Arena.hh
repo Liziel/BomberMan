@@ -131,7 +131,6 @@ namespace  Event{
     };
 # endif
 
-
     struct beginGame : Event::Data {
       beginGame(Component::Game::mapType _m, int x, int y, int np, int ni)
 	: Event::Data(Event::Info::beginGame,
