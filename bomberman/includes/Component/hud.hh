@@ -47,17 +47,6 @@ namespace Component{
 
 namespace Event{
   namespace Type{
-# ifndef __ARENA_H__
-#  ifndef __KEYBOARD_H__
-    struct Keyboard : Event::Data{
-      Keyboard(int k, bool s)
-	: Event::Data(Event::Info::Keyboard, sizeof(struct Keyboard), false),
-	  key(k), state(s) {}
-      int key;
-      bool state;
-    };
-#  endif
-# endif
   };
 };
 
