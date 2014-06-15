@@ -4,7 +4,7 @@ namespace object3d {
   cubeVertex::cubeVertex(const char* texture) : _speed(10.f) {
     if (_texture.load(texture) == false) { 
       std::cerr << "Error : Failed to load texture" << std::endl; 
-      return ;
+      exit(0);
     }		
     _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5)); 
     _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5)); 

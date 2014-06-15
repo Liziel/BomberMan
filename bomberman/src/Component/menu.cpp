@@ -37,6 +37,10 @@ namespace Component{
 				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 1));
 				     return ;
 				   }
+				  else if (button->_texture == "img/buttons/exit.tga")
+				    {
+				      exit(0);
+				   }
 			       }
 			 }
 		     }));
