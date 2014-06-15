@@ -126,6 +126,12 @@ namespace Engine{
 					 return (new Component::bombDisplay(_player, _grEngine));
 				       });
 
+    _Cfactory->storeComponentAllocator("bonusDisplay",
+				       [this] (Entity::GameObject* _player)
+				       -> Component::abstract* {
+					 return (new Component::bonusDisplay(_player, _grEngine));
+				       });
+
     _Cfactory->storeComponentAllocator("menuPrincipal",
 				       [this] (Entity::GameObject* _player)
 				       -> Component::abstract* {
@@ -160,6 +166,9 @@ namespace Engine{
 	player
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("BombCast", player));	
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("BonusReceiver", player));	
 	return (player);
       });
 
@@ -167,6 +176,12 @@ namespace Engine{
 	Entity::GameObject*	player = (!__player) ? (new Entity::Player(_dispatcher)) : (__player);
 	if (!_ini)
 	  return (player);
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("playerDisplay", player));
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("joystick2", player));
 	player
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("ColliderMovable", player));
@@ -185,6 +200,9 @@ namespace Engine{
 	player
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("BombCast", player));	
+	player
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("BonusReceiver", player));	
 	return (player);
       });
 
@@ -254,6 +272,9 @@ namespace Engine{
 	bloc
 	  ->attachComponent(_Cfactory
 			    ->allocateComponentByType("Runic", bloc));
+	bloc
+	  ->attachComponent(_Cfactory
+			    ->allocateComponentByType("bonusDisplay", bloc));
 	return (bloc);
       });
 

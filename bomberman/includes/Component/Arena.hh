@@ -72,6 +72,9 @@ namespace Component{
       double	x;
       double	y;
 
+    private:
+      bool	hitted;
+
     public:
       Bloc(Entity::GameObject*);
 

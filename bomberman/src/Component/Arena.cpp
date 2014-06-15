@@ -47,19 +47,22 @@ namespace Component{
 
   /* ####  Bloc #### */
   Arena::Bloc::Bloc(Entity::GameObject* _p)
-    : Component::abstract(_p) {
+    : Component::abstract(_p), hitted(false) {
     parent->getPosition(x,y);
     attachCallback(Event::Info::Explosion,
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Explosion* event =
 			 reinterpret_cast<Event::Type::Explosion*>(&e);
 		       auto hitbox = parent->getHitBox();
+		       if (hitted)
+			 return ;
 		       if (x + hitbox[0] <= event->x && event->x <= x + hitbox[1] &&
 			   y + hitbox[2] <= event->y && event->y <= y + hitbox[3]) {
 			 dispatchSelf(new Event::Type::disableCollision());
 			 dispatchSelf(new Event::Type::EnableGlyph());
-			 if (!(rand() % 10))
+			 if (!(rand() % 3))
 			   dispatchSelf(new Event::Type::LootBonus());
+			 hitted = true;
 		       }
 		     }));
   }

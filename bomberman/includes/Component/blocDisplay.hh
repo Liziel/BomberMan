@@ -5,6 +5,7 @@
 
 # include "cubeVertex.hh"
 # include "bombAnimated.hh"
+# include "bookAnimated.hh"
 
 # define __GROUNDTEXTURE "./textures/ground/lava.tga"
 
@@ -104,6 +105,20 @@ namespace Component{
     std::string serialization() { return (""); }
     void	setBySerial(const Tokenizer&);
   };
+
+  class bonusDisplay : public Component::abstract {
+  private:
+    object3d::animatedVertex	*book;
+    Engine::Graphic*		engine;
+
+  public:
+    bonusDisplay(Entity::GameObject*, Engine::Graphic*);
+    ~bonusDisplay();
+
+  public:
+    std::string serialization() { return (""); }
+    void	setBySerial(const Tokenizer&) {}
+  };
 };
 
 # ifndef __EFFECTS_H__
@@ -180,6 +195,16 @@ namespace Event{
       Component::Effects::level level;
     };
 #  endif
+# endif
+
+# ifndef __BONUS_H__
+    struct TakeBonus : Event::Data{
+      TakeBonus(double _x, double _y)
+	: Event::Data(Event::Info::TakeBonus, sizeof(struct TakeBonus), true),
+	  x(_x), y(_y) {}
+      double x;
+      double y;
+    };
 # endif
 
   };

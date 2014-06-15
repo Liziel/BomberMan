@@ -12,6 +12,7 @@ namespace Component{
 
     attachCallback(Event::Info::Clock,
 		   new Event::FixedCallback([this] (Event::Data&) {
+		       //		       std::cout << "Bomb["<< stackedBomb <<"/"<< maxBomb <<"], Reloading("<< BombReloading <<")" << std::endl;
 		       if (!BombReloading && stackedBomb < maxBomb) {
 			 stackedBomb += 1;
 			 BombReloading = BombCast::Cooldown::value;
@@ -47,6 +48,7 @@ namespace Component{
 		   new Event::FixedCallback([this] (Event::Data&) {
 		       if (maxBomb < 5) {
 			 maxBomb += 1;
+			 std::cout << "stack improved ["<< maxBomb <<"]" << std::endl;
 		       }
 		     }));
 
@@ -67,6 +69,7 @@ namespace Component{
 		       dispatchSelf(new Event::Type::speedModifier(1 / 0.98));
 		       dispatchSelf(new Event::Type::BombReleased());
 		       stackedSpells = 0;
+		       stackedBomb--;
 		     }));
 
   }

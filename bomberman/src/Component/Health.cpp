@@ -69,6 +69,7 @@ namespace Component {
     attachCallback(Event::Info::Immunity,
 		   new Event::FixedCallback([this] (Event::Data& e) {
 		       Event::Type::Immunity* event = reinterpret_cast<Event::Type::Immunity*>(&e);
+		       std::cout << "invicibility!!!! ["<< event->time <<"]" << std::endl;
 		       invincible(event->time);
 		     }));
     attachCallback(Event::Info::PlaceDot,
@@ -87,7 +88,9 @@ namespace Component {
   }
 
   int	Health::actualize() {
-    immunityTime -= 1;
+    if (immunityTime > 0)
+      immunityTime -= 1;
+    //    std::cout << "immunityTime["<< immunityTime << "]--->("<< isInvicible() <<")" << std::endl;
     if (isInvicible())
       return (life);
     dotList.remove_if(unsetDot);

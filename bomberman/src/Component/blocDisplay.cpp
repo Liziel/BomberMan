@@ -220,6 +220,33 @@ namespace Component{
   }
   playerDisplay::~playerDisplay() { engine->subObject(ziggs); delete ziggs; }
 
+  bonusDisplay::bonusDisplay(Entity::GameObject* _p, Engine::Graphic* _g)
+    : Component::abstract(_p), book(new object3d::bookAnimated()), engine(_g) {
+    double		x,y;
+    const glm::vec4&	hitbox = parent->getHitBox();
+    parent->getPosition(x, y);
+    x += hitbox[0];
+    y += hitbox[2];
+    book->translate(glm::vec3(x*3, y*3, -4));
+    book->scale(glm::vec3(0.7f));
+    book->rotate(glm::vec3(0,-9,9),10);
+    book->setAnimation("run");
+    attachCallback(Event::Info::LootBonus,
+		   new Event::FixedCallback([this](Event::Data&) {
+		       engine->addObject(book);
+		     }));
+    attachCallback(Event::Info::TakeBonus,
+		   new Event::FixedCallback([this](Event::Data& e) {
+		       Event::Type::TakeBonus* event=
+			 reinterpret_cast<Event::Type::TakeBonus*>(&e);
+		       double x,y;
+		       parent->getPosition(x,y);
+			     std::cout << "bonus position["<< event->x <<"]["<< event->y <<"], receiver["<< x <<"]["<< y <<"]" << std::endl;
+		       if (Component::matchPosition(x,y,event->x, event->y))
+			 engine->subObject(book);
+		     }));
+  }
+  bonusDisplay::~bonusDisplay() { delete book; } 
   bombDisplay::bombDisplay(Entity::GameObject* _p, Engine::Graphic* _g)
     : Component::abstract(_p), bomb(NULL), engine(_g) {
   }

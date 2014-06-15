@@ -63,21 +63,23 @@ namespace Event{
 # endif
 
     struct BonusLocation : Event::Data{
-      BonusLocation(int _x, int _y, Component::Bonus::Type _t)
+      BonusLocation(double _x, double _y, Component::Bonus::Type _t)
 	: Event::Data(Event::Info::BonusLocation, sizeof(struct BonusLocation), true),
 	  x(_x), y(_y), type(_t) {}
-      int x;
-      int y;
+      double x;
+      double y;
       Component::Bonus::Type type;
     };
 
+# ifndef __BLOCDISPLAY_H__
     struct TakeBonus : Event::Data{
-      TakeBonus(int _x, int _y)
-	: Event::Data(Event::Info::BonusLocation, sizeof(struct TakeBonus), true),
+      TakeBonus(double _x, double _y)
+	: Event::Data(Event::Info::TakeBonus, sizeof(struct TakeBonus), true),
 	  x(_x), y(_y) {}
-      int x;
-      int y;
+      double x;
+      double y;
     };
+# endif
   };
 };
 

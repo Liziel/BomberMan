@@ -4,6 +4,7 @@ namespace  Component{
   namespace Bonus{
     Receiver::Receiver(Entity::GameObject* _p)
       : Component::abstract(_p), stackLevel(1) {
+      std::cout << "pute des boies sauvages" << std::endl;
       attachCallback(Event::Info::BonusLocation,
 		     new Event::FixedCallback([this](Event::Data& e) {
 			 Event::Type::BonusLocation* event =
@@ -11,9 +12,10 @@ namespace  Component{
 			 double x;
 			 double y;
 			 parent->getPosition(x, y);
-			 if (x == event->x && y == event->y) {
-			   if (reactByType(event->type))
+			 if (Component::matchPosition(x, y, event->x, event->y)) {
+			   if (reactByType(event->type)) {
 			     dispatchAll(new Event::Type::TakeBonus(x, y));
+			   }
 			 }
 		       }));
     }
@@ -29,7 +31,7 @@ namespace  Component{
 
     bool	Receiver::reactByType(Bonus::Type _t) {
       if (_t == Immunity) {
-	dispatchSelf(new Event::Type::Immunity(10));
+	dispatchSelf(new Event::Type::Immunity(100));
       } else {
 	stackLevel += 1;
 	if (stackLevel > 5)
@@ -57,7 +59,9 @@ namespace  Component{
 		     new Event::FixedCallback([this](Event::Data& e){
 		       Event::Type::TakeBonus* event =
 			 reinterpret_cast<Event::Type::TakeBonus*>(&e);
-		       if (event->x == x && event->y == y)
+		       double x,y;
+		       parent->getPosition(x,y);
+		       if (Component::matchPosition(x,y, event->x, event->y))
 			 parent->unsetCallback(dispenserId);
 		       }));
     }
