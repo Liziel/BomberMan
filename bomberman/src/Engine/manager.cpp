@@ -26,8 +26,8 @@ namespace Engine{
 	time = SDL_GetTicks();
 	game->refresh();
 	spend = SDL_GetTicks();
-	if (spend - time < 50)
-	  SDL_Delay(50 - (spend - time));
+	if (spend - time < 65)
+	  SDL_Delay(65 - (spend - time));
       }
     } catch (const std::exception& e) {
       std::cerr << "exception non-catched :" << e.what() << std::endl;

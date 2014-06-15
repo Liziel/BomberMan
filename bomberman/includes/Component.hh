@@ -12,7 +12,7 @@
 # include "EventList.hh"
 
 namespace Component{
-
+  bool	matchPosition(double x, double y, double _x, double _y);
   /*  ############# abstract ################  */
   class abstract{
   protected:

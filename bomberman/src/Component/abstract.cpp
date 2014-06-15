@@ -1,5 +1,15 @@
 #include "Component.hh"
 
+bool	Component::matchPosition(double x, double y, double _x, double _y) {
+  if (x < 0 && _x > 0)
+    return (false);
+  if (y < 0 && _y > 0)
+    return (false);
+  if (static_cast<int>(_x) != static_cast<int>(x) || static_cast<int>(_y) != static_cast<int>(y))
+    return (false);
+  return (true);
+}
+
 Component::abstract::abstract(Entity::GameObject* _p)
   : parent(_p) {}
 

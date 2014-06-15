@@ -53,7 +53,7 @@ namespace Component{
 		       double y;
 
 		       parent->getPosition(x, y);
-		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+		       if (!Component::matchPosition(event->x, event->y, x, y))
 			 return ;
 		       if (effects > 0)
 			 return ;
@@ -70,7 +70,7 @@ namespace Component{
 		       double y;
 
 		       parent->getPosition(x, y);
-		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+		       if (!Component::matchPosition(event->x, event->y, x, y))
 			 return ;
 		       if (effects > 0)
 			 return ;
@@ -87,7 +87,7 @@ namespace Component{
 		       double y;
 
 		       parent->getPosition(x, y);
-		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+		       if (!Component::matchPosition(event->x, event->y, x, y))
 			 return ;
 		       if (effects > 0)
 			 return ;
@@ -104,7 +104,7 @@ namespace Component{
 		       double y;
 
 		       parent->getPosition(x, y);
-		       if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+		       if (!Component::matchPosition(event->x, event->y, x, y))
 			 return ;
 		       if (effects > 0)
 			 return ;

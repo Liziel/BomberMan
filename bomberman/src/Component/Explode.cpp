@@ -24,7 +24,7 @@ namespace Component{
 		       if (exploding)
 			 return ;
 		       _p->getPosition(x, y);
-		       if (static_cast<int>(event->x) == static_cast<int>(x) && static_cast<int>(event->y) == static_cast<int>(y)) {
+		       if (Component::matchPosition(event->x, event->y, x, y)) {
 			 EXPLODE(_p);
 			 untilBOOM = 0;
 		       }

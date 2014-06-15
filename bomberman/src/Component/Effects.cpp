@@ -65,7 +65,7 @@ namespace Component{
 			 double y;
 			 parent->getPosition(x, y);
 			 std::cout << "Fire event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
-			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(fireLow); _t = fireLow.dotDuration;  }
 			 if (event->level == med)  { this->interpretDamage(fireMed); _t = fireMed.dotDuration;  }
@@ -78,9 +78,9 @@ namespace Component{
 		     new Event::FixedCallback([this] (Event::Data&) {
 		       }));
 
-      const Effects::damage electricityLow  = {0, -1, 10, 2, 1.1, 50, true, 2};
-      const Effects::damage electricityMed  = {0, -1, 10, 1, 1.2, 60, true, 5};
-      const Effects::damage electricityHigh = {0, -1, 10, 0, 1.5, 80, true, 10};
+      const Effects::damage electricityLow  = {0, -1, 10, 2, 1.1, 50, true, 25};
+      const Effects::damage electricityMed  = {0, -1, 10, 1, 1.2, 60, true, 40};
+      const Effects::damage electricityHigh = {0, -1, 10, 0, 1.5, 80, true, 60};
       attachCallback(Event::Info::ElectricityExplosion,
 		     new Event::FixedCallback([this, electricityLow, electricityMed, electricityHigh] (Event::Data& e) {
 			 Event::Type::ElectricityExplosion *event = reinterpret_cast<Event::Type::ElectricityExplosion*>(&e);
@@ -90,7 +90,7 @@ namespace Component{
 
 			 parent->getPosition(x, y);
 			 std::cout << "Electricity event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
-			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(electricityLow); _t = electricityLow.dotDuration;  }
 			 if (event->level == med)  { this->interpretDamage(electricityMed); _t = electricityMed.dotDuration;  }
@@ -112,7 +112,7 @@ namespace Component{
 
 			 parent->getPosition(x, y);
 			 std::cout << "Ice event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
-			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(iceLow); _t = iceLow.dotDuration;  }
 			 if (event->level == med)  { this->interpretDamage(iceMed); _t = iceMed.dotDuration;  }
@@ -133,7 +133,7 @@ namespace Component{
 
 			 parent->getPosition(x, y);
 			 std::cout << "Life event["<< event->x <<"]["<< event->y <<"], level {"<< event->level <<"}, actual position ["<< x <<"]["<< y <<"], match?("<< !(static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y)) <<")" << std::endl;
-			 if (static_cast<int>(event->x) != static_cast<int>(x) || static_cast<int>(event->y) != static_cast<int>(y))
+			 if (!Component::matchPosition(event->x, event->y, x, y))
 			   return ;
 			 if (event->level == low)  { this->interpretDamage(lifeLow);  }
 			 if (event->level == med)  { this->interpretDamage(lifeMed);  }
