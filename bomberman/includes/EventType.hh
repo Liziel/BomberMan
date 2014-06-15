@@ -22,6 +22,7 @@ namespace Event{
       SocketGlyph, EnableGlyph, extinctGlyph, /* Runes */
       BombReloaded, BombReleased, IncreaseBombStack,/* UI */
       isOnFire, isOnLife, isOnIce, isOnElectricity, /* display */ 
+      changeMute, flushElement, /* Hud */
       endGame, winner,
       Clock, Refresh,
       menuInstanciation,

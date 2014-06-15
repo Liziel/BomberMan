@@ -93,6 +93,15 @@ namespace Event{
     };
 # endif
 
+# ifndef __HUD_H__
+    struct changeMute : Event::Data{
+      changeMute(bool _m)
+	: Event::Data(Event::Info::changeMute, sizeof(struct changeMute), false),
+	  mute(_m) {}
+      bool mute;
+    };
+# endif
+
 # ifndef __ARENA_H__
     struct selfPlantBomb : Event::Data{
       selfPlantBomb()
