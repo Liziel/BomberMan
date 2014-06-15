@@ -30,7 +30,7 @@ namespace Component{
 
 				      std::cout << "launch "<< button->_texture << std::endl;
 				     clearMenu();
-				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 0));
+				     dispatchAll(new Event::Type::beginGame(Component::Game::square, 10, 10, 1, 1));
 				     std::cout << "launched" << std::endl;
 				     return ;
 				   }
