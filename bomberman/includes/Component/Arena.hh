@@ -83,6 +83,11 @@ namespace Component{
       void		setBySerial(const Tokenizer&);
    };
 
+  public:
+    enum type {Empty, Breakable, Indestructible, Bomb};
+  private:
+    std::map< double, std::map<double, Arena::type> > Map;
+
   private:
     Entity::Factory*	_Efactory;
 

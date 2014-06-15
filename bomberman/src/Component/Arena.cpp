@@ -17,15 +17,33 @@ namespace Component{
   Arena::Player::Player(Entity::GameObject* _p, Component::Arena* _a)
     : Component::abstract(_p), Arena::Winner(_a) {
     attachCallback(Event::Info::Keyboard,
-		   new Event::FixedCallback([this] (Event::Data& e) {
+		   new Event::FixedCallback([this, _a] (Event::Data& e) {
 		       Event::Type::Keyboard* event =
 			 reinterpret_cast<Event::Type::Keyboard*>(&e);
 		       if (event->key >= 0 &&  event->key <= 3)
 			 dispatchSelf(new Event::Type::selfMovement
 				      (static_cast<Component::Phisix::Vector::Direction>(event->key), event->state));
-		       else if (event->state && event->key == 4)
-			 dispatchSelf(new Event::Type::selfPlantBomb());
-		       else if (event->state)
+		       else if (event->state && event->key == 4) {
+			 double x,y, add;
+			 parent->getPosition(x,y);
+			 add = 0.5 - 1 * (x < 0);
+			 x = static_cast<int>(x) + add;
+			 add = 0.5 - 1 * (y < 0);
+			 y = static_cast<int>(y) + add;
+			 if (_a->Map.find(x) != _a->Map.end()) {
+			   std::cout << "X in MAP!!" << std::endl;
+			   if (_a->Map[x].find(y) != _a->Map[x].end()) {
+			     std::cout << "Y in MAP!!" << std::endl;
+			     if (_a->Map[x][y] == Arena::Empty) {
+			       dispatchSelf(new Event::Type::selfPlantBomb());
+			       std::cout << "it's ok!" << std::endl;
+			       return ;
+			     }
+			   }
+			 }
+			 if (_a->Map.find(x) == _a->Map.end() || _a->Map[x].find(y) == _a->Map[x].end())
+			   dispatchSelf(new Event::Type::selfPlantBomb());
+		       } else if (event->state)
 			 dispatchSelf(new Event::Type::addElement(static_cast<Component::Effects::type>(event->key - 5)));
 		     }));
 
@@ -112,7 +130,6 @@ namespace Component{
 			       event->x = static_cast<int>(event->x) + add;
 			       add = 0.5 - 1 * (event->y < 0);
 			       event->y = static_cast<int>(event->y) + add;
-			       std::cout << "000000000000000000000000000000:" << event->x << event->y << std::endl;
 			       b->setPosition(event->x, event->y);
 			       b->attachComponent(_Efactory
 						  ->getComponentFactory()->allocateComponentByType("ColliderMovable", b));
@@ -132,8 +149,10 @@ namespace Component{
 						      std::array<double, 2>({x/2 - 1.5,y/2 - y-1.5}), std::array<double, 2>({x/2 - x-1.5,y/2 - y-1.5})  };
     Entity::GameObject*	obj;
     for (int xi = 0; xi <= x; xi++) {
+      Map.insert(std::pair< double, std::map<double, Arena::type> >(x/2 - xi + 0.5, std::map<double, Arena::type>()));
       for (int yi = 0; yi <= y; yi++) {
 	if (xi == 0 || xi == x || yi == 0 || yi == y || (!(xi % 2) && !(yi % 2))) {
+	  Map[x/2 - xi].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Indestructible));
 	  obj = _Efactory->allocateEntityByType("indestructibleBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("indestructibleBloc", obj);
@@ -142,10 +161,12 @@ namespace Component{
 		     (yi == 1 && (xi == 1 || xi == 2 || xi == x - 2)) ||
 		     (yi == y - 1 && (xi == 1 || xi == 2 || xi == x - 1 || xi == x - 2))
 		     )) {
+	  Map[x/2 - xi].insert(std::pair<double, Arena::type>(y/2 - yi + 0.5, Arena::Breakable));
 	  obj = _Efactory->allocateEntityByType("destructibleBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("destructibleBloc", obj);
-	} else{
+	} else {
+	  Map[x/2 - xi].insert(std::pair<int, Arena::type>(y/2 - yi + 0.5, Arena::Empty));
 	  obj = _Efactory->allocateEntityByType("EmptyBloc", false);
 	  obj->setPosition(x/2 - xi + 0.5, y/2 - yi + 0.5);
 	  _Efactory->allocateComponentByEntityType("EmptyBloc", obj);
